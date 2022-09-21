@@ -17,17 +17,41 @@ public class LevelAndPrice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (x == 1)
+        if (i != 5)
         {
-            GetComponent<Text>().text = (skillTree.getLevels1()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + price * (skillTree.getLevels1()[i] + 1);
-        }
-        else if (x == 2)
+            if (x == 1)
+            {
+                GetComponent<Text>().text = (skillTree.getLevels1()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
+                if (skillTree.getLevels1()[i] != 5) { GetComponent<Text>().text = (skillTree.getLevels1()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + price * (skillTree.getLevels1()[i] + 1); }
+            }
+            else if (x == 2)
+            {
+                GetComponent<Text>().text = (skillTree.getLevels2()[i]) + "/5" + "\n" + "\n" + "\n" + "\n " + "\n" + "\n";
+                if (skillTree.getLevels2()[i] != 5) { GetComponent<Text>().text = (skillTree.getLevels2()[i]) + "/5" + "\n" + "\n" + "\n" + "\n " + "\n" + "\n" + price * (skillTree.getLevels2()[i] + 1); }
+            }
+            else if (x == 3)
+            {
+                GetComponent<Text>().text = (skillTree.getLevels3()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
+                if (skillTree.getLevels3()[i] != 5) { GetComponent<Text>().text  = (skillTree.getLevels3()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + price * (skillTree.getLevels3()[i] + 1); }
+            }
+        } else
         {
-            GetComponent<Text>().text = (skillTree.getLevels2()[i]) + "/5" + "\n" + "\n" + "\n" + "\n " + "\n" + "\n" + price * (skillTree.getLevels2()[i] + 1);
-        }
-        else if(x == 3)
-        {
-           GetComponent<Text>().text = (skillTree.getLevels3()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + price * (skillTree.getLevels3()[i] + 1);
+            if (x == 1)
+            {
+                if (skillTree.getLevels1()[i] != 5) { GetComponent<Text>().text = (skillTree.getLevels1()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + price * (skillTree.getLevels1()[i] + 1); }
+                else { GetComponent<Text>().text = "MAXED"; }
+            }
+            else if (x == 2)
+            {
+                
+                if (skillTree.getLevels2()[i] != 5) { GetComponent<Text>().text = (skillTree.getLevels2()[i]) + "/5" + "\n" + "\n" + "\n" + "\n " + "\n" + "\n" + price * (skillTree.getLevels2()[i] + 1); }
+                else { GetComponent<Text>().text = "MAXED"; }
+            }
+            else if (x == 3)
+            {
+                if (skillTree.getLevels3()[i] != 5) { GetComponent<Text>().text = (skillTree.getLevels3()[i]) + "/5" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + price * (skillTree.getLevels3()[i] + 1); }
+                else { GetComponent<Text>().text = "MAXED"; }
+            }
         }
     }
 

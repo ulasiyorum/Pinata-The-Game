@@ -68,10 +68,74 @@ public class ActualPlayerData
     private int playForFree;
     private int dailyObj;
     private float objTimer;
+    ///////////////////// SkillTree - Player Script
+    private int energyAttribute;
+    private float energyTimer;
+    private int makeitworth;
+    private bool wrapgod;
+    private int miniGameMultiplier; private bool[] skills; private float skillTimer;
+    private int lootingCap; private double lootEfficiency; private int extraLooting;
+    private float extraAttackSpeed;
+    private bool rheagod;
+    private double miniGameMultiplier2;
+    private int cloverChance;
+    private int trickOrTreat;
+    private int trickOrTreatChance;
+    private int trickOrTreatRandom;
+    private int totCount;
+    private int coinChance;
+    private bool godOfBugs;
+    private int treasureCount;
+    private double miniGameMultiplier3;
+    private int bossLevel;
+    private bool[] treeBonus;
+    private int popped;
 
 
+    private int treeType;
+    private int[] levels1;
+    private int[] levels2;
+    private int[] levels3;
+    public int getPopped() { return this.popped; }
+    public bool[] getTreeBonus() { return this.treeBonus; }
+    public int getLootingCap() { return this.lootingCap; }
+    public int getTreeType() { return treeType; }
+    public int[] getLevels1() { return levels1; }
+    public int[] getLevels2() { return levels2; }
+    public int[] getLevels3() { return levels3; }
     public ActualPlayerData(AttackingPinata a)
     {
+        this.popped = a.getPopped();
+        this.treeType = a.getMain().GetComponent<SkillTree>().getTreeType();
+        this.levels1 = a.getMain().GetComponent<SkillTree>().getLevels1();
+        this.levels2 = a.getMain().GetComponent<SkillTree>().getLevels2();
+        this.levels3 = a.getMain().GetComponent<SkillTree>().getLevels3();
+
+        this.energyAttribute = a.getEnergyAttribute();
+        this.energyTimer = a.getEnergyTimer();
+        this.makeitworth = a.getMakeItWorth();
+        this.wrapgod = a.getWrapGod();
+        this.miniGameMultiplier = a.getMiniGameMultiplier();
+        this.skills = a.getSkills();
+        this.skillTimer = a.getSkillTimer();
+        this.lootingCap = a.getLootingCap();
+        this.lootEfficiency = a.getLootEfficiency(); 
+        this.extraLooting = a.getExtraLooting();
+        this.extraAttackSpeed = a.getExtraAs();
+        this.rheagod = a.getRheaGod();
+        this.miniGameMultiplier2 = a.getMiniGameMultiplier2();
+        this.cloverChance = a.getCloverChance();
+        this.trickOrTreat = a.getTrickOrTreat();
+        this.trickOrTreatChance = a.getTrickOrTreatChance();
+        this.trickOrTreatRandom = a.getTrickOrTreatRandom();
+        this.totCount = a.getTotCount();
+        this.coinChance = a.getCoinChance();
+        this.godOfBugs = a.getGodOfBugs();
+        this.treasureCount = a.getTreasureCount();
+        this.miniGameMultiplier3 = a.getMiniGameMultiplier3();
+        this.bossLevel = a.getBossLevel();
+        this.treeBonus = a.getTreeBonus();
+
         this.objTimer = Objectives.getObjTimer();
         this.dailyObj = Objectives.getDailyObj();
         this.playfabID = a.getMain().GetComponent<PlayfabManager>().getPlayFabID();
@@ -132,7 +196,41 @@ public class ActualPlayerData
         this.locationy = a.transform.position.y;
         this.locationz = a.transform.position.z;
     }
-
+    public int getEnergyAttribute() { return this.energyAttribute; }
+    public float getEnergyTimer() { return this.energyTimer; }
+    public int getMakeItWorth() { return this.makeitworth; }
+    public bool getWrapGod() { return this.wrapgod; }
+    public int getMiniGameMultiplier() { return this.miniGameMultiplier; }
+    public double getEfficiency()
+    {
+        return lootEfficiency;
+    }
+    public int getExtraLooting()
+    {
+        return extraLooting;
+    }
+    public float getExtraAs()
+    {
+        return extraAttackSpeed;
+    }
+    public bool getRheaGod()
+    {
+        return rheagod;
+    }
+    public double getMiniGameMultiplier2() { return this.miniGameMultiplier2; }
+    public double getMiniGameMultiplier3() { return this.miniGameMultiplier3; }
+    public bool[] getSkills() { return this.skills; }
+    public float getSkillTimer() { return skillTimer; }
+    public double getLootEfficiency() { return lootEfficiency; }
+    public int getCloverChance() { return this.cloverChance; }
+    public int getTrickOrTreat() { return this.trickOrTreat; }
+    public int getTrickOrTreatChance() { return this.trickOrTreatChance; }
+    public int getTrickOrTreatRandom() { return this.trickOrTreatRandom; }
+    public int getTotCount() { return this.totCount; }
+    public int getCoinChance() { return this.coinChance; }
+    public bool getGodOfBugs() { return godOfBugs; }
+    public int getTreasureCount() { return treasureCount; }
+    public int getBossLevel() { return this.bossLevel; }
     public ActualPlayerData LoadGame()
     {
         return this;
@@ -254,6 +352,33 @@ public class ActualPlayerData
         }
         return s;
     }
+    public string getLevels1String()
+    {
+        string s = "";
+        foreach (var b in levels1)
+        {
+            s += b + ",";
+        }
+        return s;
+    }
+    public string getLevels2String()
+    {
+        string s = "";
+        foreach (var b in levels2)
+        {
+            s += b + ",";
+        }
+        return s;
+    }
+    public string getLevels3String()
+    {
+        string s = "";
+        foreach (var b in levels3)
+        {
+            s += b + ",";
+        }
+        return s;
+    }
     public double getNetworth() { return this.networth; }
     public string getEquippedString()
     {
@@ -348,7 +473,7 @@ public class ActualPlayerData
         {
             energy = int.Parse(result.Data["energy"].Value);
         } else { energy = 100; }
-        if (result.Data.ContainsKey("")) { EPA = int.Parse(result.Data["epa"].Value); }
+        if (result.Data.ContainsKey("epa")) { EPA = int.Parse(result.Data["epa"].Value); }
         else { EPA = 5; }
         if (result.Data.ContainsKey("looting")) { looting = int.Parse(result.Data["looting"].Value); }
         else { looting = 0; }
@@ -565,8 +690,189 @@ public class ActualPlayerData
         } else { playfabID = ""; }
         if (result.Data.ContainsKey("dailyObj")) { dailyObj = int.Parse(result.Data["dailyObj"].Value); }
         else { dailyObj = 0; }
-        if (result.Data.ContainsKey("objTimer")) { objTimer = float.Parse(result.Data["objTimer"].Value.Replace(',','.'),CultureInfo.InvariantCulture); }
+        if (result.Data.ContainsKey("objTimer")) { objTimer = float.Parse(result.Data["objTimer"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
         else { objTimer = 0; }
+        if (result.Data.ContainsKey("miniGameMultiplier")) { miniGameMultiplier = int.Parse(result.Data["miniGameMultiplier"].Value); }
+        else {
+            miniGameMultiplier = 0;   
+        }
+        if (result.Data.ContainsKey("miniGameMultiplier2")) { miniGameMultiplier2 = double.Parse(result.Data["miniGameMultiplier2"].Value.Replace(',','.'),CultureInfo.InvariantCulture); }
+        else
+        {
+            miniGameMultiplier2 = 0;
+        }
+        if (result.Data.ContainsKey("miniGameMultiplier3")) { miniGameMultiplier3 = double.Parse(result.Data["miniGameMultiplier3"].Value.Replace(',','.'),CultureInfo.InvariantCulture); }
+        else
+        {
+            miniGameMultiplier3 = 0;
+        }
+        if (result.Data.ContainsKey("energyAttribute")) { energyAttribute = int.Parse(result.Data["energyAttribute"].Value); }
+        else { energyAttribute = 1; }
+        if (result.Data.ContainsKey("energyTimer")) { energyTimer = float.Parse(result.Data["energyTimer"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
+        else { energyTimer = 10; }
+        if(result.Data.ContainsKey("makeitworth")) { makeitworth = int.Parse(result.Data["makeitworth"].Value); }
+        else { makeitworth = 0; }
+        if (result.Data.ContainsKey("wrapgod"))
+        {
+            if (result.Data["wrapgod"].Value.ToLower() == "true")
+            {
+                wrapgod = true;
+            }
+            else { wrapgod = false; }
+        }
+        else { wrapgod = false; }
+        if (result.Data.ContainsKey("skills"))
+        {
+            skills = new bool[5];
+            string[] skillsString = result.Data["skills"].Value.Split(',');
+            for(int i=0; i<skillsString.Length; i++)
+            {
+                if (skillsString[i].ToLower() == "true") { skills[i] = true; }
+                else { skills[i] = false; }
+            }
+        }
+        else
+        {
+            skills = new bool[5];
+            for(int i=0; i<skills.Length; i++) { skills[i] = false; }
+        }
+        if (result.Data.ContainsKey("skillTimer")) { skillTimer = float.Parse(result.Data["skillTimer"].Value.Replace(',','.'),CultureInfo.InvariantCulture); }
+        else { skillTimer = 0; }
+        if (result.Data.ContainsKey("lootingCap")) { lootingCap = int.Parse(result.Data["lootingCap"].Value); }
+        else { lootingCap = 10; }
+        if (result.Data.ContainsKey("lootEfficiency")) { lootEfficiency = double.Parse(result.Data["lootEfficiency"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
+        else { lootEfficiency = 1; }
+        if (result.Data.ContainsKey("extraLooting")) { extraLooting = int.Parse(result.Data["extraLooting"].Value); }
+        else { extraLooting = 0; }
+        if (result.Data.ContainsKey("extraAttackSpeed")) { extraAttackSpeed = float.Parse(result.Data["extraAttackSpeed"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
+        else { extraAttackSpeed = 0; }
+        if (result.Data.ContainsKey("bossLevel"))
+        {
+            bossLevel = int.Parse(result.Data["bossLevel"].Value);
+        }
+        else {
+            bossLevel = 0;
+        }
+        if (result.Data.ContainsKey("treeBonus"))
+        {
+            treeBonus = new bool[3];
+            string[] treeBonusString = result.Data["treeBonus"].Value.Split(',');
+            for(int i=0; i<treeBonusString.Length; i++)
+            {
+                if (treeBonusString[i].ToLower() == "true")
+                {
+                    treeBonus[i] = true;
+                }
+                else
+                {
+                    treeBonus[i] = false;
+                }
+            }
+        }
+        else
+        {
+            treeBonus = new bool[3];
+            for (int i = 0; i < treeBonus.Length; i++) { treeBonus[i] = false; }
+        }
+        if (result.Data.ContainsKey("rheagod"))
+        {
+            if (result.Data["rheagod"].Value.ToLower() == "true")
+            {
+                rheagod = true;
+            }
+            else { rheagod = false; }
+        }
+        else { rheagod = false; }
+        if (result.Data.ContainsKey("godOfBugs"))
+        {
+            if (result.Data["godOfBugs"].Value.ToLower() == "true")
+            {
+                godOfBugs = true;
+            }
+            else { godOfBugs = false; }
+        }
+        else { godOfBugs = false; }
+        if (result.Data.ContainsKey("cloverChance"))
+        {
+            cloverChance = int.Parse(result.Data["cloverChance"].Value);
+        }
+        else { cloverChance = 0; }
+        if (result.Data.ContainsKey("trickOrTreat"))
+        {
+            trickOrTreat = int.Parse(result.Data["trickOrTreat"].Value);
+        } else { trickOrTreat = 40; }
+        if (result.Data.ContainsKey("trickOrTreatChance"))
+        {
+            trickOrTreatChance = int.Parse(result.Data["trickOrTreatChance"].Value);
+        }
+        else { trickOrTreatChance = 0; }
+        if (result.Data.ContainsKey("trickOrTreatRandom"))
+        {
+            trickOrTreatRandom = int.Parse(result.Data["trickOrTreatRandom"].Value);
+        }
+        else { trickOrTreatRandom = 0; }
+        if (result.Data.ContainsKey("totCount"))
+        {
+            totCount = int.Parse(result.Data["totCount"].Value);
+        }
+        else { totCount = 4; }
+        if (result.Data.ContainsKey("treasureCount"))
+        {
+            treasureCount = int.Parse(result.Data["treasureCount"].Value);
+        }
+        else { treasureCount = 0; }
+        if (result.Data.ContainsKey("treeType"))
+        {
+            treeType = int.Parse(result.Data["treeType"].Value);
+        }
+        else { treeType = 0; }
+        if (result.Data.ContainsKey("levels1"))
+        {
+            levels1 = new int[6];
+            string[] levels1String = result.Data["levels1"].Value.Split(',');
+            for(int i=0; i<levels1String.Length-1; i++)
+            {
+                levels1[i] = int.Parse(levels1String[i]);
+            }
+        } else { levels1 = new int[6];
+            for (int i = 0; i < levels1.Length; i++) { levels1[i] = 0; }
+        }
+        if (result.Data.ContainsKey("levels2"))
+        {
+            levels2 = new int[6];
+            string[] levels2String = result.Data["levels2"].Value.Split(',');
+            for (int i = 0; i < levels2String.Length-1; i++)
+            {
+                levels2[i] = int.Parse(levels2String[i]);
+            }
+        }
+        else
+        {
+            levels2 = new int[6];
+            for (int i = 0; i < levels2.Length; i++) { levels2[i] = 0; }
+        }
+        if (result.Data.ContainsKey("levels3"))
+        {
+            levels3 = new int[6];
+            string[] levels3String = result.Data["levels3"].Value.Split(',');
+            for (int i = 0; i < levels3String.Length-1; i++)
+            {
+                levels3[i] = int.Parse(levels3String[i]);
+            }
+        }
+        else
+        {
+            levels3 = new int[6];
+            for (int i = 0; i < levels3.Length; i++) { levels3[i] = 0; }
+        }
+        if (result.Data.ContainsKey("popped"))
+        {
+            popped = int.Parse(result.Data["popped"].Value);
+        }
+        else
+        {
+            popped = 0;
+        }
         _null = false;
     }
 }

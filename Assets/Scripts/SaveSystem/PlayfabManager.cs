@@ -199,10 +199,6 @@ public class PlayfabManager : MonoBehaviour
                 {"playerDamage", "" + playerData.getPlayerDamage() },
                 {"attackDamage", "" + playerData.getAttackDamage() },
                 {"attackSpeed", "" + playerData.getAttackSpeed() },
-              
-                
-               
-
             }
         };
         PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
@@ -228,7 +224,59 @@ public class PlayfabManager : MonoBehaviour
             {
                 {"playForFree", "" + playerData.getPlayForFree()},
                 {"freeTimer", "" + playerData.getFreeTimer() },
-                {"playfabID", "" + playerData.getPlayFabID() }
+                {"playfabID", "" + playerData.getPlayFabID() },
+                {"miniGameMultiplier3", "" + playerData.getMiniGameMultiplier3()  },
+                {"bossLevel", "" + playerData.getBossLevel() },
+                {"treeBonus", "" + playerData.getTreeBonus() },
+                {"objTimer",  "" + playerData.getObjTimer() },
+                {"dailyObj", "" + playerData.getDailyObj() }
+            }
+        };
+
+        PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
+        request = new UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string>
+            {
+                {"treeType", "" + playerData.getTreeType()},
+                {"levels1", "" + playerData.getLevels1String() },
+                {"levels2", "" + playerData.getLevels2String() },
+                {"levels3", "" + playerData.getLevels3String() },
+                {"popped", "" + playerData.getPopped() }
+           
+            }
+        };
+
+        PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
+        request = new UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string> {
+                {"energyAttribute", "" + playerData.getEnergyAttribute()  },
+                {"energyTimer", "" + playerData.getEnergyTimer() },
+                {"makeitworth", "" + playerData.getMakeItWorth() },
+                {"wrapgod", "" + playerData.getWrapGod() },
+                {"skills", "" + playerData.getSkills() },
+                {"skillTimer", "" + playerData.getSkillTimer() },
+                {"lootingCap", "" + playerData.getLootingCap() },
+                {"lootEfficiency", "" + playerData.getEfficiency() },
+                {"extraLooting", "" + playerData.getExtraLooting() },
+                {"extraAttackSpeed", "" + playerData.getExtraAs() },
+            }
+        };
+        PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
+        request = new UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string> {
+                {"rheagod", "" + playerData.getRheaGod()  },
+                {"miniGameMultiplier", "" + playerData.getMiniGameMultiplier() },
+                {"miniGameMultiplier2", "" + playerData.getMiniGameMultiplier2() },
+                {"cloverChance", "" + playerData.getCloverChance() },
+                {"trickOrTreat", "" + playerData.getTrickOrTreat() },
+                {"trickOrTreatChance", "" + playerData.getTrickOrTreatChance() },
+                {"trickOrTreatRandom", "" + playerData.getTrickOrTreatRandom() },
+                {"totCount", "" + playerData.getTotCount() },
+                {"godOfBugs", "" + playerData.getGodOfBugs() },
+                {"treasureCount", "" + playerData.getTreasureCount() },
             }
         };
         PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
@@ -286,10 +334,6 @@ public class PlayfabManager : MonoBehaviour
                 {"playerDamage", "" + playerData.getPlayerDamage() },
                 {"attackDamage", "" + playerData.getAttackDamage() },
                 {"attackSpeed", "" + playerData.getAttackSpeed() },
-
-
-
-
             }
         };
         PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);

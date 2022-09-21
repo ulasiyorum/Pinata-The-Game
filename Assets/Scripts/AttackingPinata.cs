@@ -306,6 +306,10 @@ public class AttackingPinata : MonoBehaviour
             }
         }
     }
+    public int getPopped()
+    {
+        return this.popped;
+    }
     void damagePinata()
     {
         if(trickOrTreatChance > 0 && UnityEngine.Random.Range(0,10000) <= trickOrTreatChance)
@@ -420,7 +424,7 @@ public class AttackingPinata : MonoBehaviour
 
         if (enemyHealth <= 0)
         {
-            if (rheagod)
+            if (rheagod && shop.equipped[1])
             {
                 popTimer = 0;
                 if (looting < lootingCap)
@@ -604,6 +608,42 @@ public class AttackingPinata : MonoBehaviour
         if(energyRefilled > maxEnergy && treeBonus[0]) { addB = (energyRefilled - maxEnergy) / 1000; }
         AdsManager.adCount = _player.getAdCount();
         AdsManager.adTimer = diff;
+
+        miniGameMultiplier = _player.getMiniGameMultiplier();
+        miniGameMultiplier2 = _player.getMiniGameMultiplier2();
+        miniGameMultiplier3 = _player.getMiniGameMultiplier3();
+        bossLevel = _player.getBossLevel();
+        treeBonus = _player.getTreeBonus();
+        energyAttribute = _player.getEnergyAttribute();
+        energyTimer = _player.getEnergyTimer();
+        makeitworth = _player.getMakeItWorth();
+        wrapgod = _player.getWrapGod();
+        skills = _player.getSkills();
+        skillTimer = _player.getSkillTimer() + diff;
+        lootingCap = _player.getLootingCap();
+        lootEfficiency = _player.getLootEfficiency();
+        extraLooting = _player.getExtraLooting();
+        extraAttackSpeed = _player.getExtraAs();
+        rheagod = _player.getRheaGod();
+        cloverChance = _player.getCloverChance();
+        trickOrTreat = _player.getTrickOrTreat();
+        trickOrTreatChance = _player.getTrickOrTreatChance();
+        trickOrTreatRandom = _player.getTrickOrTreatRandom();
+        totCount = _player.getTotCount();
+        godOfBugs = _player.getGodOfBugs();
+        treasureCount = _player.getTreasureCount();
+        main.GetComponent<SkillTree>().setTreeType(_player.getTreeType());
+        for (int i = 0; i < main.GetComponent<SkillTree>().getLevels1().Length; i++) {
+            main.GetComponent<SkillTree>().getLevels1()[i] = _player.getLevels1()[i];
+            main.GetComponent<SkillTree>().getLevels2()[i] = _player.getLevels2()[i];
+            main.GetComponent<SkillTree>().getLevels3()[i] = _player.getLevels3()[i];
+        }
+        if (main.GetComponent<SkillTree>().getTreeType() != 0)
+        {
+          foreach (var k in main.GetComponent<SkillTree>().getBackgrounds()) { k.color = Color.gray; }
+            main.GetComponent<SkillTree>().getBackgrounds()[main.GetComponent<SkillTree>().getTreeType() - 1].color = Color.green;
+        }
+
         BonusCoin.setBonusCounter(_player.getBonusCounter());
         MiniGameManager.setPlayForFree(_player.getPlayForFree());
         MiniGameManager.setFreeTimer(_player.getFreeTimer() + diff);
@@ -665,6 +705,7 @@ public class AttackingPinata : MonoBehaviour
         this.toolID = _player.getToolID();
         coins = _player.getCoins();
         networth = _player.getNetworth();
+        popped = _player.getPopped();
         if (skills[0] || skills[1] || skills[2])
         {
             skillTimer += diff;
@@ -1089,6 +1130,7 @@ public class AttackingPinata : MonoBehaviour
         cloverChance = 0;
         trickOrTreat = 40;
         trickOrTreatChance = 0;
+        trickOrTreatRandom = 0;
         totCount = 4;
         coinChance = 0;
         treasureCount = 4;
@@ -1113,4 +1155,22 @@ public class AttackingPinata : MonoBehaviour
     {
         return rheagod;
     }
+    public int getEnergyAttribute() { return energyAttribute; }
+    public float getEnergyTimer() { return this.energyTimer; }
+    public int getMakeItWorth() { return this.makeitworth;}
+    public int getMiniGameMultiplier() { return this.miniGameMultiplier; }
+    public double getMiniGameMultiplier2() { return this.miniGameMultiplier2; }
+    public double getMiniGameMultiplier3() { return this.miniGameMultiplier3; }
+    public bool[] getSkills() { return this.skills; }
+    public float getSkillTimer() { return skillTimer; }
+    public double getLootEfficiency() { return lootEfficiency; }
+    public int getCloverChance() { return this.cloverChance; }
+    public int getTrickOrTreat() { return this.trickOrTreat; }
+    public int getTrickOrTreatChance() { return this.trickOrTreatChance; }
+    public int getTrickOrTreatRandom() { return this.trickOrTreatRandom; }
+    public int getTotCount() { return this.totCount; }
+    public int getCoinChance() { return this.coinChance; }
+    public bool getGodOfBugs() { return godOfBugs; }
+    public int getTreasureCount() { return treasureCount; }
+    public int getBossLevel() { return this.bossLevel; }
 }

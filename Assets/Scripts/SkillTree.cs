@@ -14,20 +14,26 @@ public class SkillTree : MonoBehaviour
     private int treeType;
     private int type;
     [SerializeField] Image[] backgrounds;
-    private int[] levels1 = new int[6];
-    private int[] levels2 = new int[6];
-    private int[] levels3 = new int[6];
+    private int[] levels1;
+    private int[] levels2;
+    private int[] levels3;
     [SerializeField] GameObject treeImage;
+    private bool x;
     // level 5 = max
     void Start()
     {
+        levels1 = new int[6];
+        levels2 = new int[6];
+        levels3 = new int[6];
         errortime = 3;
         treeType = 0;
         Close();
     }
+    public int getTreeType() { return treeType; }
+    public Image[] getBackgrounds() { return backgrounds; }
     private void Update()
     {
-        
+
         errortime += Time.deltaTime;
         if(errortime >= 2f) { error.gameObject.SetActive(false); error.text = ""; }
     }
@@ -438,6 +444,7 @@ public class SkillTree : MonoBehaviour
     public int[] getLevels1() { return levels1; }
     public int[] getLevels2() { return levels2; }
     public int[] getLevels3() { return levels3; }
+    public void setTreeType(int set) { treeType = set; }
 
     public void Open()
     {
