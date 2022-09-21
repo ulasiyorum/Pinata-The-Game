@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bloque
+  - DestruirDecoraCion
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - Pinatas
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Minigames
+    uniqueID: 3094407877
+    locked: 0
+  - name: UI
+    uniqueID: 167520645
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Buttons
+    uniqueID: 2703586755
+    locked: 0
+  - name: Shop
+    uniqueID: 2267786657
+    locked: 0
+  - name: Game
+    uniqueID: 3548139353
+    locked: 0
