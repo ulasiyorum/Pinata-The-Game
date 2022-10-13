@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System;
 using MatchThreeEngine;
 using CodeMonkey;
+using System.Globalization;
+
 [Serializable]
 public class AttackingPinata : MonoBehaviour
 {
@@ -79,7 +81,7 @@ public class AttackingPinata : MonoBehaviour
         private double miniGameMultiplier2;
         private bool skill2Active;
         private float skillTimer2;
-        object[] temporarySkills;
+        string[] temporarySkills;
 
 
         private int cloverChance;
@@ -87,6 +89,7 @@ public class AttackingPinata : MonoBehaviour
         private int trickOrTreatChance;
         private int trickOrTreatRandom;
         [SerializeField] Sprite chest;
+        [SerializeField] Animator totAnimation;
         private int totCount;
         private int coinChance;
         private bool godOfBugs;
@@ -94,6 +97,7 @@ public class AttackingPinata : MonoBehaviour
         private double miniGameMultiplier3;
         private int bossLevel;
 
+            
         private bool[] treeBonus;
     // 1'in bonusu: Oyuna tekrar girdiðinde yenilenen enerji, %0.1 þeker olarak eklenir.
     // 2'nin bonusu: Skiller'in cooldown'u %20 azalýr
@@ -123,7 +127,7 @@ public class AttackingPinata : MonoBehaviour
         totCount = 4;
         trickOrTreatChance = 0;
         skills = new bool[5];
-        temporarySkills = new object[100];
+        temporarySkills = new string[100];
         cloverChance = 0;
         extraAttackSpeed = 0;
         extraLooting = 0;
@@ -173,18 +177,21 @@ public class AttackingPinata : MonoBehaviour
         if(errorTimer >= 2f) { errorText.text = ""; }
         if(skill2Active && skillTimer2 <= 12) 
         { 
-            skillTimer2 += deltaTime; skillTimer = 0; attacking = true;
+            skillTimer2 += deltaTime; skillTimer = 0; 
+            attacking = true;
             attackDamage = 50;
             attackRange = 5;
             looting = 15;
             attackSpeed = 3;
         }
-        else if(skillTimer2 > 12) { skill2Active = false; skillTimer2 = 0;
-            attackDamage = (double)temporarySkills[0];
-            attackSpeed = (float)temporarySkills[1];
-            attackRange = (float)temporarySkills[2];
-            looting = (int)temporarySkills[3];
-            toolDurability = (int)temporarySkills[4];
+        else if(skillTimer2 > 12) { 
+            skill2Active = false; skillTimer2 = 0;
+            attackDamage = double.Parse(temporarySkills[0].Replace(',','.'),CultureInfo.InvariantCulture);
+            attackSpeed = float.Parse(temporarySkills[1].Replace(',', '.'), CultureInfo.InvariantCulture);
+            attackRange = float.Parse(temporarySkills[2].Replace(',', '.'), CultureInfo.InvariantCulture);
+            looting = int.Parse(temporarySkills[3]);
+            toolDurability = int.Parse(temporarySkills[4]);
+            main.GetComponent<PlayfabManager>().Save();
         }
         if(rheagod && popTimer <= 6) { popTimer += deltaTime; }
         else if(rheagod && popTimer > 6) { popTimer = 0; looting -= popped; popped = 0; }
@@ -314,16 +321,19 @@ public class AttackingPinata : MonoBehaviour
     {
         if(trickOrTreatChance > 0 && UnityEngine.Random.Range(0,10000) <= trickOrTreatChance)
         {
-            //animasyon
+            totAnimation.Play("totAnimation");
             int added = UnityEngine.Random.Range((-1 * (trickOrTreat + 1)), trickOrTreat);
             balance += added;
             networth += added;
             totCount++;
             trickOrTreat = 40 + (int)(4 * (Math.Log(0.00000000217 * (Math.Pow(totCount,15)))));
+            PopUpMessage.StartPopUpMessageCandy(added,canvas);
+            AudioManager.PlaySound("pop");
         }
         if(coinChance > 0 && UnityEngine.Random.Range(0,10000) <= coinChance)
         {
-            //animasyon
+            totAnimation.Play("coinDrop");
+            //playsound
             coins++;
         }
         int random = UnityEngine.Random.Range(0,6);
@@ -413,6 +423,7 @@ public class AttackingPinata : MonoBehaviour
                 }
                 else if(shop.getJackpot() && shop.equipped[2] && godOfBugs) 
                 {
+                st.Play("SecretTreasure");
                 int added = 100 + (int)(4 * (Math.Log(0.00000000217 * (Math.Pow(treasureCount, 15)))));
                 balance += added;
                 networth += added;
@@ -1059,6 +1070,10 @@ public class AttackingPinata : MonoBehaviour
             level++;
             coinChance = 4 * level;
         }
+        else if (skill.ToLower() == "godofbugs")
+        {
+            godOfBugs = true;
+        }
         else if(skill.ToLower() == "minigamer3")
         {
             level++;
@@ -1087,11 +1102,11 @@ public class AttackingPinata : MonoBehaviour
         else if ((skills[1] && skillTimer >= 700) || (skills[1] && treeBonus[1] && skillTimer >= 560))
         {
             skill2Active = true;
-            temporarySkills[0] = attackDamage;
-            temporarySkills[1] = attackSpeed;
-            temporarySkills[2] = attackRange;
-            temporarySkills[3] = looting;
-            temporarySkills[4] = toolDurability;
+            temporarySkills[0] = "" + attackDamage;
+            temporarySkills[1] = "" + attackSpeed;
+            temporarySkills[2] = "" + attackRange;
+            temporarySkills[3] = "" + looting;
+            temporarySkills[4] = "" + toolDurability;
             skillTimer = 0;
         }
         else if((skills[2] && skillTimer >= 300) || (skills[2] && treeBonus[1] && skillTimer >= 240))

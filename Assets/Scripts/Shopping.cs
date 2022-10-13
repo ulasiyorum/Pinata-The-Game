@@ -1384,7 +1384,7 @@ public class Shopping : MonoBehaviour
                 foreach(int i in numbers) { if(i == 27) { jackpot = true; break; } }
             
             tempLooting = Player.getLooting() + (int)(Player.getAttackSpeed() * ((double)Perks[1]) / 100);
-            if (tempLooting >= 10) { tempLooting = 10; }
+            if (tempLooting >= Player.getLootingCap()) { tempLooting = Player.getLootingCap(); }
 
         }
         else

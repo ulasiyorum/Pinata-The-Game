@@ -370,6 +370,15 @@ public class ActualPlayerData
         }
         return s;
     }
+    public string getSkillsString()
+    {
+        string s = "";
+        foreach (var b in skills)
+        {
+            s += b + ",";
+        }
+        return s;
+    }
     public string getLevels3String()
     {
         string s = "";
@@ -723,9 +732,10 @@ public class ActualPlayerData
         else { wrapgod = false; }
         if (result.Data.ContainsKey("skills"))
         {
-            skills = new bool[5];
+            
             string[] skillsString = result.Data["skills"].Value.Split(',');
-            for(int i=0; i<skillsString.Length; i++)
+            skills = new bool[skillsString.Length];
+            for (int i=0; i<skillsString.Length; i++)
             {
                 if (skillsString[i].ToLower() == "true") { skills[i] = true; }
                 else { skills[i] = false; }
