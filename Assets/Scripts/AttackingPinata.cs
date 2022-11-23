@@ -90,6 +90,7 @@ public class AttackingPinata : MonoBehaviour
         private int trickOrTreatRandom;
         [SerializeField] Sprite chest;
         [SerializeField] Animator totAnimation;
+        [SerializeField] Animator coinAnimation;
         private int totCount;
         private int coinChance;
         private bool godOfBugs;
@@ -332,7 +333,7 @@ public class AttackingPinata : MonoBehaviour
         }
         if(coinChance > 0 && UnityEngine.Random.Range(0,10000) <= coinChance)
         {
-            totAnimation.Play("coinDrop");
+            coinAnimation.Play("coinDrop");
             //playsound
             coins++;
         }
@@ -429,7 +430,7 @@ public class AttackingPinata : MonoBehaviour
                 networth += added;
                 PopUpMessage.StartPopUpMessageCandy(added, canvas);
                 treasureCount++;
-            }
+                }
             
         }
 
@@ -691,6 +692,7 @@ public class AttackingPinata : MonoBehaviour
         this.shop.hasTool = _player.getHasTool();
         this.inventoryPinata = _player.getInventoryPinata();
         this.inventoryPet = _player.getInventoryPet();
+        this.coinChance = _player.getCoinChance();
         if (_player.equipped == null)
         {
             _player.equipped = new bool[shop.equipped.Length];
@@ -1157,6 +1159,10 @@ public class AttackingPinata : MonoBehaviour
     public double getEfficiency()
     {
         return lootEfficiency;
+    }
+    public void Debugg()
+    {
+        Debug.Log(coinChance);
     }
     public int getExtraLooting()
     {

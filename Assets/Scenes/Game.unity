@@ -4866,7 +4866,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 278065848}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1150034818}
+        m_TargetAssemblyTypeName: AttackingPinata, Assembly-CSharp
+        m_MethodName: Debugg
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &278065848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20340,6 +20352,7 @@ MonoBehaviour:
   wrapShot: 0
   chest: {fileID: 0}
   totAnimation: {fileID: 1265103251}
+  coinAnimation: {fileID: 1839216974}
   loggedIn: 0
   refillButton: {fileID: 630711104}
 --- !u!114 &1150034819

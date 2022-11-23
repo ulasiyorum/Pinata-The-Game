@@ -883,6 +883,10 @@ public class ActualPlayerData
         {
             popped = 0;
         }
+        if(result.Data.ContainsKey("coinChance"))
+        {
+            coinChance = int.Parse(result.Data["coinChance"].Value);
+        }
         _null = false;
     }
 }

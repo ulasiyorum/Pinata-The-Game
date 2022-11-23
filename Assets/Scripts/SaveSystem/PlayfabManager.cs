@@ -229,7 +229,8 @@ public class PlayfabManager : MonoBehaviour
                 {"bossLevel", "" + playerData.getBossLevel() },
                 {"treeBonus", "" + playerData.getTreeBonus() },
                 {"objTimer",  "" + playerData.getObjTimer() },
-                {"dailyObj", "" + playerData.getDailyObj() }
+                {"dailyObj", "" + playerData.getDailyObj() },
+                {"coinChance", "" + playerData.getCoinChance() }
             }
         };
 
@@ -364,7 +365,8 @@ public class PlayfabManager : MonoBehaviour
                 {"bossLevel", "" + playerData.getBossLevel() },
                 {"treeBonus", "" + playerData.getTreeBonus() },
                 {"objTimer",  "" + playerData.getObjTimer() },
-                {"dailyObj", "" + playerData.getDailyObj() }
+                {"dailyObj", "" + playerData.getDailyObj() },
+                {"coinChance", "" + playerData.getCoinChance() }
             }
         };
 

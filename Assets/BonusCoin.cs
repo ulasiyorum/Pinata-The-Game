@@ -17,7 +17,8 @@ public class BonusCoin : MonoBehaviour
     void Update()
     {
         bonusTimer += AttackingPinata.deltaTime;
-        if (bonusTimer > 21600) { if (bonusCounter < 2 || (bonusCounter < 3 && player.getTreeBonus()[2])) { bonusCounter++; bonusTimer -= 21600; } else { bonusTimer = 0; }  }
+        if (bonusTimer > 21600) 
+        { if ((bonusCounter < 2) || (bonusCounter < 3 && player.getTreeBonus()[2])) { bonusCounter++; bonusTimer -= 21600; } else { bonusTimer = 0; }  }
 
         GetComponent<Text>().text = "Current: " + bonusCounter + " (Next In: " + (6 - (int)bonusTimer/3600) + " hrs)";
     }
