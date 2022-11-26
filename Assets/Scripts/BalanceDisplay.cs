@@ -7,7 +7,7 @@ public class BalanceDisplay : MonoBehaviour
 {
     [SerializeField] Text balanceText;
     [SerializeField] Text balanceShop;
-    [SerializeField] GameObject Player;
+    [SerializeField] Player Player;
     [SerializeField] Text energyText;
     [SerializeField] Text nextEnergyIn;
     [SerializeField] Text nextPinata;
@@ -17,47 +17,47 @@ public class BalanceDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        coinsText.text = " " + Player.GetComponent<AttackingPinata>().getCoins();
-        coinsShop.text = " " + Player.GetComponent<AttackingPinata>().getCoins();
-        balanceText.text = " " + Player.GetComponent<AttackingPinata>().getBalance();
-        balanceShop.text = " " + Player.GetComponent<AttackingPinata>().getBalance();
-        energyText.text = " " + Player.GetComponent<AttackingPinata>().getEnergy();
-        nextEnergyIn.text = " " + Player.GetComponent <AttackingPinata>().getTimer();
+        coinsText.text = " " + Player.getCoins();
+        coinsShop.text = " " + Player.getCoins();
+        balanceText.text = " " + Player.getBalance();
+        balanceShop.text = " " + Player.getBalance();
+        energyText.text = " " + Player.getEnergy();
+        nextEnergyIn.text = " " + Player.getTimer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float nextTimer = Pinata.getRespawnTime() - Player.GetComponent<AttackingPinata>().getRespawnTimer();
-        int timeLeft = Player.GetComponent<AttackingPinata>().getMaxEnergy() - Player.GetComponent<AttackingPinata>().getEnergy();
+        float nextTimer = Pinata.getRespawnTime() - Player.getRespawnTimer();
+        int timeLeft = Player.getMaxEnergy() - Player.getEnergy();
         if(timeLeft == 0)
         {
             nextEnergyIn.text = " Full!";
         }
         else
         {
-            if(Player.GetComponent<AttackingPinata>().getShop().equipped[0])
+            if(Player.getShop().equipped[0])
             {
-                if ((int)(Player.GetComponent<AttackingPinata>().getShop().getPerks()[1]
-                        - Player.GetComponent<AttackingPinata>().getShop().timer1)
-                        <= (11 - Player.GetComponent<AttackingPinata>().getTimer()))
+                if ((int)(Player.getShop().getPerks()[1]
+                        - Player.getShop().timer1)
+                        <= (11 - Player.getTimer()))
                 {
-                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Player.GetComponent<AttackingPinata>().getShop().getPerks()[1]
-                            - Player.GetComponent<AttackingPinata>().getShop().timer1);
+                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Player.getShop().getPerks()[1]
+                            - Player.getShop().timer1);
                 }
                 else
                 {
-                    nextEnergyIn.text = "Next Energy: " + (int)(11 - Player.GetComponent<AttackingPinata>().getTimer());
+                    nextEnergyIn.text = "Next Energy: " + (int)(11 - Player.getTimer());
                 }
                 
             }
             else
             {
-                nextEnergyIn.text = "Next Energy: " + (int)(11 - Player.GetComponent<AttackingPinata>().getTimer());
+                nextEnergyIn.text = "Next Energy: " + (int)(11 - Player.getTimer());
             }
             
         }
-        if (Player.GetComponent<AttackingPinata>().getRespawnTimer() > 0 && Player.GetComponent<AttackingPinata>().getIsDead())
+        if (Player.getRespawnTimer() > 0 && Player.getIsDead())
         {
             nextPinata.fontSize = 40;
             nextPinata.text = "" + string.Format("{0:0.00}",nextTimer);
@@ -70,10 +70,10 @@ public class BalanceDisplay : MonoBehaviour
             nextPinata.text = "Hit Pinata For Candies!";
             inShopNextPinata.text = "Pinata Respawned!";
         }
-        coinsText.text = " " + Player.GetComponent<AttackingPinata>().getCoins();
-        coinsShop.text = " " + Player.GetComponent<AttackingPinata>().getCoins();
-        energyText.text = "" + Player.GetComponent<AttackingPinata>().getEnergy(); 
-        balanceText.text = "" + Player.GetComponent<AttackingPinata>().getBalance();
-        balanceShop.text = " " + Player.GetComponent<AttackingPinata>().getBalance();
+        coinsText.text = " " + Player.getCoins();
+        coinsShop.text = " " + Player.getCoins();
+        energyText.text = "" + Player.getEnergy(); 
+        balanceText.text = "" + Player.getBalance();
+        balanceShop.text = " " + Player.getBalance();
     }
 }
