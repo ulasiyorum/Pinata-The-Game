@@ -9543,6 +9543,7 @@ GameObject:
   m_Component:
   - component: {fileID: 550976821}
   - component: {fileID: 550976820}
+  - component: {fileID: 550976831}
   - component: {fileID: 550976822}
   - component: {fileID: 550976823}
   - component: {fileID: 550976824}
@@ -9767,6 +9768,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   candy: {fileID: 21300000, guid: 7e80d4fdd06b0fe438f4d14bb2fcbc40, type: 3}
   textNS: {fileID: 780734263879373843, guid: 6557beebd951e7146a1b615843b9a460, type: 3}
+--- !u!114 &550976831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550976819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9198ec104fa9a3d43b8f526f6b5d32bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &552069859
 GameObject:
   m_ObjectHideFlags: 0
@@ -13616,7 +13629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf269034689f124eb3f682df1b47be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1150034818}
 --- !u!114 &780436517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15461,7 +15473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb8ef49b1183464d97a3907150c6773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1150034818}
   image: {fileID: 1955724264}
   button: {fileID: 637403464}
   WholeText: {fileID: 2053251930}
@@ -20325,7 +20336,7 @@ MonoBehaviour:
   balance: 0
   looting: 0
   _pinata: {fileID: 84729297}
-  Player: {fileID: 1150034812}
+  _Player: {fileID: 0}
   playerDamage: 1
   attackDamage: 0
   attackSpeed: 1
@@ -30904,7 +30915,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balanceText: {fileID: 1380556203}
   balanceShop: {fileID: 1709286129}
-  Player: {fileID: 1150034812}
   energyText: {fileID: 1455349757}
   nextEnergyIn: {fileID: 1281125850}
   nextPinata: {fileID: 1091921446}
@@ -37390,7 +37400,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.158, y: -0.32}
+  m_AnchoredPosition: {x: 0.158, y: -0.17}
   m_SizeDelta: {x: 220.4323, y: 370.4667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2053251930
