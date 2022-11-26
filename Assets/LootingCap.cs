@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class LootingCap : MonoBehaviour
 {
-    [SerializeField] Player player;
     void Start()
     {
         
@@ -14,6 +13,6 @@ public class LootingCap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Text>().text = "" + player.getLootingCap();
+        GetComponent<Text>().text = "" + Instance.Player.getLootingCap();
     }
 }

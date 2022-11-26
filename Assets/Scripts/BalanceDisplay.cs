@@ -36,13 +36,13 @@ public class BalanceDisplay : MonoBehaviour
         }
         else
         {
-            if(Instance.Player.getShop().equipped[0])
+            if(Instance.Shop.equipped[0])
             {
                 if ((int)(Instance.Player.getShop().getPerks()[1]
                         - Instance.Player.getShop().timer1)
                         <= (11 - Instance.Player.getTimer()))
                 {
-                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Instance.Player.getShop().getPerks()[1]
+                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Instance.Shop.getPerks()[1]
                             - Instance.Player.getShop().timer1);
                 }
                 else

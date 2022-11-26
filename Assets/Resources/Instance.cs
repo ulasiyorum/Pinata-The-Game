@@ -16,4 +16,11 @@ public class Instance : MonoBehaviour
             return playerInstance;
         }
     }
+    public static Shopping Shop
+    {
+        get
+        {
+            return playerInstance.getShop();
+        }
+    }
 }
