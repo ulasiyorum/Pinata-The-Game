@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LootingCap : MonoBehaviour
 {
-    [SerializeField] AttackingPinata player;
+    [SerializeField] Player player;
     void Start()
     {
         

@@ -6,8 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class PlayerData : MonoBehaviour
 {
-    [SerializeField] static AttackingPinata playerSaved;
-    [SerializeField] AttackingPinata player;
+    [SerializeField] static Player playerSaved;
+    [SerializeField] Player player;
 
     private void Start()
     {
@@ -33,14 +33,14 @@ public class PlayerData : MonoBehaviour
             fs.Close();
         }
     }   
-    public AttackingPinata LoadGame()
+    public Player LoadGame()
     {
         if(File.Exists(Application.persistentDataPath + "/savefile.sf"))
         {
             FileStream fs = File.OpenRead(Application.persistentDataPath + "/savefile.sf");
             fs.Flush();
             BinaryFormatter formatter = new BinaryFormatter();
-            player = (AttackingPinata)formatter.Deserialize(fs);
+            player = (Player)formatter.Deserialize(fs);
             fs.Close();
         }
         else { SaveGame();
@@ -48,7 +48,7 @@ public class PlayerData : MonoBehaviour
             FileStream fs = File.OpenRead(Application.persistentDataPath + "/savefile.sf");
             fs.Flush();
             BinaryFormatter formatter = new BinaryFormatter();
-            player = (AttackingPinata)formatter.Deserialize(fs);
+            player = (Player)formatter.Deserialize(fs);
             fs.Close();
         }
         

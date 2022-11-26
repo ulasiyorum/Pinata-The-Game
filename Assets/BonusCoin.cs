@@ -7,7 +7,7 @@ public class BonusCoin : MonoBehaviour
 {
     private static float bonusTimer = 0;
     private static int bonusCounter = 0;
-    [SerializeField] AttackingPinata player;
+    [SerializeField] Player player;
     void Start()
     {
         
@@ -16,7 +16,7 @@ public class BonusCoin : MonoBehaviour
 
     void Update()
     {
-        bonusTimer += AttackingPinata.deltaTime;
+        bonusTimer += CustomTime.deltaTime;
         if (bonusTimer > 21600) 
         { if ((bonusCounter < 2) || (bonusCounter < 3 && player.getTreeBonus()[2])) { bonusCounter++; bonusTimer -= 21600; } else { bonusTimer = 0; }  }
 

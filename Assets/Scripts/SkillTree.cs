@@ -10,7 +10,7 @@ public class SkillTree : MonoBehaviour
     float errortime;
     [SerializeField] GameObject warning;
     public static SkillTree Instance;
-    [SerializeField] AttackingPinata player;
+    [SerializeField] Player player;
     private int treeType;
     private int type;
     [SerializeField] Image[] backgrounds;

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class StoreData
 {
-    private static AttackingPinata player;
+    private static Player player;
 
-    public static AttackingPinata getPlayer() { return player; }
-    public static void setPlayer(AttackingPinata a) { player = a; }
+    public static Player getPlayer() { return player; }
+    public static void setPlayer(Player a) { player = a; }
 }
