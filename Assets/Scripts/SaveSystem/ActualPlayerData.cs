@@ -103,7 +103,7 @@ public class ActualPlayerData
     public int[] getLevels1() { return levels1; }
     public int[] getLevels2() { return levels2; }
     public int[] getLevels3() { return levels3; }
-    public ActualPlayerData(AttackingPinata a)
+    public ActualPlayerData(Player a)
     {
         this.popped = a.getPopped();
         this.treeType = a.getMain().GetComponent<SkillTree>().getTreeType();

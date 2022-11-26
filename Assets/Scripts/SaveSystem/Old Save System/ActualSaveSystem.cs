@@ -11,7 +11,7 @@ public static class ActualSaveSystem
     static string saveFile = Application.persistentDataPath + "/0001.bin";
 
 
-    public static void Save(AttackingPinata player)
+    public static void Save(Player player)
     {
     FileStream fs = new FileStream(saveFile,
                                    FileMode.OpenOrCreate,

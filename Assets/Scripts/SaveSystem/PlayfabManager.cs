@@ -16,7 +16,7 @@ public class PlayfabManager : MonoBehaviour
     [SerializeField] public Text message;
     [SerializeField] InputField emailInput;
     [SerializeField] InputField passwordInput;
-    [SerializeField] AttackingPinata player;
+    [SerializeField] Player player;
     [SerializeField] GameObject info;
     [SerializeField] Toggle rememberMeToggle;
     private ActualPlayerData playerData;

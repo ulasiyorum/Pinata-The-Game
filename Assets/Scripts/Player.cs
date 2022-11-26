@@ -14,8 +14,6 @@ public class Player : MonoBehaviour
     [SerializeField] Text errorText;
     float errorTimer;
     [SerializeField] Canvas canvas;
-    System.DateTimeOffset timeThen;
-    System.DateTimeOffset timeNow;
     private Player player;
     [SerializeField] LoanScript loans;
     [SerializeField] private float timerforattack;
@@ -110,8 +108,6 @@ public class Player : MonoBehaviour
     int energyRefilled;
     float timerRefilled;
     public bool loggedIn;
-    public static float deltaTime;
-    TimeSpan interval;
     [SerializeField] GameObject refillButton;
     bool[] inventoryPinata = new bool[100];
     bool[] inventoryPet = new bool[100];
@@ -141,8 +137,6 @@ public class Player : MonoBehaviour
         energyAttribute = 1;
         energyTimer = 10;
         shop.callScenes(0);
-        timeNow = DateTimeOffset.Now;
-        timeThen = DateTimeOffset.Now;
         networth = 0;
         coins = 0;
         respawntimer = 15;
@@ -178,7 +172,7 @@ public class Player : MonoBehaviour
         if(errorTimer >= 2f) { errorText.text = ""; }
         if(skill2Active && skillTimer2 <= 12) 
         { 
-            skillTimer2 += deltaTime; skillTimer = 0; 
+            skillTimer2 += CustomTime.deltaTime; skillTimer = 0; 
             attacking = true;
             attackDamage = 50;
             attackRange = 5;
@@ -194,12 +188,9 @@ public class Player : MonoBehaviour
             toolDurability = int.Parse(temporarySkills[4]);
             main.GetComponent<PlayfabManager>().Save();
         }
-        if(rheagod && popTimer <= 6) { popTimer += deltaTime; }
+        if(rheagod && popTimer <= 6) { popTimer += CustomTime.deltaTime; }
         else if(rheagod && popTimer > 6) { popTimer = 0; looting -= popped; popped = 0; }
         if(looting > lootingCap) { looting = lootingCap; }
-        timeNow = DateTime.Now;
-        interval = timeNow - timeThen;
-        deltaTime = (float)interval.TotalSeconds;
         
         if(openShop) { attackButton.SetActive(false); refillButton.SetActive(false); }
         else { attackButton.SetActive(true); refillButton.SetActive(true);  }
@@ -214,13 +205,11 @@ public class Player : MonoBehaviour
         }
         if (skills[0] || skills[1] || skills[2])
         {
-            skillTimer += deltaTime;
+            skillTimer += CustomTime.deltaTime;
         }
-        timeThen = DateTime.Now;
     }
     private void Awake()
     {
-        
         shop = this.GetComponent<Shopping>();
         player = this;
         energyRefilled = 0;
@@ -237,7 +226,7 @@ public class Player : MonoBehaviour
         else
         {
             if (timer < energyTimer + 1 && energy <= maxEnergy)
-                timer += deltaTime;
+                timer += CustomTime.deltaTime;
             if (timer > energyTimer && energy <= maxEnergy)
             {
                 energy += 1 + UnityEngine.Random.Range(0,energyAttribute);
@@ -488,7 +477,7 @@ public class Player : MonoBehaviour
     {
         if (respawntimer <= Pinata.getRespawnTime() + 4)
         {
-            respawntimer += deltaTime;
+            respawntimer += CustomTime.deltaTime;
         }
         if (respawntimer > Pinata.getRespawnTime() && isDead)
         {
