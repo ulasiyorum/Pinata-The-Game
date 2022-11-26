@@ -17,7 +17,7 @@ public class Pinata : MonoBehaviour
     [SerializeField] private static float respawnTime = 15;
     [SerializeField] GameObject[] pImages;
     [SerializeField] static GameObject[] images;
-    [SerializeField] static GameObject player;
+    [SerializeField] static Player player;
     public static int _this = 0;
     void Start()
     {
@@ -25,16 +25,16 @@ public class Pinata : MonoBehaviour
     }
     private void OnEnable()
     {
-        player = GameObject.Find("Player");
+        player = FindObjectOfType<Player>();
         images = new GameObject[pImages.Length];
         for (int i = 0; i < images.Length; i++) { images[i] = pImages[i]; }
     }
     void FixedUpdate()
     {
         if(_this == 0) { tempRespawnTime = 15; }
-        if (player.GetComponent<AttackingPinata>().getShop().equipped[1]) {
+        if (player.getShop().equipped[1]) {
             lootPerClick = 0; }
-        else if (player.GetComponent<AttackingPinata>().getShop().equipped[3] && player.GetComponent<AttackingPinata>().getShop().koalaCondition)
+        else if (player.getShop().equipped[3] && player.getShop().koalaCondition)
         {
             lootPerClick = (int)UnityEngine.Random.Range(lootRange0+1, lootRange1+1);
         }
@@ -105,19 +105,19 @@ public class Pinata : MonoBehaviour
     public static void buyPet3Perk()
     {
         bool var = false;
-        player.GetComponent<AttackingPinata>().getShop().callPinataThis();
-        if (player.GetComponent<AttackingPinata>().getEnemyHealth() == _health) { var = true; }
-        _health = _health + (_health * (player.GetComponent<AttackingPinata>().getShop().getPerks()[0]) / 100);
-        if(var) { player.GetComponent<AttackingPinata>().setEnemyHealth(_health); }
+        player.getShop().callPinataThis();
+        if (player.getEnemyHealth() == _health) { var = true; }
+        _health = _health + (_health * (player.getShop().getPerks()[0]) / 100);
+        if(var) { player.setEnemyHealth(_health); }
         loot = loot - (int)(loot * 0.5);
-        lootRange0 = lootRange0 + (lootRange0 * player.GetComponent<AttackingPinata>().getShop().getPerks()[0] / 100);
-        lootRange1 = lootRange1 + (lootRange1 * player.GetComponent<AttackingPinata>().getShop().getPerks()[0] / 100);
-        respawnTime = respawnTime + (respawnTime * player.GetComponent<AttackingPinata>().getShop().getPerks()[0]/ 100);
-        tempRespawnTime = tempRespawnTime + (tempRespawnTime * player.GetComponent<AttackingPinata>().getShop().getPerks()[0] / 100);
+        lootRange0 = lootRange0 + (lootRange0 * player.getShop().getPerks()[0] / 100);
+        lootRange1 = lootRange1 + (lootRange1 * player.getShop().getPerks()[0] / 100);
+        respawnTime = respawnTime + (respawnTime * player.getShop().getPerks()[0]/ 100);
+        tempRespawnTime = tempRespawnTime + (tempRespawnTime * player.getShop().getPerks()[0] / 100);
     }
     public static void buyID0()
     {
-        player.GetComponent<AttackingPinata>().getInventoryPinata()[0] = true;
+        player.getInventoryPinata()[0] = true;
         images[_this].SetActive(false);
         _this = 1;
         images[_this].SetActive(true);
@@ -130,7 +130,7 @@ public class Pinata : MonoBehaviour
     }
     public static void buyID1()
     {
-        player.GetComponent<AttackingPinata>().getInventoryPinata()[1] = true;
+        player.getInventoryPinata()[1] = true;
         images[_this].SetActive(false);
         _this = 2;
         images[_this].SetActive(true);
@@ -143,7 +143,7 @@ public class Pinata : MonoBehaviour
     }
     public static void buyID2()
     {
-        player.GetComponent<AttackingPinata>().getInventoryPinata()[2] = true;
+        player.getInventoryPinata()[2] = true;
         images[_this].SetActive(false);
         _this = 3;
         images[_this].SetActive(true);
@@ -156,7 +156,7 @@ public class Pinata : MonoBehaviour
     }
     public static void buyID3() 
     {
-        player.GetComponent<AttackingPinata>().getInventoryPinata()[3] = true;
+        player.getInventoryPinata()[3] = true;
         images[_this].SetActive(false);
         _this = 4;
         images[_this].SetActive(true);
@@ -169,7 +169,7 @@ public class Pinata : MonoBehaviour
     }
     public static void buyID4()
     {
-        player.GetComponent<AttackingPinata>().getInventoryPinata()[4] = true;
+        player.getInventoryPinata()[4] = true;
         images[_this].SetActive(false);
         _this = 5;
         images[_this].SetActive(true);
@@ -182,7 +182,7 @@ public class Pinata : MonoBehaviour
     }
     public static void buyID5()
     {
-        player.GetComponent<AttackingPinata>().getInventoryPinata()[5] = true;
+        player.getInventoryPinata()[5] = true;
         images[_this].SetActive(false);
         _this = 6;
         images[_this].SetActive(true);
@@ -221,17 +221,17 @@ public class Pinata : MonoBehaviour
     }
     void PinataImage()
     {
-        if (player.GetComponent<AttackingPinata>().getPinata() != null && _this != 0)
+        if (player.getPinata() != null && _this != 0)
         {
             foreach(var p in images) { p.SetActive(false); }
             getImages()[_this].SetActive(true);
         }
-        else if (player.GetComponent<AttackingPinata>().getPinata() != null && _this == 0) { foreach (var p in images) { p.SetActive(false); } getImages()[_this].SetActive(true); }
-        else if (player.GetComponent<AttackingPinata>().getPinata() == null && _this != 0)
+        else if (player.getPinata() != null && _this == 0) { foreach (var p in images) { p.SetActive(false); } getImages()[_this].SetActive(true); }
+        else if (player.getPinata() == null && _this != 0)
         {
             foreach (var p in images) { p.SetActive(false); }
         }
-        else if (player.GetComponent<AttackingPinata>().getPinata() == null && _this == 0)
+        else if (player.getPinata() == null && _this == 0)
         {
             foreach (var p in images) { p.SetActive(false); }
         }
