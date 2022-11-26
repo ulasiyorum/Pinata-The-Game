@@ -82,7 +82,15 @@ public class Info : MonoBehaviour
 
     private void UpdateAttackDamage()
     {
-        WholeText.text += "\n" + "Attack Damage: " + player.getAttackDamage();
+        WholeText.text += "\n" + "Attack Damage: ";
+        if (player.getShop().equipped[4])
+        {
+            WholeText.text += player.getShop().getTemporaryAttackDamage();
+        }
+        else
+        {
+            WholeText.text += player.getAttackDamage();
+        }
     }
 
     private void UpdateAttackSpeed()
