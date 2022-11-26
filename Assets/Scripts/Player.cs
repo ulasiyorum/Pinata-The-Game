@@ -9,14 +9,14 @@ using CodeMonkey;
 using System.Globalization;
 
 [Serializable]
-public class AttackingPinata : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] Text errorText;
     float errorTimer;
     [SerializeField] Canvas canvas;
     System.DateTimeOffset timeThen;
     System.DateTimeOffset timeNow;
-    private AttackingPinata player;
+    private Player player;
     [SerializeField] LoanScript loans;
     [SerializeField] private float timerforattack;
     private double networth;
@@ -32,7 +32,7 @@ public class AttackingPinata : MonoBehaviour
     [SerializeField] private int looting;
     Vector2 respawnPosition;
     [SerializeField] private GameObject _pinata;
-    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject _Player;
     [SerializeField] private double playerDamage = 1;
     [SerializeField] private double attackDamage;
     [SerializeField] private double attackSpeed = 1;
@@ -222,7 +222,7 @@ public class AttackingPinata : MonoBehaviour
     {
         
         shop = this.GetComponent<Shopping>();
-        player = this.GetComponent<AttackingPinata>();
+        player = this;
         energyRefilled = 0;
         timerRefilled = 0;
     }
@@ -545,7 +545,7 @@ public class AttackingPinata : MonoBehaviour
         toolDurability = 0;
         shop.hasTool = false;
     }
-    public AttackingPinata getPlayer()
+    public Player getPlayer()
     {
         return player;
     }
@@ -831,7 +831,7 @@ public class AttackingPinata : MonoBehaviour
     }
     public GameObject getOPlayer()
     {
-        return this.Player;
+        return this._Player;
     }
     public double getAttackDamage()
     {

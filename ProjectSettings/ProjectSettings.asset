@@ -669,7 +669,8 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
     7: ENABLE_PLAYFABADMIN_API;ENABLE_PLAYFABSERVER_API
-  additionalCompilerArguments: {}
+  additionalCompilerArguments:
+    7: []
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
