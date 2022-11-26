@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MiniGameManager : MonoBehaviour
 {
     [SerializeField] GameObject main;
-    [SerializeField] AttackingPinata player;
+    [SerializeField] Player player;
     [SerializeField] Text generalText;
     [SerializeField] Text youHaveThis;
     [SerializeField] Text networthText;
@@ -30,7 +30,7 @@ public class MiniGameManager : MonoBehaviour
         }
         if (playForFree <= 2 && freeTimer <= 86400)
         {
-            freeTimer += AttackingPinata.deltaTime;
+            freeTimer += CustomTime.deltaTime;
         }
         if(playForFree <= 1 && freeTimer >= 86400)
         {

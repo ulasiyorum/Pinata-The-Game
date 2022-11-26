@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (this.GetComponent<AttackingPinata>().openShop)
+        if (this.GetComponent<Player>().openShop)
         { this.transform.position = new Vector2(Vector2.zero.x,this.transform.position.y); }
         else
         {

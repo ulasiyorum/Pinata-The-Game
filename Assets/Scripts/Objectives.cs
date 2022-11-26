@@ -19,7 +19,7 @@ public class Objectives : MonoBehaviour
     {
         
         if(objTimer >= 86400 && dailyObj == 0) { objTimer++; }
-        else if(dailyObj == 0) { objTimer += AttackingPinata.deltaTime; }
+        else if(dailyObj == 0) { objTimer += CustomTime.deltaTime; }
         else { objTimer = 0; }
     }
 

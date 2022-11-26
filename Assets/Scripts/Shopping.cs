@@ -17,7 +17,7 @@ public class Shopping : MonoBehaviour
     [SerializeField] private double attackSpeed;
     [SerializeField] private int looting;
     [SerializeField] private float attackRange;
-    [SerializeField] AttackingPinata Player;
+    [SerializeField] Player Player;
     [SerializeField] GameObject _candyError;
     [SerializeField] GameObject currentLevel;
     [SerializeField] private int tempEPA;
@@ -473,22 +473,22 @@ public class Shopping : MonoBehaviour
     public void buyPinataDefault()
     {
         AudioManager.PlaySound("pop");
-        if (Player.GetComponent<AttackingPinata>().getPinata() != null)
+        if (Player.getPinata() != null)
         {
             Pinata.buyDefault();
-            if (Pinata.getHealth() > Player.GetComponent<AttackingPinata>().getEnemyHealth())
+            if (Pinata.getHealth() > Player.getEnemyHealth())
             {
-                Player.GetComponent<AttackingPinata>().setHealth(Player.getEnemyHealth());
+                Player.setHealth(Player.getEnemyHealth());
             }
             else
             {
-                Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                Player.setHealth(Pinata.getHealth());
             }
         }
         else
         {
             Pinata.buyDefault();
-            Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+            Player.setHealth(Pinata.getHealth());
         }
 
         if (equipped[3]) { oncePet32 = true; }
@@ -504,24 +504,24 @@ public class Shopping : MonoBehaviour
                 Player.withdraw(700);
                 youHaves[0].SetActive(true);
             }
-            if (Player.GetComponent<AttackingPinata>().getPinata() != null)
+            if (Player.getPinata() != null)
             {
                 Pinata.buyID0();
                 AudioManager.PlaySound("pop");
-                if (Pinata.getHealth() > Player.GetComponent<AttackingPinata>().getEnemyHealth())
+                if (Pinata.getHealth() > Player.getEnemyHealth())
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Player.getEnemyHealth());
+                    Player.setHealth(Player.getEnemyHealth());
                 }
                 else
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                    Player.setHealth(Pinata.getHealth());
                 }
             }
             else
             {
                 Pinata.buyID0();
                 AudioManager.PlaySound("pop");
-                Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                Player.setHealth(Pinata.getHealth());
             }
         }
 
@@ -538,24 +538,24 @@ public class Shopping : MonoBehaviour
                 Player.withdraw(500);
                 youHaves[1].SetActive(true);
             }
-            if (Player.GetComponent<AttackingPinata>().getPinata() != null)
+            if (Player.getPinata() != null)
             {
                 Pinata.buyID1();
                 AudioManager.PlaySound("pop");
-                if (Pinata.getHealth() > Player.GetComponent<AttackingPinata>().getEnemyHealth())
+                if (Pinata.getHealth() > Player.getEnemyHealth())
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Player.getEnemyHealth());
+                    Player.setHealth(Player.getEnemyHealth());
                 }
                 else
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                    Player.setHealth(Pinata.getHealth());
                 }
             }
             else
             {
                 Pinata.buyID1();
                 AudioManager.PlaySound("pop");
-                Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                Player.setHealth(Pinata.getHealth());
             }
         }
 
@@ -572,24 +572,24 @@ public class Shopping : MonoBehaviour
                 Player.withdraw(1500);
                 youHaves[2].SetActive(true);
             }
-            if (Player.GetComponent<AttackingPinata>().getPinata() != null)
+            if (Player.getPinata() != null)
             {
                 Pinata.buyID2();
                 AudioManager.PlaySound("pop");
-                if (Pinata.getHealth() > Player.GetComponent<AttackingPinata>().getEnemyHealth())
+                if (Pinata.getHealth() > Player.getEnemyHealth())
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Player.getEnemyHealth());
+                    Player.setHealth(Player.getEnemyHealth());
                 }
                 else
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                    Player.setHealth(Pinata.getHealth());
                 }
             }
             else
             {
                 Pinata.buyID2();
                 AudioManager.PlaySound("pop");
-                Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                Player.setHealth(Pinata.getHealth());
             }
         }
 
@@ -606,24 +606,24 @@ public class Shopping : MonoBehaviour
                 AudioManager.PlaySound("bought");
                 youHaves[3].SetActive(true);
             }
-            if (Player.GetComponent<AttackingPinata>().getPinata() != null)
+            if (Player.getPinata() != null)
             {
                 Pinata.buyID3();
                 AudioManager.PlaySound("pop");
-                if (Pinata.getHealth() > Player.GetComponent<AttackingPinata>().getEnemyHealth())
+                if (Pinata.getHealth() > Player.getEnemyHealth())
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Player.getEnemyHealth());
+                    Player.setHealth(Player.getEnemyHealth());
                 }
                 else
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                    Player.setHealth(Pinata.getHealth());
                 }
             }
             else
             {
                 Pinata.buyID3();
                 AudioManager.PlaySound("pop");
-                Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                Player.setHealth(Pinata.getHealth());
             }
         }
 
@@ -640,22 +640,22 @@ public class Shopping : MonoBehaviour
                 Player.withdraw(3000);
                 youHaves[4].SetActive(true);
             }
-            if (Player.GetComponent<AttackingPinata>().getPinata() != null)
+            if (Player.getPinata() != null)
             {
                 Pinata.buyID4(); AudioManager.PlaySound("pop");
-                if (Pinata.getHealth() > Player.GetComponent<AttackingPinata>().getEnemyHealth())
+                if (Pinata.getHealth() > Player.getEnemyHealth())
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Player.getEnemyHealth());
+                    Player.setHealth(Player.getEnemyHealth());
                 }
                 else
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                    Player.setHealth(Pinata.getHealth());
                 }
             }
             else
             {
                 Pinata.buyID4(); AudioManager.PlaySound("pop");
-                Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                Player.setHealth(Pinata.getHealth());
             }
         }
 
@@ -672,22 +672,22 @@ public class Shopping : MonoBehaviour
                 Player.withdraw(3600);
                 youHaves[5].SetActive(true);
             }
-            if (Player.GetComponent<AttackingPinata>().getPinata() != null)
+            if (Player.getPinata() != null)
             {
                 Pinata.buyID5(); AudioManager.PlaySound("pop");
-                if (Pinata.getHealth() > Player.GetComponent<AttackingPinata>().getEnemyHealth())
+                if (Pinata.getHealth() > Player.getEnemyHealth())
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Player.getEnemyHealth());
+                    Player.setHealth(Player.getEnemyHealth());
                 }
                 else
                 {
-                    Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                    Player.setHealth(Pinata.getHealth());
                 }
             }
             else
             {
                 Pinata.buyID5(); AudioManager.PlaySound("pop");
-                Player.GetComponent<AttackingPinata>().setHealth(Pinata.getHealth());
+                Player.setHealth(Pinata.getHealth());
             }
         }
 
@@ -1224,17 +1224,17 @@ public class Shopping : MonoBehaviour
                 Perks[1] = 3;
                 Perks[2] = 50;
             }
-            if (Player.getWrapGod()) { timer0 += AttackingPinata.deltaTime * 2; }
+            if (Player.getWrapGod()) { timer0 += CustomTime.deltaTime * 2; }
             else
             {
-                timer0 += AttackingPinata.deltaTime;
+                timer0 += CustomTime.deltaTime;
             }
                 
             if (Player.getEnergy() <= Player.getMaxEnergy() && Player.getWrapGod())
             {
-                timer1 += AttackingPinata.deltaTime * 2;
+                timer1 += CustomTime.deltaTime * 2;
             }
-            else if(Player.getEnergy() <= Player.getMaxEnergy()){ timer1 += AttackingPinata.deltaTime; }
+            else if(Player.getEnergy() <= Player.getMaxEnergy()){ timer1 += CustomTime.deltaTime; }
                 if (timer0 > Perks[0]) { Player.addToBalance(); if (Player.getLooting() > 3) { Player.addToBalance(); }
                 if (Player.getLooting() > 6) { Player.addToBalance(); }
                 if (Player.getLooting() > 9) { Player.addToBalance(); }
@@ -1327,7 +1327,7 @@ public class Shopping : MonoBehaviour
                 }
             Pinata.setRespawnTime(Pinata.getTempRespawnTime() - (Pinata.getTempRespawnTime() * ((float)Perks[0] / 100)));
             Pinata.setLootFromPerk((int)((Pinata.getLoot() + (Pinata.getLoot() * Player.getLooting() / 10))  * ((double)Perks[1] / 100)));
-            timer2 += AttackingPinata.deltaTime;
+            timer2 += CustomTime.deltaTime;
             temporaryAttackDamage = Player.getAttackDamage() + Player.getLooting();
             if (timer2 > Perks[2]) { Player.removeFromBalance(); timer2 = 0; }
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LoanScript : MonoBehaviour
 {
-    [SerializeField] AttackingPinata player;
+    [SerializeField] Player player;
     private int loanCount = 0;
     [SerializeField] GameObject[] loanButton;
     [SerializeField] public GameObject loanB;
