@@ -7,7 +7,7 @@ public class BalanceDisplay : MonoBehaviour
 {
     [SerializeField] Text balanceText;
     [SerializeField] Text balanceShop;
-    [SerializeField] Player Player;
+    //[SerializeField] Player Player;
     [SerializeField] Text energyText;
     [SerializeField] Text nextEnergyIn;
     [SerializeField] Text nextPinata;
@@ -17,47 +17,47 @@ public class BalanceDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        coinsText.text = " " + Player.getCoins();
-        coinsShop.text = " " + Player.getCoins();
-        balanceText.text = " " + Player.getBalance();
-        balanceShop.text = " " + Player.getBalance();
-        energyText.text = " " + Player.getEnergy();
-        nextEnergyIn.text = " " + Player.getTimer();
+        coinsText.text = " " + Instance.Player.getCoins();
+        coinsShop.text = " " + Instance.Player.getCoins();
+        balanceText.text = " " + Instance.Player.getBalance();
+        balanceShop.text = " " + Instance.Player.getBalance();
+        energyText.text = " " + Instance.Player.getEnergy();
+        nextEnergyIn.text = " " + Instance.Player.getTimer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float nextTimer = Pinata.getRespawnTime() - Player.getRespawnTimer();
-        int timeLeft = Player.getMaxEnergy() - Player.getEnergy();
+        float nextTimer = Pinata.getRespawnTime() - Instance.Player.getRespawnTimer();
+        int timeLeft = Instance.Player.getMaxEnergy() - Instance.Player.getEnergy();
         if(timeLeft == 0)
         {
             nextEnergyIn.text = " Full!";
         }
         else
         {
-            if(Player.getShop().equipped[0])
+            if(Instance.Player.getShop().equipped[0])
             {
-                if ((int)(Player.getShop().getPerks()[1]
-                        - Player.getShop().timer1)
-                        <= (11 - Player.getTimer()))
+                if ((int)(Instance.Player.getShop().getPerks()[1]
+                        - Instance.Player.getShop().timer1)
+                        <= (11 - Instance.Player.getTimer()))
                 {
-                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Player.getShop().getPerks()[1]
-                            - Player.getShop().timer1);
+                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Instance.Player.getShop().getPerks()[1]
+                            - Instance.Player.getShop().timer1);
                 }
                 else
                 {
-                    nextEnergyIn.text = "Next Energy: " + (int)(11 - Player.getTimer());
+                    nextEnergyIn.text = "Next Energy: " + (int)(11 - Instance.Player.getTimer());
                 }
                 
             }
             else
             {
-                nextEnergyIn.text = "Next Energy: " + (int)(11 - Player.getTimer());
+                nextEnergyIn.text = "Next Energy: " + (int)(11 - Instance.Player.getTimer());
             }
             
         }
-        if (Player.getRespawnTimer() > 0 && Player.getIsDead())
+        if (Instance.Player.getRespawnTimer() > 0 && Instance.Player.getIsDead())
         {
             nextPinata.fontSize = 40;
             nextPinata.text = "" + string.Format("{0:0.00}",nextTimer);
@@ -70,10 +70,10 @@ public class BalanceDisplay : MonoBehaviour
             nextPinata.text = "Hit Pinata For Candies!";
             inShopNextPinata.text = "Pinata Respawned!";
         }
-        coinsText.text = " " + Player.getCoins();
-        coinsShop.text = " " + Player.getCoins();
-        energyText.text = "" + Player.getEnergy(); 
-        balanceText.text = "" + Player.getBalance();
-        balanceShop.text = " " + Player.getBalance();
+        coinsText.text = " " + Instance.Player.getCoins();
+        coinsShop.text = " " + Instance.Player.getCoins();
+        energyText.text = "" + Instance.Player.getEnergy(); 
+        balanceText.text = "" + Instance.Player.getBalance();
+        balanceShop.text = " " + Instance.Player.getBalance();
     }
 }
