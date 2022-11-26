@@ -165,7 +165,9 @@ public class Info : MonoBehaviour
         WholeText.text += "\n" + "Candies per Hit: ";
         if (player.getShop().equipped[3] && player.getShop().koalaCondition)
         {
-            WholeText.text += (int)((Pinata.GetLootRange(0) + 1) * input) + "-" + (int)(Pinata.GetLootRange(1) * input);
+            WholeText.text += (int)((Pinata.GetLootRange(0) + 1) + ((Pinata.GetLootRange(0) + 1) * input)) 
+                + "-" + 
+                (int)(Pinata.GetLootRange(1) + (Pinata.GetLootRange(1) * input));
         }
         else if (player.getShop().equipped[1])
         {
@@ -173,7 +175,9 @@ public class Info : MonoBehaviour
         }
         else
         {
-            WholeText.text += (int)(Pinata.GetLootRange(0) * input) + "-" + (int)((Pinata.GetLootRange(1) - 1) * input);
+            WholeText.text += (int)((Pinata.GetLootRange(0)) + (Pinata.GetLootRange(0) * input))
+                + "-" + 
+                (int)((Pinata.GetLootRange(1) - 1) + ((Pinata.GetLootRange(1) - 1) * input));
         }
     }
     private void UpdateFinalLoot(double input)
@@ -181,25 +185,25 @@ public class Info : MonoBehaviour
         WholeText.text += "\n" + "Candies per Pinata: ";
         if(player.getShop().equipped[4] && player.getAttackDamage() >= Pinata.getHealth())
         {
-            int i = (int)(Pinata.getLoot() * input);
+            int i = (int)(Pinata.getLoot() + (Pinata.getLoot() * input));
             WholeText.text += (i * 2) + "(" + i + ")";
         }
         else if (player.getShop().equipped[4])
         {
-            int i = (int)(Pinata.getLoot() * input);
+            int i = (int)(Pinata.getLoot() + (Pinata.getLoot() * input));
             WholeText.text += i + "(" + (i*2) + ")";
         }
         else if (player.getShop().equipped[1])
         {
-            WholeText.text += (int)(Pinata.getLoot() * input) + (int)Pinata.getLootFromPerk();
+            WholeText.text += (int)(Pinata.getLoot() + (Pinata.getLoot() * input) + (int)Pinata.getLootFromPerk());
         }
         else if (player.getShop().equipped[3]) 
         {
-            WholeText.text += (int)(Pinata.getLoot() * input) / 2;
+            WholeText.text += (int)(Pinata.getLoot() + (Pinata.getLoot() * input)) / 2;
         }
         else
         {
-            WholeText.text += (int)(Pinata.getLoot() * input);
+            WholeText.text += (int)(Pinata.getLoot() + (Pinata.getLoot() * input));
         }
     }
 }
