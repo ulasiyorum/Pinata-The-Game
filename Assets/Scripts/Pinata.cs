@@ -7,17 +7,30 @@ using System;
 [Serializable]
 public class Pinata : MonoBehaviour
 {
-    [SerializeField] private static double _health = 10;
-    [SerializeField] private static int lootPerClick;
-    [SerializeField] private static int loot = 5;
-    [SerializeField] private static int lootFromPerk = 0;
-    [SerializeField] private static float tempRespawnTime;
-    [SerializeField] private static int lootRange0 = 0;
-    [SerializeField] private static int lootRange1 = 3;
-    [SerializeField] private static float respawnTime = 15;
+    private static double _health = 10;
+    private static int lootPerClick;
+    private static int loot = 5;
+    private static int lootFromPerk = 0;
+    private static float tempRespawnTime;
+    private static int lootRange0 = 0;
+    private static int lootRange1 = 3;
+
+    public static int GetLootRange(int range)
+    {
+        if(range > 0)
+        {
+            return lootRange1;
+        }
+        else
+        {
+            return lootRange0;
+        }
+    }
+
+    private static float respawnTime = 15;
     [SerializeField] GameObject[] pImages;
-    [SerializeField] static GameObject[] images;
-    [SerializeField] static Player player;
+    private static GameObject[] images;
+    private static Player player;
     public static int _this = 0;
     void Start()
     {

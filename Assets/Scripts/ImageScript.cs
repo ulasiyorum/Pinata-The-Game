@@ -7,7 +7,7 @@ public class ImageScript : MonoBehaviour
 
     [SerializeField] GameObject[] _buttons;
     [SerializeField] GameObject _image;
-    [SerializeField] AttackingPinata _player;
+    [SerializeField] Player _player;
     [SerializeField] GameObject _shop;
     [SerializeField] GameObject[] _shopTs;
     [SerializeField] GameObject[] _Tpage;

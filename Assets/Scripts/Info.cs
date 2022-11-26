@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Info : MonoBehaviour
 {
-    [SerializeField] AttackingPinata player;
+    [SerializeField] Player player;
     [SerializeField] GameObject image;
     [SerializeField] GameObject button;
     private string position;
@@ -50,86 +51,147 @@ public class Info : MonoBehaviour
 
     public void UpdateStats()
     {
+        ResetStats();
+        UpdateAttackDamage();
+        UpdateAttackSpeed();
+        UpdateLooting();
+        UpdateMaxEnergy();
+        UpdateEPA();
+        UpdateToolDurability();
+        UpdatePinataHealth();
+        UpdateLoots();
+        UpdateRank();
+    }
+    private void ResetStats()
+    {
+        WholeText.text = "";
+    }
+    private void UpdateRank()
+    {
+        int p = PlayfabManager.getLeaderboardPosition();
+        if (p == 0) 
+        { 
+            position = "Unranked"; 
+        } else
+        {
+            position = p.ToString();
+        }
 
-    if(PlayfabManager.getLeaderboardPosition() == 0) { position = "Unranked"; }
-    else { position = "" + PlayfabManager.getLeaderboardPosition(); }
-        WholeText.text = "Attack Damage: " + player.getAttackDamage() + "\n" + "Attack Speed: " + (player.getAttackSpeed() + player.getExtraAs()) +
-            "\n" + "Looting: " + player.getLooting() + "\n" + "Max Energy: " +
-            player.getMaxEnergy() + "\n" + "Energy Consume per Hit: " + player.getEPA() + "\n" + "Tool Durability: " + player.getToolDurability()
-            + "\n" + "Pinata Health: " + player.getEnemyHealth() + "\n" + "Candies per Hit: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLootRange0() +
-            ((player.getNewPinata().GetComponent<Pinata>().getLootRange0() * player.GetComponent<AttackingPinata>().getLooting()) / 5) * player.getEfficiency()) + " - "
-            + ((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) +
-            (((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) * player.GetComponent<AttackingPinata>().getLooting()) / 5) * player.getEfficiency()) + "\n" + "Candies per Pinata: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLoot2()
-            + (((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.GetComponent<AttackingPinata>().getLooting()) * player.getEfficiency()) / 10))
-        +"\n" + "Your Rank: #" + position;
-        if(player.getShop().equipped[1])
-        {
-            WholeText.text = "Attack Damage: " + player.getAttackDamage() + " + " + player.getLooting() +"\n" + "Attack Speed: " + (player.getAttackSpeed() + player.getExtraAs()) + "\n" + "Looting: " + player.getLooting() + "\n" + "Max Energy: " +
-             player.getMaxEnergy() + "\n" + "Energy Consume per Hit: " + player.getEPA() + "\n" + "Tool Durability: " + player.getToolDurability()
-             + "\n" + "Pinata Health: " + player.getEnemyHealth() + "\n" + "Candies per Hit: " +
-             0 + "\n" + "Candies per Pinata: " +
-             (player.getNewPinata().GetComponent<Pinata>().getLoot2()
-             + (((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.GetComponent<AttackingPinata>().getLooting())  / 10) * player.getEfficiency())) + " + " + (int)Pinata.getLootFromPerk()
-            +"\n" + "Your Rank: #" + position;
-        }
-        else if (player.getShop().equipped[2])
-        {
-            WholeText.text = "Attack Damage: " + player.getAttackDamage() + "\n" + "Attack Speed: " + (player.getAttackSpeed() + player.getExtraAs()) +
-            "\n" + "Looting: " + player.getShop().getTempLooting() + "\n" + "Max Energy: " +
-            player.getMaxEnergy() + "\n" + "Energy Consume per Hit: " + player.getShop().getTempEPA() + "\n" + "Tool Durability: " + player.getToolDurability()
-            + "\n" + "Pinata Health: " + player.getEnemyHealth() + "\n" + "Candies per Hit: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLootRange0() +
-            ((player.getNewPinata().GetComponent<Pinata>().getLootRange0() * player.getShop().getTempLooting()) / 5) * player.getEfficiency()) + " - "
-            + ((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) +
-            (((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) * player.getShop().getTempLooting()) / 5) * player.getEfficiency()) + "\n" + "Candies per Pinata: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLoot2()
-            + (((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.getShop().getTempLooting()) / 10)) * player.getEfficiency()) + "\n" + "Your Rank: #" + position;
-        }
-        else if (player.GetComponent<AttackingPinata>().getShop().equipped[3] && player.GetComponent<AttackingPinata>().getShop().koalaCondition)
-        {
-            WholeText.text = "Attack Damage: " + player.getAttackDamage() + "\n" + "Attack Speed: " + (player.getAttackSpeed() + player.getExtraAs()) +
-            "\n" + "Looting: " + player.getLooting() + "\n" + "Max Energy: " +
-            player.getMaxEnergy() + "\n" + "Energy Consume per Hit: " + player.getShop().getTempEPA() + "\n" + "Tool Durability: " + player.getToolDurability()
-            + "\n" + "Pinata Health: " + player.getEnemyHealth() + "\n" + "Candies per Hit: " +
-            ((player.getNewPinata().GetComponent<Pinata>().getLootRange0() + 1) +
-            (((player.getNewPinata().GetComponent<Pinata>().getLootRange0() + 1) * player.GetComponent<AttackingPinata>().getLooting()) / 5) *player.getEfficiency())+ " - "
-            + ((player.getNewPinata().GetComponent<Pinata>().getLootRange1()) +
-            ((player.getNewPinata().GetComponent<Pinata>().getLootRange1() * player.GetComponent<AttackingPinata>().getLooting()) / 5) * player.getEfficiency())+ "\n" + "Candies per Pinata: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLoot2()
-            + (((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.GetComponent<AttackingPinata>().getLooting()) / 10)) *player.getEfficiency())+ "\n" + "Your Rank: #" + position;
-        }
-        else if (player.GetComponent<AttackingPinata>().getShop().equipped[3])
-        {
-            WholeText.text = "Attack Damage: " + player.getAttackDamage() + "\n" + "Attack Speed: " + (player.getAttackSpeed() + player.getExtraAs())+
-            "\n" + "Looting: " + player.getLooting() + "\n" + "Max Energy: " +
-            player.getMaxEnergy() + "\n" + "Energy Consume per Hit: " + player.getShop().getTempEPA() + "\n" + "Tool Durability: " + player.getToolDurability()
-            + "\n" + "Pinata Health: " + player.getEnemyHealth() + "\n" + "Candies per Hit: " +
-            ((player.getNewPinata().GetComponent<Pinata>().getLootRange0()) +
-            (((player.getNewPinata().GetComponent<Pinata>().getLootRange0()) * player.GetComponent<AttackingPinata>().getLooting()) / 5) *player.getEfficiency())+ " - "
-            + ((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) +
-            (((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) * player.GetComponent<AttackingPinata>().getLooting()) / 5) * player.getEfficiency())+ "\n" + "Candies per Pinata: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLoot2()
-            + ((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.GetComponent<AttackingPinata>().getLooting()) / 10) * player.getEfficiency()) + "\n" + "Your Rank: #" + position;
+        WholeText.text += "\n" + "Your Rank: " + position;
+    }
 
-        }
-        else if (player.GetComponent<AttackingPinata>().getShop().equipped[4])
+    private void UpdateAttackDamage()
+    {
+        WholeText.text += "\n" + "Attack Damage: " + player.getAttackDamage();
+    }
+
+    private void UpdateAttackSpeed()
+    {
+        WholeText.text += "\n" + "Attack Speed: " + (player.getAttackSpeed() + player.getExtraAs());
+    }
+
+    private void UpdateLooting()
+    {
+        WholeText.text += "\n" + "Looting: ";
+
+        if (player.getShop().equipped[2])
         {
-            WholeText.text = "Attack Damage: " + player.getShop().getTemporaryAttackDamage() + "\n" + "Attack Speed: " + (player.getAttackSpeed() + player.getExtraAs()) +
-            "\n" + "Looting: " + player.getLooting() + "\n" + "Max Energy: " +
-            player.getMaxEnergy() + "\n" + "Energy Consume per Hit: " + player.getEPA() + "\n" + "Tool Durability: " + player.getToolDurability()
-            + "\n" + "Pinata Health: " + player.getEnemyHealth() + "\n" + "Candies per Hit: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLootRange0() +
-            ((player.getNewPinata().GetComponent<Pinata>().getLootRange0() * player.GetComponent<AttackingPinata>().getLooting()) / 5) * player.getEfficiency()) + " - "
-            + ((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) +
-            (((player.getNewPinata().GetComponent<Pinata>().getLootRange1() - 1) * player.GetComponent<AttackingPinata>().getLooting()) / 5) *player.getEfficiency())+ "\n" + "Candies per Pinata: " +
-            (player.getNewPinata().GetComponent<Pinata>().getLoot2()
-            +(((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.GetComponent<AttackingPinata>().getLooting()) / 10) * player.getEfficiency()) + ((player.getNewPinata().GetComponent<Pinata>().getLoot2()
-            + (((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.GetComponent<AttackingPinata>().getLooting()) / 10) *player.getEfficiency())* (player.getShop().getPerks()[1] / 100)))) + " / (" +
-            (player.getNewPinata().GetComponent<Pinata>().getLoot2()
-            + ((player.getNewPinata().GetComponent<Pinata>().getLoot2() * player.GetComponent<AttackingPinata>().getLooting()) / 10) * player.getEfficiency()) + ")"
-        + "\n" + "Your Rank: #" + position;
+            WholeText.text += player.getShop().getTempLooting();
+        }
+        else
+        {
+            WholeText.text += player.getLooting();
+        }
+    }
+    private void UpdateMaxEnergy()
+    {
+        WholeText.text += "\n" + "Max Energy: " + player.getMaxEnergy();
+    }
+
+    private void UpdateEPA()
+    {
+        WholeText.text += "\n" + "Energy Consume per Hit: ";
+        if(player.getShop().equipped[3] || player.getShop().equipped[2])
+        {
+            WholeText.text += player.getShop().getTempEPA();
+        }
+        else
+        {
+            WholeText.text += player.getEPA();
+        }
+    }
+
+    private void UpdateToolDurability()
+    {
+        WholeText.text += "\n" + "Tool Durability: ";
+        if (player.toolDurability != 0)
+            WholeText.text += player.toolDurability;
+        else
+            WholeText.text += "None";
+    }
+
+    private void UpdatePinataHealth()
+    {
+        WholeText.text += "\n" + "Pinata's Health: " + player.getEnemyHealth();
+    }
+
+    private void UpdateLoots()
+    {
+        double input;
+        if (player.getShop().equipped[2])
+        {
+            input = player.getShop().getTempLooting() / 10 * player.getLootEfficiency();
+        }
+        else
+        {
+            input = player.getLooting() / 10 * player.getLootEfficiency();
+        }
+
+
+        UpdateLootPerHit(input * 2);
+        UpdateFinalLoot(input);
+    }
+
+    private void UpdateLootPerHit(double input)
+    {
+        WholeText.text += "\n" + "Candies per Hit: ";
+        if (player.getShop().equipped[3] && player.getShop().koalaCondition)
+        {
+            WholeText.text += (int)((Pinata.GetLootRange(0) + 1) * input) + "-" + (int)(Pinata.GetLootRange(1) * input);
+        }
+        else if (player.getShop().equipped[1])
+        {
+            WholeText.text += 0;
+        }
+        else
+        {
+            WholeText.text += (int)(Pinata.GetLootRange(0) * input) + "-" + (int)((Pinata.GetLootRange(1) - 1) * input);
+        }
+    }
+    private void UpdateFinalLoot(double input)
+    {
+        WholeText.text += "\n" + "Candies per Pinata: ";
+        if(player.getShop().equipped[4] && player.getAttackDamage() >= Pinata.getHealth())
+        {
+            int i = (int)(Pinata.getLoot() * input);
+            WholeText.text += (i * 2) + "(" + i + ")";
+        }
+        else if (player.getShop().equipped[4])
+        {
+            int i = (int)(Pinata.getLoot() * input);
+            WholeText.text += i + "(" + (i*2) + ")";
+        }
+        else if (player.getShop().equipped[1])
+        {
+            WholeText.text += (int)(Pinata.getLoot() * input) + (int)Pinata.getLootFromPerk();
+        }
+        else if (player.getShop().equipped[3]) 
+        {
+            WholeText.text += (int)(Pinata.getLoot() * input) / 2;
+        }
+        else
+        {
+            WholeText.text += (int)(Pinata.getLoot() * input);
         }
     }
 }
