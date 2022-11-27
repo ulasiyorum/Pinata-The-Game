@@ -75,3 +75,4 @@ Assets/Scripts/AdsManager.cs.meta
 
 *.shader
 *.hlsl
+*.cginc
