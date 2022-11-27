@@ -46,7 +46,6 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
-
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
@@ -72,3 +71,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/Scripts/AdsManager.cs
 Assets/Scripts/AdsManager.cs.meta
+
+
+
+*.shader
+*.hlsl
