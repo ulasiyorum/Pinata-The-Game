@@ -264,7 +264,7 @@ public class Pinata : MonoBehaviour
         }
     }
 
-    public async void TakeDamage()
+    public void TakeDamage()
     {
         double damage = Instance.Player.getAttackDamage();
         health -= damage;
@@ -274,13 +274,11 @@ public class Pinata : MonoBehaviour
             _health = 0;
             // Player.SomeMethod
             GameAssets.Instance.PinataDied.Play("CandyDrop");
-            await Task.Delay((int)GameAssets.Instance.PinataDied.GetCurrentAnimatorStateInfo(0).length * 999);
             Instance.PinataObject.Die();
             return;
         }
         AudioManager.PlaySound("pop");
         GameAssets.Instance.PinataShake.Play("pinataShake");
-        await Task.Delay((int)GameAssets.Instance.PinataShake.GetCurrentAnimatorStateInfo(0).length * 999);
     }
     private void Die()
     {

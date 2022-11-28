@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using MatchThreeEngine;
 using CodeMonkey;
+using System.Threading.Tasks;
 using System.Globalization;
 
 [Serializable]
@@ -1184,19 +1185,91 @@ public class Player : MonoBehaviour
     public int getTreasureCount() { return treasureCount; }
     public int getBossLevel() { return this.bossLevel; }
 
-    public void HitPinata()
+    public async void HitPinata()
     {
-        if (timerforattack > 1.0 / attackSpeed)
+        if (timerforattack < 1.0 / attackSpeed)
+            return;
+
+        GameAssets.Instance.PlayerHit.Play("playerHit");
+
+        await Task.Delay((int)GameAssets.Instance.PlayerHit.GetCurrentAnimatorStateInfo(0).length * 999);
+
+        if (!IsInRage())
             return;
 
         Instance.PinataObject.TakeDamage();
         timerforattack = 0;
-        balance += Pinata.getLootPerClick();
+        int add = DetermineLootPerHit();
+        balance += add;
+        networth += add;
+
+        int i = looting == 10 ? 1 : 0;
+        if (shop.equipped[2] && CreateRandomChance.Gamble(shop.getLevels()[2] + i, 100))
+        {
+            balance += 100; // assign variable for s.treasure amount
+            GameAssets.Instance.SecretTreasure.Play("secretTreasure");
+        }
     }
     public IEnumerator PinataPopp()
     {
-        balance += Pinata.getLoot();
+        int add = DetermineLoot();
+        balance += add;
+        networth += add;
         yield return new WaitForSeconds(Instance.PinataObject.RespawnTime);
         Instance.PinataObject.Respawn();
     }
+    private bool IsInRage()
+    {
+        return Vector2.Distance(Instance.PinataObject.transform.position, attackPoint.position) < attackRange + 1.6f;
+    }
+
+    private int DetermineLoot()
+    {
+        int add = 0;
+        if (Instance.Shop.equipped[1])
+        {
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency);
+        }
+        else if (Instance.Shop.equipped[3])
+        {
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) / 2;
+        }
+        else if (Instance.Shop.equipped[4] && attackDamage >= Pinata.getHealth())
+        {
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) * ((Instance.Shop.getPerks()[1] / 100) + 1);
+        }
+        else
+        {
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10)) * lootEfficiency);
+        }
+        return add;
+    }
+    private int DetermineLootPerHit()
+    {
+        int add = 0;
+        if (Instance.Shop.equipped[1])
+            return add;
+        else if (Instance.Shop.equipped[3])
+        {
+            int i = Pinata.getLootPerClick() + 1;
+            add = (int)((i + (i * looting / 5)) * lootEfficiency);
+        }
+        else if (Instance.Shop.equipped[4])
+        {
+            if (CreateRandomChance.Gamble(Instance.Shop.getLevels()[4] * 10, 100))
+            {
+                toolDurability++;
+                balance -= Instance.Shop.getPerks()[4];
+                //Popup Message
+            }
+            add = (int)((Pinata.getLootPerClick() + (Pinata.getLootPerClick() * looting / 5)) * lootEfficiency);
+        }
+        else
+        {
+            add = (int)((Pinata.getLootPerClick() + (Pinata.getLootPerClick() * looting / 5)) * lootEfficiency);
+        }
+        toolDurability--;
+        return add;
+    }
+
 }
