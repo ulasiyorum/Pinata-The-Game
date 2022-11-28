@@ -1183,4 +1183,12 @@ public class Player : MonoBehaviour
     public bool getGodOfBugs() { return godOfBugs; }
     public int getTreasureCount() { return treasureCount; }
     public int getBossLevel() { return this.bossLevel; }
+
+
+    public IEnumerator PinataPopp()
+    {
+        balance += Pinata.getLoot();
+        yield return new WaitForSeconds(Instance.PinataObject.RespawnTime);
+        Instance.PinataObject.Respawn();
+    }
 }

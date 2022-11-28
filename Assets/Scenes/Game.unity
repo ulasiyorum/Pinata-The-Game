@@ -404,6 +404,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7482815}
   m_CullTransparentMesh: 1
+--- !u!1 &8376811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8376813}
+  - component: {fileID: 8376812}
+  m_Layer: 0
+  m_Name: Assets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &8376812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f3ba0ecb9eccd4c9ff67b60be3c47b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pinataImages:
+  - {fileID: 21300000, guid: 71b3f32d403b4dc47bb35e409b3be956, type: 3}
+  - {fileID: 21300000, guid: d247a040ba78e964892efc9ab9823e93, type: 3}
+  - {fileID: 21300000, guid: 066cdfc781723164ea2ddfd67e2b7cf1, type: 3}
+  - {fileID: 21300000, guid: 666fa3d6fce137b41a79c25ea625bae6, type: 3}
+  - {fileID: 21300000, guid: 48f7312d3ef95d2428c1ac4f8397f3ae, type: 3}
+  - {fileID: 21300000, guid: 1965eab40c9e4d942bbbc5ed15dde910, type: 3}
+  - {fileID: 21300000, guid: 9eb99958600116b4290a962f8300a386, type: 3}
+--- !u!4 &8376813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376811}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.4662726, y: 1.0676655, z: -3399.6843}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &13844007
 PrefabInstance:
   m_ObjectHideFlags: 0

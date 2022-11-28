@@ -4,6 +4,27 @@ using UnityEngine;
 
 public class Instance : MonoBehaviour
 {
+    // There'll always be one pinata
+    private static Pinata pinataObject;
+    public static Pinata PinataObject
+    {
+        get
+        {
+            if (pinataObject == null && FindObjectOfType<Pinata>() != null)
+            {
+                pinataObject = FindObjectOfType<Pinata>();
+            }
+            if (pinataObject != null)
+                return pinataObject;
+
+            return null;
+        }
+        private set
+        {
+            pinataObject = value;
+        }
+    }
+
     private static Player playerInstance;
     public static Player Player
     {
