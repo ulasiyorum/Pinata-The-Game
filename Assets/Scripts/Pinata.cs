@@ -24,7 +24,7 @@ public class Pinata : MonoBehaviour
     {
         get => images;
         set => images = value;
-    }
+    } // this is not initialized
     private static Player player;
     public static int _this = 0;
     public static int Current { get => _this; set => _this = value; }
@@ -33,7 +33,7 @@ public class Pinata : MonoBehaviour
     private double health;
     private float respawnTime;
     public float RespawnTime { get => respawnTime; set => respawnTime = value; }
-
+    public double Health { get => Health; set => health = value; }
 
 
     void Start()
@@ -43,7 +43,7 @@ public class Pinata : MonoBehaviour
     private void OnEnable()
     {
         player = FindObjectOfType<Player>();
-        foreach(var image in images) { }
+        foreach(var image in images) { } // Initialize Here
     }
     void FixedUpdate()
     {
@@ -264,9 +264,10 @@ public class Pinata : MonoBehaviour
         }
     }
 
-    public async static void TakeDamage(int damage)
+    public async void TakeDamage()
     {
-        _health -= damage;
+        double damage = Instance.Player.getAttackDamage();
+        health -= damage;
         if (damage > _health)
         {
             images[Current].SetActive(false);
@@ -280,8 +281,6 @@ public class Pinata : MonoBehaviour
         AudioManager.PlaySound("pop");
         GameAssets.Instance.PinataShake.Play("pinataShake");
         await Task.Delay((int)GameAssets.Instance.PinataShake.GetCurrentAnimatorStateInfo(0).length * 999);
-        
-
     }
     private void Die()
     {

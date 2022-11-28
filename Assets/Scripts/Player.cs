@@ -309,7 +309,7 @@ public class Player : MonoBehaviour
     }
     void damagePinata()
     {
-        if(trickOrTreatChance > 0 && UnityEngine.Random.Range(0,10000) <= trickOrTreatChance)
+        if(trickOrTreatChance > 0 && CreateRandomChance.Gamble(trickOrTreatChance,10000))
         {
             totAnimation.Play("totAnimation");
             int added = UnityEngine.Random.Range((-1 * (trickOrTreat + 1)), trickOrTreat);
@@ -320,7 +320,7 @@ public class Player : MonoBehaviour
             PopUpMessage.StartPopUpMessageCandy(added,canvas);
             AudioManager.PlaySound("pop");
         }
-        if(coinChance > 0 && UnityEngine.Random.Range(0,10000) <= coinChance)
+        if(coinChance > 0 && CreateRandomChance.Gamble(coinChance,10000))
         {
             coinAnimation.Play("coinDrop");
             //playsound
@@ -1184,7 +1184,15 @@ public class Player : MonoBehaviour
     public int getTreasureCount() { return treasureCount; }
     public int getBossLevel() { return this.bossLevel; }
 
+    public void HitPinata()
+    {
+        if (timerforattack > 1.0 / attackSpeed)
+            return;
 
+        Instance.PinataObject.TakeDamage();
+        timerforattack = 0;
+        balance += Pinata.getLootPerClick();
+    }
     public IEnumerator PinataPopp()
     {
         balance += Pinata.getLoot();

@@ -12,7 +12,7 @@ public class Instance : MonoBehaviour
         {
             if (pinataObject == null && FindObjectOfType<Pinata>() != null)
             {
-                pinataObject = FindObjectOfType<Pinata>();
+                pinataObject = FindObjectOfType<Pinata>(true);
             }
             if (pinataObject != null)
                 return pinataObject;
