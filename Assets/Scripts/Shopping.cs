@@ -18,7 +18,6 @@ public class Shopping : MonoBehaviour
     [SerializeField] private int looting;
     [SerializeField] private float attackRange;
     [SerializeField] Player Player;
-    [SerializeField] GameObject _candyError;
     [SerializeField] GameObject currentLevel;
     [SerializeField] private int tempEPA;
     private int tempLooting;
@@ -35,8 +34,6 @@ public class Shopping : MonoBehaviour
     private bool[] inventoryScenes = new bool[25]; // locationx replaced by inventoryScenes on db
     int[] levels = new int[25];
     int[] Perks = new int[3];
-    bool error;
-    float x;
     string s;
     private int id;
     public bool koalaCondition;
@@ -52,17 +49,12 @@ public class Shopping : MonoBehaviour
         foreach (var p in petSkins) { p.SetActive(false); }
         hasTool = false;
         for(int i = 0; i < equipped.Length; i++) { equipped[i] = false; levels[i] = 0; inventoryScenes[i] = false; }
-        _candyError.SetActive(false);
+        GameAssets.Instance.CandyError.SetActive(false);
         inventoryScenes[0] = true;
     }
     public void FixedUpdate()
     {
         for (int i = 0; i < youHaves.Length; i++) { if (youHaves[i] == null) { break; } youHaves[i].SetActive(Player.getInventoryPinata()[i]); }
-        if (error)
-        {
-            x += Time.deltaTime;
-            if (x > 3f) { _candyError.SetActive(false); x = 0f; error = false; }
-        }
         UpdateForPets();
         currentLevel.SetActive(ImageScript.isPets);
         if (ImageScript.isPets)
@@ -129,7 +121,7 @@ public class Shopping : MonoBehaviour
     }
     public void buysceneID1() 
     {
-        if(Player.getBalance() < 5000 && !inventoryScenes[1]) { _candyError.SetActive(true); error = true; }
+        if(Player.getBalance() < 5000 && !inventoryScenes[1]) { StartCoroutine(CandyError()); }
         else if (!inventoryScenes[1])
         {
             Player.withdraw(5000);
@@ -147,7 +139,7 @@ public class Shopping : MonoBehaviour
     }
     public void buysceneID2()
     {
-        if (Player.getBalance() < 5000 && !inventoryScenes[2]) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 5000 && !inventoryScenes[2]) { StartCoroutine(CandyError()); }
         else if (!inventoryScenes[2])
         {
             Player.withdraw(5000);
@@ -165,7 +157,7 @@ public class Shopping : MonoBehaviour
     }
     public void buysceneID3()
     {
-        if (Player.getBalance() < 5000 && !inventoryScenes[3]) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 5000 && !inventoryScenes[3]) { StartCoroutine(CandyError()); }
         else if (!inventoryScenes[3])
         {
             Player.withdraw(5000);
@@ -183,7 +175,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID0()
     {
-        if (Player.getBalance() < 90) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 90) { StartCoroutine(CandyError()); }
         else
         {
             AudioManager.PlaySound("bought");
@@ -201,7 +193,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID1()
     {
-        if (Player.getBalance() < 110) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 110) { StartCoroutine(CandyError()); }
         else
         {
             id = 1;
@@ -219,7 +211,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID2()
     {
-        if(Player.getBalance() < 275) { _candyError.SetActive(true); error = true; }
+        if(Player.getBalance() < 275) { StartCoroutine(CandyError()); }
         else
         {
             id = 2;
@@ -238,7 +230,7 @@ public class Shopping : MonoBehaviour
 
     public void buytoolID3()
     {
-        if(Player.getBalance() < 450) { _candyError.SetActive(true); error = true; }
+        if(Player.getBalance() < 450) { StartCoroutine(CandyError()); }
         else
         {
             id = 3;
@@ -256,7 +248,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID4()
     {
-        if (Player.getBalance() < 525) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 525) { StartCoroutine(CandyError()); }
         else
         {
             id = 4;
@@ -274,7 +266,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID5()
     {
-        if (Player.getBalance() < 1000) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 1000) { StartCoroutine(CandyError()); }
         else
         {
             id = 5;
@@ -292,7 +284,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID6()
     {
-        if (Player.getBalance() < 1100) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 1100) { GameAssets.Instance.CandyError.SetActive(true); }
         else
         {
             id = 6;
@@ -310,7 +302,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID7()
     {
-        if (Player.getBalance() < 1200) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 1200) { GameAssets.Instance.CandyError.SetActive(true); }
         else
         {
             id = 7;
@@ -328,7 +320,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID8()
     {
-        if (Player.getBalance() < 1550) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 1550) { StartCoroutine(CandyError()); }
         else
         {
             id = 8;
@@ -346,7 +338,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID9()
     {
-        if (Player.getBalance() < 1800) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 1800) { StartCoroutine(CandyError()); }
         else
         {
             id = 9;
@@ -364,7 +356,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID10()
     {
-        if (Player.getBalance() < 2025) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 2025) { StartCoroutine(CandyError()); }
         else
         {
             id = 10;
@@ -382,7 +374,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID11()
     {
-        if (Player.getBalance() < 2450) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 2450) { StartCoroutine(CandyError()); }
         else
         {
             id = 11;
@@ -400,7 +392,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID12()
     {
-        if (Player.getBalance() < 2700) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 2700) { StartCoroutine(CandyError()); }
         else
         {
             id = 12;
@@ -418,7 +410,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID13()
     {
-        if (Player.getBalance() < 3000) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 3000) { StartCoroutine(CandyError()); }
         else
         {
             id = 13;
@@ -436,7 +428,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID14()
     {
-        if (Player.getBalance() < 3200) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 3200) { StartCoroutine(CandyError()); }
         else
         {
             id = 14;
@@ -454,7 +446,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID15()
     {
-        if (Player.getBalance() < 3500) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 3500) { StartCoroutine(CandyError()); }
         else
         {
             id = 15;
@@ -496,7 +488,7 @@ public class Shopping : MonoBehaviour
     public void buypinataID0()
     {
 
-        if (Player.getBalance() < 700 && !(Player.getInventoryPinata()[0])) { _candyError?.SetActive(true); error = true; }
+        if (Player.getBalance() < 700 && !(Player.getInventoryPinata()[0])) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPinata()[0]) {
@@ -529,7 +521,7 @@ public class Shopping : MonoBehaviour
     }
     public void buypinataID1()
     {
-        if (Player.getBalance() < 500 && !(Player.getInventoryPinata()[1])) { _candyError?.SetActive(true); error = true; }
+        if (Player.getBalance() < 500 && !(Player.getInventoryPinata()[1])) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPinata()[1])
@@ -563,7 +555,7 @@ public class Shopping : MonoBehaviour
     }
     public void buypinataID2()
     {
-        if (Player.getBalance() < 1500 && !(Player.getInventoryPinata()[2])) { _candyError?.SetActive(true); error = true; }
+        if (Player.getBalance() < 1500 && !(Player.getInventoryPinata()[2])) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPinata()[2])
@@ -597,7 +589,7 @@ public class Shopping : MonoBehaviour
     }
     public void buypinataID3()
     {
-        if (Player.getBalance() < 2200 && !(Player.getInventoryPinata()[3])) { _candyError?.SetActive(true); error = true; }
+        if (Player.getBalance() < 2200 && !(Player.getInventoryPinata()[3])) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPinata()[3])
@@ -631,7 +623,7 @@ public class Shopping : MonoBehaviour
     }
     public void buypinataID4()
     {
-        if (Player.getBalance() < 3000 && !(Player.getInventoryPinata()[4])) { _candyError?.SetActive(true); error = true; }
+        if (Player.getBalance() < 3000 && !(Player.getInventoryPinata()[4])) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPinata()[4])
@@ -663,7 +655,7 @@ public class Shopping : MonoBehaviour
     }
     public void buypinataID5()
     {
-        if (Player.getBalance() < 3600 && !(Player.getInventoryPinata()[5])) { _candyError?.SetActive(true); error = true; }
+        if (Player.getBalance() < 3600 && !(Player.getInventoryPinata()[5])) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPinata()[5])
@@ -695,7 +687,7 @@ public class Shopping : MonoBehaviour
     }
     public void buypetID0()
     {
-        if(Player.getBalance() < 675 && !Player.getInventoryPet()[0]) { _candyError.SetActive(true); error = true; }
+        if(Player.getBalance() < 675 && !Player.getInventoryPet()[0]) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPet()[0])
@@ -722,7 +714,7 @@ public class Shopping : MonoBehaviour
     }
     public void buypetID1() 
     {
-        if(Player.getBalance() < 1050 && !Player.getInventoryPet()[1]) { _candyError.SetActive(true); error = true; }
+        if(Player.getBalance() < 1050 && !Player.getInventoryPet()[1]) { StartCoroutine(CandyError()); }
         else { if (!Player.getInventoryPet()[1])
             {
                 Player.withdraw(1050);
@@ -747,7 +739,7 @@ public class Shopping : MonoBehaviour
     }
     public void buyPetID2()
     {
-        if (Player.getBalance() < 900 && !Player.getInventoryPet()[2]) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 900 && !Player.getInventoryPet()[2]) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPet()[2])
@@ -772,7 +764,7 @@ public class Shopping : MonoBehaviour
     }
     public void buyPetID3()
     {
-        if (Player.getBalance() < 850 && !Player.getInventoryPet()[3]) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 850 && !Player.getInventoryPet()[3]) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPet()[3])
@@ -798,7 +790,7 @@ public class Shopping : MonoBehaviour
     }
     public void buyPetID4()
     {
-        if (Player.getBalance() < 2000 && !Player.getInventoryPet()[4]) { _candyError.SetActive(true); error = true; }
+        if (Player.getBalance() < 2000 && !Player.getInventoryPet()[4]) { StartCoroutine(CandyError()); }
         else
         {
             if (!Player.getInventoryPet()[4])
@@ -826,7 +818,7 @@ public class Shopping : MonoBehaviour
         if (Player.getInventoryPet()[0]) {
             if (levels[0] == 1)
             {
-                if (Player.getBalance() < 675) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 675) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(675);
@@ -839,7 +831,7 @@ public class Shopping : MonoBehaviour
             }
             else if(levels[0] == 2) 
             {
-                if (Player.getBalance() < 675) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 675) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(675);
@@ -852,7 +844,7 @@ public class Shopping : MonoBehaviour
             }
            else if(levels[0] == 3)
             {
-                if (Player.getBalance() < 675) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 675) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(675);
@@ -866,7 +858,7 @@ public class Shopping : MonoBehaviour
             else if (levels[0] == 4) 
             
             {
-                if (Player.getBalance() < 675) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 675) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(675);
@@ -893,7 +885,7 @@ public class Shopping : MonoBehaviour
         {
             if (levels[1] == 1)
             {
-                if (Player.getBalance() < 1050) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 1050) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(1050);
@@ -906,7 +898,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[1] == 2)
             {
-                if (Player.getBalance() < 1050) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 1050) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -920,7 +912,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[1] == 3)
             {
-                if (Player.getBalance() < 1050) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 1050) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(1050);
@@ -934,7 +926,7 @@ public class Shopping : MonoBehaviour
             else if (levels[1] == 4)
 
             {
-                if (Player.getBalance() < 1050) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 1050) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -962,7 +954,7 @@ public class Shopping : MonoBehaviour
         {
             if (levels[2] == 1)
             {
-                if (Player.getBalance() < 900) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 900) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(900);
@@ -975,7 +967,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[2] == 2)
             {
-                if (Player.getBalance() < 900) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 900) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -989,7 +981,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[2] == 3)
             {
-                if (Player.getBalance() < 900) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 900) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(900);
@@ -1003,7 +995,7 @@ public class Shopping : MonoBehaviour
             else if (levels[2] == 4)
 
             {
-                if (Player.getBalance() < 900) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 900) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -1030,7 +1022,7 @@ public class Shopping : MonoBehaviour
         {
             if (levels[3] == 1)
             {
-                if (Player.getBalance() < 850) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 850) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(850);
@@ -1043,7 +1035,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[3] == 2)
             {
-                if (Player.getBalance() < 850) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 850) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -1057,7 +1049,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[3] == 3)
             {
-                if (Player.getBalance() < 850) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 850) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(850);
@@ -1071,7 +1063,7 @@ public class Shopping : MonoBehaviour
             else if (levels[3] == 4)
 
             {
-                if (Player.getBalance() < 850) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 850) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -1098,7 +1090,7 @@ public class Shopping : MonoBehaviour
         {
             if (levels[4] == 1)
             {
-                if (Player.getBalance() < 2000) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 2000) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(2000);
@@ -1111,7 +1103,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[4] == 2)
             {
-                if (Player.getBalance() < 2000) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 2000) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -1125,7 +1117,7 @@ public class Shopping : MonoBehaviour
             }
             else if (levels[4] == 3)
             {
-                if (Player.getBalance() < 2000) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 2000) { StartCoroutine(CandyError()); }
                 else
                 {
                     Player.withdraw(2000);
@@ -1139,7 +1131,7 @@ public class Shopping : MonoBehaviour
             else if (levels[4] == 4)
 
             {
-                if (Player.getBalance() < 2000) { _candyError.SetActive(true); error = true; }
+                if (Player.getBalance() < 2000) { StartCoroutine(CandyError()); }
 
                 else
                 {
@@ -1562,5 +1554,15 @@ public class Shopping : MonoBehaviour
     public void setInventoryScenes(bool[] s)
     {
         inventoryScenes = s;
+    }
+    
+    private IEnumerator CandyError()
+    {
+        if (GameAssets.Instance.CandyError.activeInHierarchy)
+            yield return new WaitForSeconds(0);
+
+        GameAssets.Instance.CandyError.SetActive(true);
+        yield return new WaitForSeconds(3);
+        GameAssets.Instance.CandyError.SetActive(false);
     }
 }

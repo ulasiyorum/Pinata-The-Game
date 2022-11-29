@@ -22,11 +22,14 @@ public class GameAssets : MonoBehaviour
     [SerializeField] Animator pinataShake;
     [SerializeField] Animator playerHit;
     [SerializeField] Animator secretTreasure;
+    [SerializeField] GameObject candyError;
 
     public Animator PinataDied { get => pinataDied; private set => pinataDied = value; }
     public Animator PinataShake { get => pinataShake; private set => pinataShake = value; }
     public Sprite[] PinataImages { get; private set; } 
     public Animator PlayerHit { get => playerHit; private set => playerHit = value; }
     public Animator SecretTreasure { get => secretTreasure; private set => secretTreasure = value; }
+    public GameObject CandyError { get => candyError; }
+
 
 }

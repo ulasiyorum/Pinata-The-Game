@@ -226,33 +226,6 @@ public class Player : MonoBehaviour
         if (attackPoint == null) { return; }
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
-    void respawnPinata()
-    {
-        if (respawntimer <= Pinata.getRespawnTime() + 4)
-        {
-            respawntimer += CustomTime.deltaTime;
-        }
-        if (respawntimer > Pinata.getRespawnTime() && isDead)
-        {
-
-            newPinata.transform.position = pinataPoint;
-                _pinata = newPinata;
-                newPinata = (GameObject)Instantiate(_pinata, parent, true);
-                newPinata.transform.position = respawnPoint.transform.position;
-                _pinata.GetComponent<Pinata>().getImages()[Pinata._this].SetActive(true);
-                _pinata.SetActive(true);
-                enemyHealth = Pinata.getHealth();
-                isDead = false;
-            
-        }
-        else if(respawntimer < Pinata.getRespawnTime() && !isDead)
-        {
-            enemyHealth = 0;
-            _pinata.GetComponent<Pinata>().getImages()[Pinata._this].SetActive(false);
-            Destroy(_pinata);
-            isDead = true;
-        }
-    }
     public double getBalance()
     {
         return balance;
@@ -692,10 +665,6 @@ public class Player : MonoBehaviour
         return this.loans;
     }
 
-    IEnumerator cd(float sec)
-    {
-        yield return new WaitForSeconds(sec);
-    }
     public int getToolID() { return toolID; }
     public void rTimer(float time) {
 
@@ -711,14 +680,10 @@ public class Player : MonoBehaviour
         }
 
     }
-    public void rTimer()
-    {
-        respawntimer += 30;
-    }
+
     public void setToolID(int id) { toolID = id; }
     public double getCoins() { return coins; }
     public void addToCoins(double amount) { coins += amount; }
-    public void removeFromCoins(double amount) { coins -= amount; } 
     public void setEnemyHealth(double health) { enemyHealth = health; }
     public bool[] getTreeBonus() { return treeBonus; }
     public void PurchaseSkill(string skill, int level)
@@ -941,6 +906,7 @@ public class Player : MonoBehaviour
     {
         if (timerforattack < 1.0 / attackSpeed)
             return;
+
         int energyConsume = DetermineEnergyConsume();
 
         if (energyConsume > energy)
@@ -968,12 +934,14 @@ public class Player : MonoBehaviour
     }
     public IEnumerator PinataPopp()
     {
+        isDead = true;
         int add = DetermineLoot();
         balance += add;
         networth += add;
         PopUpMessage.StartPopUpMessageCandy(add, Instance.GetCanvas);
         yield return new WaitForSeconds(Instance.PinataObject.RespawnTime);
         Instance.PinataObject.Respawn();
+        isDead = false;
     }
     private bool IsInRage()
     {
@@ -1076,6 +1044,7 @@ public class Player : MonoBehaviour
             PopUpMessage.StartPopUpMessageCandy(added, Instance.GetCanvas);
             AudioManager.PlaySound("pop");
         }
+
         if (coinChance > 0 && CreateRandomChance.Gamble(coinChance, 10000))
         {
             coinAnimation.Play("coinDrop");
