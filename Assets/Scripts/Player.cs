@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     float errorTimer;
     private Player player;
     [SerializeField] LoanScript loans;
-    [SerializeField] private float timerforattack;
+    private float timerforattack;
     private double networth;
     private float timer = 0f;
     private float respawntimer = 0f;
@@ -194,9 +194,6 @@ public class Player : MonoBehaviour
         
         if(openShop) { attackButton.SetActive(false); refillButton.SetActive(false); }
         else { attackButton.SetActive(true); refillButton.SetActive(true);  }
-        refillEnergy();
-        attackPinata();
-        respawnPinata();
 
         if (loggedIn) { saveTime += Time.deltaTime; }
         if (saveTime > 35f) {
@@ -216,257 +213,13 @@ public class Player : MonoBehaviour
         timerRefilled = 0;
     }
 
-    void refillEnergy()
-    {
-        if (energy < 0)
-        {
-            energy = 0;
-        }
-        if (energy >= maxEnergy) { energy = maxEnergy; }
-        else
-        {
-            if (timer < energyTimer + 1 && energy <= maxEnergy)
-                timer += CustomTime.deltaTime;
-            if (timer > energyTimer && energy <= maxEnergy)
-            {
-                energy += 1 + UnityEngine.Random.Range(0,energyAttribute);
-                timer -= 10;
-            }
-        }
-    }
+    
 
     public int getLootingCap() { return lootingCap; }
-    void attackPinata()
-    {
-        if(timerforattack <= 1.0 / attackSpeed)
-        {
-            timerforattack += Time.deltaTime;
-        }
-        else {
-            if (attacking && !openShop)
-            {
-                if (energy < EPA && !shop.equipped[2] && !shop.equipped[3])
-                {
-                    print("Not Enough Energy");
-                }
-                else if (((shop.equipped[2] || shop.equipped[3]) && energy >= shop.getTempEPA()))
-                {
-                    if ((shop.hasTool && toolDurability > 0) || !shop.hasTool)
-                    {
-                        attacking = false;
-                        damagePinata();
-                        if (!shop.equipped[2] && !shop.equipped[3])
-                        {
-                            if (!skill2Active) { energy -= EPA; }
-                        }
-                        else
-                        {
-                            if (!skill2Active) { energy -= shop.getTempEPA(); }
-                        }
-
-                        playerHit.Play("playerAttack", 0);
-                        AudioManager.PlaySound("woosh");
-
-
-                    }
-                }
-                else if (((shop.equipped[2]) && energy < shop.getTempEPA()))
-                {
-                    print("Not Enough Energy");
-                }
-                else if (((shop.equipped[3]) && energy < shop.getTempEPA()))
-                {
-                    print("Not Enough Energy");
-                }
-                else
-                {
-                    if ((shop.hasTool && toolDurability > 0) || !shop.hasTool)
-                    {
-                        attacking = false;
-                        damagePinata();
-                        if (!shop.equipped[2])
-                        {
-                            if (!skill2Active) { energy -= EPA; }
-                        }
-                        else
-                        {
-                            if (!skill2Active) { energy -= shop.getTempEPA(); }
-                        }
-                        
-                        playerHit.Play("playerAttack",0);
-                        AudioManager.PlaySound("woosh");
-
-
-                    }
-                }
-                timerforattack = 0f;
-            }
-        }
-    }
+    
     public int getPopped()
     {
         return this.popped;
-    }
-    void damagePinata()
-    {
-        if(trickOrTreatChance > 0 && CreateRandomChance.Gamble(trickOrTreatChance,10000))
-        {
-            totAnimation.Play("totAnimation");
-            int added = UnityEngine.Random.Range((-1 * (trickOrTreat + 1)), trickOrTreat);
-            balance += added;
-            networth += added;
-            totCount++;
-            trickOrTreat = 40 + (int)(4 * (Math.Log(0.00000000217 * (Math.Pow(totCount,15)))));
-            PopUpMessage.StartPopUpMessageCandy(added,Instance.GetCanvas);
-            AudioManager.PlaySound("pop");
-        }
-        if(coinChance > 0 && CreateRandomChance.Gamble(coinChance,10000))
-        {
-            coinAnimation.Play("coinDrop");
-            //playsound
-            coins++;
-        }
-        int random = UnityEngine.Random.Range(0,6);
-            if(_pinata == null) { return; }
-        if (Vector2.Distance(_pinata.transform.position, attackPoint.position) < attackRange + 1.6f)
-        {
-            if (shop.equipped[1] || shop.equipped[4]) { enemyHealth -= shop.getTemporaryAttackDamage(); }
-            else
-            {
-                enemyHealth -= attackDamage;
-                if (shop.equipped[0] && wrapShot < 3) { wrapShot++; }
-                else if (shop.equipped[0] && wrapShot == 3)
-                {
-                    wrapShot = 0; addToBalance(); if (looting > 3) { addToBalance(); }
-                    if (looting > 6) { addToBalance(); }
-                    if (looting > 9) { addToBalance(); }
-                }
-                if (!shop.equipped[2] && !shop.equipped[3])
-                {
-                    balance += (makeitworth * EPA) / 20;
-                    networth += (makeitworth * EPA) / 20;
-                    PopUpMessage.StartPopUpMessageCandy((makeitworth*EPA/20), Instance.GetCanvas);
-                }
-                
-                else
-                {
-                    balance += (makeitworth * shop.getTempEPA()) / 20;
-                    networth += (makeitworth * shop.getTempEPA()) / 20;
-                    PopUpMessage.StartPopUpMessageCandy((makeitworth * shop.getTempEPA() / 20), Instance.GetCanvas);
-                }
-            }
-                String s = "CandyHit" + (int)UnityEngine.Random.Range(0,4);
-            Debug.Log(s);
-                pinataDied.Play(s);
-            AudioManager.PlaySound("hit");
-            pinataShake.Play("pinataShake");
-            if(shop.hasTool && shop.equipped[4] && shop.getJackpot()) { balance -= shop.getPerks()[2]; }
-            else if (shop.hasTool) { toolDurability--; if (shop.equipped[2] && !godOfBugs) { toolDurability--; }
-                if (toolDurability <= 0) { toolDurability = 0; shop.hasTool = false; toolBroken(); } }
-            if (shop.equipped[2])
-            {
-                if (cloverChance > 0 && cloverChance >= random)
-                {
-                    int inclusive = newPinata.GetComponent<Pinata>().getLootRange0()
-                          + ((cloverChance * newPinata.GetComponent<Pinata>().getLootRange1()) / 16);
-                    if(inclusive > newPinata.GetComponent<Pinata>().getLootRange1())
-                    {
-                        inclusive = newPinata.GetComponent<Pinata>().getLootRange1();
-                    }
-                  int cloverLoot = (int)UnityEngine.Random.Range(inclusive, newPinata.GetComponent<Pinata>().getLootRange1() + 1);
-                    networth += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
-                    balance += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
-                    PopUpMessage.StartPopUpMessageCandy((int)(cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency)), Instance.GetCanvas);
-                }
-                else 
-                { 
-                networth += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * shop.getTempLooting()) / 5) * lootEfficiency);
-                balance += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * shop.getTempLooting()) / 5) * lootEfficiency);
-                PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * shop.getTempLooting()) / 5) * lootEfficiency)) , Instance.GetCanvas);
-                }
-            }
-            else
-            {
-                if (cloverChance > 0 && cloverChance >= random)
-                {
-                    int inclusive = newPinata.GetComponent<Pinata>().getLootRange0()
-                          + ((cloverChance * newPinata.GetComponent<Pinata>().getLootRange1()) / 16);
-                    if (inclusive > newPinata.GetComponent<Pinata>().getLootRange1())
-                    {
-                        inclusive = newPinata.GetComponent<Pinata>().getLootRange1();
-                    }
-                    int cloverLoot = (int)UnityEngine.Random.Range(inclusive, newPinata.GetComponent<Pinata>().getLootRange1() + 1);
-                    networth += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
-                    balance += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
-                    PopUpMessage.StartPopUpMessageCandy((int)(cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency)),Instance.GetCanvas);
-                }
-                else
-                {
-                    networth += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * looting) / 5) * lootEfficiency);
-                    balance += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * looting) / 5) * lootEfficiency);
-                    PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * looting) / 5) * lootEfficiency)), Instance.GetCanvas);
-                }
-                
-            }
-                if (shop.getJackpot() && shop.equipped[2] && !godOfBugs) { balance += 100; st.Play("SecretTreasure");
-                PopUpMessage.StartPopUpMessageCandy(100, Instance.GetCanvas);
-                }
-                else if(shop.getJackpot() && shop.equipped[2] && godOfBugs) 
-                {
-                st.Play("SecretTreasure");
-                int added = 100 + (int)(4 * (Math.Log(0.00000000217 * (Math.Pow(treasureCount, 15)))));
-                balance += added;
-                networth += added;
-                PopUpMessage.StartPopUpMessageCandy(added, Instance.GetCanvas);
-                treasureCount++;
-                }
-            
-        }
-
-        if (enemyHealth <= 0)
-        {
-            if (rheagod && shop.equipped[1])
-            {
-                popTimer = 0;
-                if (looting < lootingCap)
-                {
-                    popped++;
-                    looting++;
-                }
-            }
-            respawntimer = 0f;
-            enemyHealth = 0;
-            AudioManager.PlaySound("pop");
-            pinataDied.Play("CandyDrop");
-            Destroy(_pinata);
-            _pinata.GetComponent<Pinata>().getImages()[Pinata._this].SetActive(false);
-            isDead = true;
-            if (shop.equipped[2])
-            {
-                networth += (Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10)) * lootEfficiency);
-                balance += (Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10)) * lootEfficiency);
-                PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10)) * lootEfficiency) , Instance.GetCanvas);
-            }
-            else if ((shop.equipped[4] || (shop.equipped[1] && rheagod && inventoryPet[4] && shop.getLevels()[4] == 5)) && shop.getTemporaryAttackDamage() >= newPinata.GetComponent<Pinata>().getHealth2())
-            {
-                networth += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + ((Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10) * lootEfficiency)) * (shop.getPerks()[1]/100));
-                balance += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + ((Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10) * lootEfficiency)) * (shop.getPerks()[1] / 100));
-                PopUpMessage.StartPopUpMessageCandy((int)((Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + ((Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10) * lootEfficiency)) * (shop.getPerks()[1] / 100))), Instance.GetCanvas);
-            }
-            else
-            {
-                networth += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + Pinata.getLootFromPerk();
-                balance += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + Pinata.getLootFromPerk();
-                PopUpMessage.StartPopUpMessageCandy((int)((Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + Pinata.getLootFromPerk()), Instance.GetCanvas);
-            }
-
-            if (loggedIn)
-            {
-                main.GetComponent<PlayfabManager>().Save();
-                saveTime = 0f;
-                Debug.Log("Game Saved");
-            }
-        }
     }
     void OnDrawGizmosSelected()
     {
@@ -1188,6 +941,10 @@ public class Player : MonoBehaviour
     {
         if (timerforattack < 1.0 / attackSpeed)
             return;
+        int energyConsume = DetermineEnergyConsume();
+
+        if (energyConsume > energy)
+            return;
 
         GameAssets.Instance.PlayerHit.Play("playerHit");
 
@@ -1198,22 +955,23 @@ public class Player : MonoBehaviour
 
         Instance.PinataObject.TakeDamage();
         timerforattack = 0;
+
+        energy -= energyConsume;
+
         int add = DetermineLootPerHit();
         balance += add;
         networth += add;
+        PopUpMessage.StartPopUpMessageCandy(add, Instance.GetCanvas);
 
-        int i = looting == 10 ? 1 : 0;
-        if (shop.equipped[2] && CreateRandomChance.Gamble(shop.getLevels()[2] + i, 100))
-        {
-            balance += 100; // assign variable for s.treasure amount
-            GameAssets.Instance.SecretTreasure.Play("secretTreasure");
-        }
+
+        UsingSkillsOnHit();
     }
     public IEnumerator PinataPopp()
     {
         int add = DetermineLoot();
         balance += add;
         networth += add;
+        PopUpMessage.StartPopUpMessageCandy(add, Instance.GetCanvas);
         yield return new WaitForSeconds(Instance.PinataObject.RespawnTime);
         Instance.PinataObject.Respawn();
     }
@@ -1269,6 +1027,64 @@ public class Player : MonoBehaviour
         }
         toolDurability--;
         return add;
+    }
+    private int DetermineEnergyConsume()
+    {
+        int energyConsume;
+        if (Instance.Shop.equipped[2])
+            energyConsume = EPA / 2;
+        else if (Instance.Shop.equipped[3])
+        {
+            energyConsume = EPA - (int)(shop.getPerks()[2] * (extraAttackSpeed + attackSpeed));
+            energyConsume = energyConsume < 3 ? 3 : energyConsume;
+        }
+        else
+            return EPA;
+
+
+        return energyConsume;
+    }
+
+
+    private void UsingSkillsOnHit()
+    {
+        if (makeitworth > 0)
+        {
+            balance += (makeitworth * EPA) / 20;
+            networth += (makeitworth * EPA) / 20;
+            PopUpMessage.StartPopUpMessageCandy((makeitworth * EPA / 20), Instance.GetCanvas);
+        }
+
+        int i = looting == 10 ? 1 : 0;
+        if (shop.equipped[2] && CreateRandomChance.Gamble(shop.getLevels()[2] + i, 100))
+        {
+            balance += 100 + (4 * Math.Log(0.00000000217 * Math.Pow(treasureCount, 15))); 
+            if (godOfBugs)
+                treasureCount++;
+            PopUpMessage.StartPopUpMessageCandy(100, Instance.GetCanvas);
+            GameAssets.Instance.SecretTreasure.Play("secretTreasure");
+        }
+
+        if (trickOrTreatChance > 0 && CreateRandomChance.Gamble(trickOrTreatChance, 10000))
+        {
+            totAnimation.Play("totAnimation");
+            int added = UnityEngine.Random.Range((-1 * (trickOrTreat + 1)), trickOrTreat);
+            balance += added;
+            networth += added;
+            totCount++;
+            trickOrTreat = 40 + (int)(4 * Math.Log(0.00000000217 * Math.Pow(totCount, 15)));
+            PopUpMessage.StartPopUpMessageCandy(added, Instance.GetCanvas);
+            AudioManager.PlaySound("pop");
+        }
+        if (coinChance > 0 && CreateRandomChance.Gamble(coinChance, 10000))
+        {
+            coinAnimation.Play("coinDrop");
+            //playsound
+            coins++;
+        }
+
+
+        //  Clover chance is determined where Loot Per Click is determined
     }
 
 }

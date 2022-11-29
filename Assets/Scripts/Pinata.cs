@@ -48,14 +48,11 @@ public class Pinata : MonoBehaviour
     void FixedUpdate()
     {
         if(_this == 0) { _tempRespawnTime = 15; }
-        if (player.getShop().equipped[1]) {
-            _lootPerClick = 0; }
-        else if (player.getShop().equipped[3] && player.getShop().koalaCondition)
-        {
-            _lootPerClick = (int)UnityEngine.Random.Range(_lootRange0+1, _lootRange1+1);
-        }
-        else 
-         { _lootPerClick = (int)UnityEngine.Random.Range(_lootRange0, _lootRange1); }
+
+        if (CreateRandomChance.Gamble(Instance.Player.getCloverChance(), 6))
+            _lootPerClick = _lootRange1;
+        else
+            _lootPerClick = UnityEngine.Random.Range(_lootRange0, _lootRange1);
         PinataImage();
     }
 
@@ -267,8 +264,7 @@ public class Pinata : MonoBehaviour
     public void TakeDamage()
     {
         double damage = Instance.Player.getAttackDamage();
-        health -= damage;
-        if (damage > health)
+        if (damage >= health)
         {
             images[Current].SetActive(false);
             health = 0;
@@ -276,6 +272,7 @@ public class Pinata : MonoBehaviour
             Instance.PinataObject.Die();
             return;
         }
+        health -= damage;
         AudioManager.PlaySound("pop");
         GameAssets.Instance.PinataShake.Play("pinataShake");
     }

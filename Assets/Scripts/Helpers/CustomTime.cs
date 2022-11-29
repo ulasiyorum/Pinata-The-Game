@@ -6,6 +6,7 @@ using UnityEngine;
 public class CustomTime : MonoBehaviour
 {
     public static float deltaTime;
+    public static float gameTime;
     private static System.DateTime timeThen;
     private static System.DateTime timeNow;
 
@@ -27,6 +28,6 @@ public class CustomTime : MonoBehaviour
         TimeSpan interval = timeThen - timeNow;
         timeThen = System.DateTime.Now;
         deltaTime = (float)interval.TotalSeconds;
-    
+        gameTime += deltaTime;
     }
 }
