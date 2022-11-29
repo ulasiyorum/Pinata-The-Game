@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
 {
     [SerializeField] Text errorText;
     float errorTimer;
-    [SerializeField] Canvas canvas;
     private Player player;
     [SerializeField] LoanScript loans;
     [SerializeField] private float timerforattack;
@@ -318,7 +317,7 @@ public class Player : MonoBehaviour
             networth += added;
             totCount++;
             trickOrTreat = 40 + (int)(4 * (Math.Log(0.00000000217 * (Math.Pow(totCount,15)))));
-            PopUpMessage.StartPopUpMessageCandy(added,canvas);
+            PopUpMessage.StartPopUpMessageCandy(added,Instance.GetCanvas);
             AudioManager.PlaySound("pop");
         }
         if(coinChance > 0 && CreateRandomChance.Gamble(coinChance,10000))
@@ -346,14 +345,14 @@ public class Player : MonoBehaviour
                 {
                     balance += (makeitworth * EPA) / 20;
                     networth += (makeitworth * EPA) / 20;
-                    PopUpMessage.StartPopUpMessageCandy((makeitworth*EPA/20), canvas);
+                    PopUpMessage.StartPopUpMessageCandy((makeitworth*EPA/20), Instance.GetCanvas);
                 }
                 
                 else
                 {
                     balance += (makeitworth * shop.getTempEPA()) / 20;
                     networth += (makeitworth * shop.getTempEPA()) / 20;
-                    PopUpMessage.StartPopUpMessageCandy((makeitworth * shop.getTempEPA() / 20), canvas);
+                    PopUpMessage.StartPopUpMessageCandy((makeitworth * shop.getTempEPA() / 20), Instance.GetCanvas);
                 }
             }
                 String s = "CandyHit" + (int)UnityEngine.Random.Range(0,4);
@@ -377,13 +376,13 @@ public class Player : MonoBehaviour
                   int cloverLoot = (int)UnityEngine.Random.Range(inclusive, newPinata.GetComponent<Pinata>().getLootRange1() + 1);
                     networth += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
                     balance += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
-                    PopUpMessage.StartPopUpMessageCandy((int)(cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency)), canvas);
+                    PopUpMessage.StartPopUpMessageCandy((int)(cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency)), Instance.GetCanvas);
                 }
                 else 
                 { 
                 networth += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * shop.getTempLooting()) / 5) * lootEfficiency);
                 balance += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * shop.getTempLooting()) / 5) * lootEfficiency);
-                PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * shop.getTempLooting()) / 5) * lootEfficiency)) , canvas);
+                PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * shop.getTempLooting()) / 5) * lootEfficiency)) , Instance.GetCanvas);
                 }
             }
             else
@@ -399,18 +398,18 @@ public class Player : MonoBehaviour
                     int cloverLoot = (int)UnityEngine.Random.Range(inclusive, newPinata.GetComponent<Pinata>().getLootRange1() + 1);
                     networth += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
                     balance += cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency);
-                    PopUpMessage.StartPopUpMessageCandy((int)(cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency)),canvas);
+                    PopUpMessage.StartPopUpMessageCandy((int)(cloverLoot + (((cloverLoot * shop.getTempLooting()) / 5) * lootEfficiency)),Instance.GetCanvas);
                 }
                 else
                 {
                     networth += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * looting) / 5) * lootEfficiency);
                     balance += Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * looting) / 5) * lootEfficiency);
-                    PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * looting) / 5) * lootEfficiency)), canvas);
+                    PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLootPerClick() + (((Pinata.getLootPerClick() * looting) / 5) * lootEfficiency)), Instance.GetCanvas);
                 }
                 
             }
                 if (shop.getJackpot() && shop.equipped[2] && !godOfBugs) { balance += 100; st.Play("SecretTreasure");
-                PopUpMessage.StartPopUpMessageCandy(100, canvas);
+                PopUpMessage.StartPopUpMessageCandy(100, Instance.GetCanvas);
                 }
                 else if(shop.getJackpot() && shop.equipped[2] && godOfBugs) 
                 {
@@ -418,7 +417,7 @@ public class Player : MonoBehaviour
                 int added = 100 + (int)(4 * (Math.Log(0.00000000217 * (Math.Pow(treasureCount, 15)))));
                 balance += added;
                 networth += added;
-                PopUpMessage.StartPopUpMessageCandy(added, canvas);
+                PopUpMessage.StartPopUpMessageCandy(added, Instance.GetCanvas);
                 treasureCount++;
                 }
             
@@ -446,19 +445,19 @@ public class Player : MonoBehaviour
             {
                 networth += (Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10)) * lootEfficiency);
                 balance += (Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10)) * lootEfficiency);
-                PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10)) * lootEfficiency) , canvas);
+                PopUpMessage.StartPopUpMessageCandy((int)(Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10)) * lootEfficiency) , Instance.GetCanvas);
             }
             else if ((shop.equipped[4] || (shop.equipped[1] && rheagod && inventoryPet[4] && shop.getLevels()[4] == 5)) && shop.getTemporaryAttackDamage() >= newPinata.GetComponent<Pinata>().getHealth2())
             {
                 networth += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + ((Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10) * lootEfficiency)) * (shop.getPerks()[1]/100));
                 balance += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + ((Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10) * lootEfficiency)) * (shop.getPerks()[1] / 100));
-                PopUpMessage.StartPopUpMessageCandy((int)((Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + ((Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10) * lootEfficiency)) * (shop.getPerks()[1] / 100))), canvas);
+                PopUpMessage.StartPopUpMessageCandy((int)((Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + ((Pinata.getLoot() + (((Pinata.getLoot() * shop.getTempLooting()) / 10) * lootEfficiency)) * (shop.getPerks()[1] / 100))), Instance.GetCanvas);
             }
             else
             {
                 networth += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + Pinata.getLootFromPerk();
                 balance += (Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + Pinata.getLootFromPerk();
-                PopUpMessage.StartPopUpMessageCandy((int)((Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + Pinata.getLootFromPerk()), canvas);
+                PopUpMessage.StartPopUpMessageCandy((int)((Pinata.getLoot() + (((Pinata.getLoot() * looting) / 10)) * lootEfficiency) + Pinata.getLootFromPerk()), Instance.GetCanvas);
             }
 
             if (loggedIn)
@@ -725,7 +724,7 @@ public class Player : MonoBehaviour
         }
         else if (!isDead && _pinata == null)
         {
-            newPinata.transform.position = pinataPoint * canvas.scaleFactor;
+            newPinata.transform.position = pinataPoint * Instance.GetCanvas.scaleFactor;
             _pinata = newPinata;
             newPinata = (GameObject)Instantiate(_pinata, parent, true);
             newPinata.transform.position = respawnPoint.transform.position;
@@ -1225,7 +1224,7 @@ public class Player : MonoBehaviour
 
     private int DetermineLoot()
     {
-        int add = 0;
+        int add;
         if (Instance.Shop.equipped[1])
         {
             add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency);

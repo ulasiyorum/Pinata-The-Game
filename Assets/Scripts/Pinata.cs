@@ -268,11 +268,10 @@ public class Pinata : MonoBehaviour
     {
         double damage = Instance.Player.getAttackDamage();
         health -= damage;
-        if (damage > _health)
+        if (damage > health)
         {
             images[Current].SetActive(false);
-            _health = 0;
-            // Player.SomeMethod
+            health = 0;
             GameAssets.Instance.PinataDied.Play("CandyDrop");
             Instance.PinataObject.Die();
             return;

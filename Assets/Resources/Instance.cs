@@ -4,6 +4,27 @@ using UnityEngine;
 
 public class Instance : MonoBehaviour
 {
+    private static Canvas canvas;
+    public static Canvas GetCanvas
+    {
+        get
+        {
+            if(canvas == null)
+            {
+                var canvases = FindObjectsOfType<Canvas>();
+                foreach(Canvas c in canvases)
+                {
+                    if (c.name.ToLower() == "canvas")
+                    {
+                        canvas = c;
+                        break;
+                    }
+                }
+            }
+            return canvas;
+        }
+    }
+
     // There'll always be one pinata
     private static Pinata pinataObject;
     public static Pinata PinataObject
