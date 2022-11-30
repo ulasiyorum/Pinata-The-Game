@@ -33,7 +33,7 @@ public class Info : MonoBehaviour
         else { if (isPressed) { button.SetActive(true);  }  }
         UpdateStats();
 
-        if (Instance.Player.getToolDurability() < 25 && !isActive && Instance.Player.getShop().hasTool) { 
+        if (Instance.Player.PlayerTool.Durability < 25 && !isActive && Instance.Player.getShop().hasTool) { 
             if (!Instance.Player.openShop) { lowDurability.SetActive(true); } }
         else { lowDurability.SetActive(false); }
     }
@@ -89,13 +89,13 @@ public class Info : MonoBehaviour
         }
         else
         {
-            WholeText.text += Instance.Player.getAttackDamage();
+            WholeText.text += Instance.Player.AttackDamage;
         }
     }
 
     private void UpdateAttackSpeed()
     {
-        WholeText.text += "\n" + "Attack Speed: " + (Instance.Player.getAttackSpeed() + Instance.Player.getExtraAs());
+        WholeText.text += "\n" + "Attack Speed: " + (Instance.Player.AttackSpeed + Instance.Player.getExtraAs());
     }
 
     private void UpdateLooting()
@@ -108,7 +108,7 @@ public class Info : MonoBehaviour
         }
         else
         {
-            WholeText.text += Instance.Player.getLooting();
+            WholeText.text += Instance.Player.PlayerTool.Looting;
         }
     }
     private void UpdateMaxEnergy()
@@ -132,8 +132,8 @@ public class Info : MonoBehaviour
     private void UpdateToolDurability()
     {
         WholeText.text += "\n" + "Tool Durability: ";
-        if (Instance.Player.toolDurability != 0)
-            WholeText.text += Instance.Player.toolDurability;
+        if (Instance.Player.PlayerTool.Durability != 0)
+            WholeText.text += Instance.Player.PlayerTool.Durability;
         else
             WholeText.text += "None";
     }
@@ -152,7 +152,7 @@ public class Info : MonoBehaviour
         }
         else
         {
-            input = Instance.Player.getLooting() / 10 * Instance.Player.getLootEfficiency();
+            input = Instance.Player.PlayerTool.Looting / 10 * Instance.Player.getLootEfficiency();
         }
 
 
@@ -183,7 +183,7 @@ public class Info : MonoBehaviour
     private void UpdateFinalLoot(double input)
     {
         WholeText.text += "\n" + "Candies per Pinata: ";
-        if(Instance.Shop.equipped[4] && Instance.Player.getAttackDamage() >= Pinata.getHealth())
+        if(Instance.Shop.equipped[4] && Instance.Player.AttackDamage >= Pinata.getHealth())
         {
             int i = (int)(Pinata.getLoot() + (Pinata.getLoot() * input));
             WholeText.text += (i * 2) + "(" + i + ")";

@@ -175,291 +175,260 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID0()
     {
+        if(Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 90) { StartCoroutine(CandyError()); }
         else
         {
+            Instance.Player.withdraw(90);
             AudioManager.PlaySound("bought");
-            id = 0;
-            Player.withdraw(90);
-            toolEPA = 6;
-            toolDurability = 75;
-            attackDamage = 1;
-            attackRange = 1.2f;
-            attackSpeed = 1;
-            looting = 1;
-            hasTool = true;
-            Player.updateTools();
+            Tool toolToBuy = new Tool(0,1,75,1,1);
+            Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID1()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 110) { StartCoroutine(CandyError()); }
         else
         {
-            id = 1;
             AudioManager.PlaySound("bought");
-            Player.withdraw(110);
-            toolEPA = 8;
-            toolDurability = 175;
-            attackRange = 1.2f;
-            attackDamage = 2;
-            attackSpeed = 1;
-            looting = 0;
-            hasTool=true;
-            Player.updateTools();
+            Tool toolToBuy = new Tool(1, 2, 175, 3, 0);
+            Instance.Player.withdraw(110);
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID2()
     {
-        if(Player.getBalance() < 275) { StartCoroutine(CandyError()); }
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
+        if (Player.getBalance() < 275) { StartCoroutine(CandyError()); }
         else
         {
-            id = 2;
-            Player.withdraw(275);
+            Instance.Player.withdraw(275);
             AudioManager.PlaySound("bought");
-            toolEPA = 3;
-            toolDurability = 80;
-            attackDamage = 0;
-            attackSpeed = 2;
-            looting = 3;
-            attackRange = 1.2f;
-            hasTool =true;
-            Player.updateTools();
+            Tool toolToBuy = new Tool(2, 0, 80, -2, 3, 2);
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
 
     public void buytoolID3()
     {
-        if(Player.getBalance() < 450) { StartCoroutine(CandyError()); }
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
+        if (Player.getBalance() < 450) { StartCoroutine(CandyError()); }
         else
         {
-            id = 3;
-            Player.withdraw(450);
+            Instance.Player.withdraw(450);
             AudioManager.PlaySound("bought");
-            attackDamage = 4;
-            toolEPA = 8;
-            looting = 2;
-            toolDurability = 250;
-            attackSpeed = 0.8;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Tool toolToBuy = new Tool(3, 4, 250, 3, 2, .8);
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID4()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 525) { StartCoroutine(CandyError()); }
         else
         {
-            id = 4;
+            Tool toolToBuy = new Tool(4, 1, 300, 2, 4, .7);
             Player.withdraw(525);
             AudioManager.PlaySound("bought");
-            toolEPA = 7;
-            toolDurability = 300;
-            attackDamage = 1; //ad 1 eksik yazýlýr
-            looting = 4;
-            attackSpeed = 0.7;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID5()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 1000) { StartCoroutine(CandyError()); }
         else
         {
             id = 5;
             AudioManager.PlaySound("bought");
-            Player.withdraw(1000);
-            toolEPA = 5;
-            toolDurability = 240;
-            attackDamage = 9; //ad 1 eksik yazýlýr
-            looting = 4;
-            attackSpeed = 1.5;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Tool toolToBuy = new Tool(5, 9, 240, 0, 4, 1.5);
+            Instance.Player.withdraw(1000);
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID6()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 1100) { GameAssets.Instance.CandyError.SetActive(true); }
         else
         {
-            id = 6;
+            Tool toolToBuy = new Tool(6, 19, 100, 2, 5, .8);
             AudioManager.PlaySound("bought");
             Player.withdraw(1100);
-            toolEPA = 7;
-            toolDurability = 100;
-            attackDamage = 19; //ad 1 eksik yazýlýr
-            looting = 5;
-            attackSpeed = 0.8;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID7()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 1200) { GameAssets.Instance.CandyError.SetActive(true); }
         else
         {
-            id = 7;
+            Tool toolToBuy = new Tool(7, 14, 125, 0, 5);
             Player.withdraw(1200);
             AudioManager.PlaySound("bought");
-            toolEPA = 5;
-            toolDurability = 125;
-            attackDamage = 14; //ad 1 eksik yazýlýr
-            looting = 5;
-            attackSpeed = 1;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID8()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 1550) { StartCoroutine(CandyError()); }
         else
         {
-            id = 8;
+            Tool toolToBuy = new Tool(8, 2, 320, -1, 7, 1.5);
             Player.withdraw(1550);
             AudioManager.PlaySound("bought");
-            toolEPA = 4;
-            toolDurability = 320;
-            attackDamage = 2; //ad 1 eksik yazýlýr
-            looting = 7;
-            attackSpeed = 1.5;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID9()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 1800) { StartCoroutine(CandyError()); }
         else
         {
-            id = 9;
+            Tool toolToBuy = new Tool(9, 25, 500, 5, 4, .5, 2.2f);
             Player.withdraw(1800);
             AudioManager.PlaySound("bought");
-            toolEPA = 10;
-            toolDurability = 500;
-            attackDamage = 25; //ad 1 eksik yazýlýr
-            looting = 4;
-            attackSpeed = 0.5;
-            attackRange = 2.2f;
-            hasTool = true;
-            Player.updateTools();
+            Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID10()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 2025) { StartCoroutine(CandyError()); }
         else
         {
-            id = 10;
+            Tool toolToBuy = new Tool(10, 23, 96, 0, 7, 1.25);
             Player.withdraw(2025);
             AudioManager.PlaySound("bought");
-            toolEPA = 5;
-            toolDurability = 96;
-            attackDamage = 23; //ad 1 eksik yazýlýr
-            looting = 7;
-            attackSpeed = 1.25;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID11()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 2450) { StartCoroutine(CandyError()); }
         else
         {
-            id = 11;
+            Tool toolToBuy = new Tool(11, 1, 175, 0, 9, 1, 1.8f);
             Player.withdraw(2450);
             AudioManager.PlaySound("bought");
-            toolEPA = 5;
-            toolDurability = 175;
-            attackDamage = 1; //ad 1 eksik yazýlýr
-            looting = 9;
-            attackSpeed = 1;
-            attackRange = 1.8f;
-            hasTool = true;
-            Player.updateTools();
+            Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID12()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 2700) { StartCoroutine(CandyError()); }
         else
         {
-            id = 12;
+            Tool toolToBuy = new Tool(12, 24, 204, 2, 4, 1, 1.4f);
             Player.withdraw(2450);
             AudioManager.PlaySound("bought");
-            toolEPA = 7;
-            toolDurability = 204;
-            attackDamage = 24; //ad 1 eksik yazýlýr
-            looting = 4;
-            attackSpeed = 1;
-            attackRange = 1.4f;
-            hasTool = true;
-            Player.updateTools();
+            Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID13()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 3000) { StartCoroutine(CandyError()); }
         else
         {
-            id = 13;
+            Tool toolToBuy = new Tool(13, 0, 424, -3, 5, 1.5, 1f);
             Player.withdraw(3000);
             AudioManager.PlaySound("bought");
-            toolEPA = 2;
-            toolDurability = 424;
-            attackDamage = 0; //ad 1 eksik yazýlýr
-            looting = 5;
-            attackSpeed = 1.5;
-            attackRange = 1f;
-            hasTool = true;
-            Player.updateTools();
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID14()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 3200) { StartCoroutine(CandyError()); }
         else
         {
-            id = 14;
+            Tool toolToBuy = new Tool(14, 4, 240, -2, 10, 2, 1);
             Player.withdraw(3200);
             AudioManager.PlaySound("bought");
-            toolEPA = 3;
-            toolDurability = 240;
-            attackDamage = 4; //ad 1 eksik yazýlýr
-            looting = 10;
-            attackSpeed = 2;
-            attackRange = 1f;
-            hasTool = true;
-            Player.updateTools();
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID15()
     {
+        if (Instance.Player.IsInventoryFull())
+        {
+            // Inventory Full Alert
+            return;
+        }
         if (Player.getBalance() < 3500) { StartCoroutine(CandyError()); }
         else
         {
-            id = 15;
+            Tool toolToBuy = new Tool(15,29,200,0,6);
             Player.withdraw(3500);
             AudioManager.PlaySound("bought");
-            toolEPA = 5;
-            toolDurability = 200;
-            attackDamage = 29; //ad 1 eksik yazýlýr
-            looting = 6;
-            attackSpeed = 1;
-            attackRange = 1.2f;
-            hasTool = true;
-            Player.updateTools();
+            Instance.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buyPinataDefault()
@@ -731,7 +700,7 @@ public class Shopping : MonoBehaviour
             for (int i = 0; i < petSkins.Length; i++) { petSkins[i].SetActive(equipped[i]); }
             equipped[1] = true;
             petSkins[1].SetActive(equipped[1]);
-            temporaryAttackDamage = Player.getAttackDamage();
+            temporaryAttackDamage = Player.AttackDamage;
             AudioManager.PlaySound("summon");
 
 
@@ -1227,9 +1196,9 @@ public class Shopping : MonoBehaviour
                 timer1 += CustomTime.deltaTime * 2;
             }
             else if(Player.getEnergy() <= Player.getMaxEnergy()){ timer1 += CustomTime.deltaTime; }
-                if (timer0 > Perks[0]) { Player.addToBalance(); if (Player.getLooting() > 3) { Player.addToBalance(); }
-                if (Player.getLooting() > 6) { Player.addToBalance(); }
-                if (Player.getLooting() > 9) { Player.addToBalance(); }
+                if (timer0 > Perks[0]) { Player.addToBalance(); if (Player.PlayerTool.Looting > 3) { Player.addToBalance(); }
+                if (Player.PlayerTool.Looting > 6) { Player.addToBalance(); }
+                if (Player.PlayerTool.Looting > 9) { Player.addToBalance(); }
                 timer0 = 0; }
             if(timer1 > Perks[1] && Player.getEnergy() <= Player.getMaxEnergy()) { Player.addToEnergy(); timer1 -= Perks[1]; }
             if (Player.getWrapGod()) { Player.setMaxEnergy(Player.getInitialMaxEnergy() + (2 * Perks[2])); }
@@ -1256,7 +1225,7 @@ public class Shopping : MonoBehaviour
                     Perks[1] = 15;
                 if (Player.getRheaGod())
                 {
-                    Perks[0] = (int)(10 * (double)Player.getAttackSpeed());
+                    Perks[0] = (int)(10 * (double)Player.AttackSpeed);
                 }
                 else
                 {
@@ -1268,7 +1237,7 @@ public class Shopping : MonoBehaviour
                 {
                 if (Player.getRheaGod())
                 {
-                    Perks[0] = (int)(13 * (double)Player.getAttackSpeed());
+                    Perks[0] = (int)(13 * (double)Player.AttackSpeed);
                 }
                 else
                 {
@@ -1281,7 +1250,7 @@ public class Shopping : MonoBehaviour
                 {
                 if (Player.getRheaGod())
                 {
-                    Perks[0] = (int)(16 * (double)Player.getAttackSpeed());
+                    Perks[0] = (int)(16 * (double)Player.AttackSpeed);
                 }
                 else
                 {
@@ -1294,7 +1263,7 @@ public class Shopping : MonoBehaviour
                 {
                 if (Player.getRheaGod())
                 {
-                    Perks[0] = (int)(20 * (double)Player.getAttackSpeed());
+                    Perks[0] = (int)(20 * (double)Player.AttackSpeed);
                 }
                 else
                 {
@@ -1308,19 +1277,19 @@ public class Shopping : MonoBehaviour
                     
                 if (Player.getRheaGod())
                 {
-                    Perks[0] = (int)(20 * (double)Player.getAttackSpeed());
+                    Perks[0] = (int)(20 * (double)Player.AttackDamage);
                 }
                 else
                 {
                     Perks[0] = 25;
                 }
-                Perks[1] = 50;
+                    Perks[1] = 50;
                     Perks[2] = 30;
                 }
             Pinata.setRespawnTime(Pinata.getTempRespawnTime() - (Pinata.getTempRespawnTime() * ((float)Perks[0] / 100)));
-            Pinata.setLootFromPerk((int)((Pinata.getLoot() + (Pinata.getLoot() * Player.getLooting() / 10))  * ((double)Perks[1] / 100)));
+            Pinata.setLootFromPerk((int)((Pinata.getLoot() + (Pinata.getLoot() * Player.PlayerTool.Looting / 10))  * ((double)Perks[1] / 100)));
             timer2 += CustomTime.deltaTime;
-            temporaryAttackDamage = Player.getAttackDamage() + Player.getLooting();
+            temporaryAttackDamage = Player.AttackDamage + Player.PlayerTool.Looting;
             if (timer2 > Perks[2]) { Player.removeFromBalance(); timer2 = 0; }
 
         }
@@ -1375,7 +1344,7 @@ public class Shopping : MonoBehaviour
                 for (int i = 0; i < numbers.Length; i++) { numbers[i] = UnityEngine.Random.Range(0, 101); }
                 foreach(int i in numbers) { if(i == 27) { jackpot = true; break; } }
             
-            tempLooting = Player.getLooting() + (int)(Player.getAttackSpeed() * ((double)Perks[1]) / 100);
+            tempLooting = Player.PlayerTool.Looting + (int)(Player.AttackSpeed * ((double)Perks[1]) / 100);
             if (tempLooting >= Player.getLootingCap()) { tempLooting = Player.getLootingCap(); }
 
         }
@@ -1427,7 +1396,7 @@ public class Shopping : MonoBehaviour
             }
             if (Pinata.getRespawnTime() > Perks[1]) { koalaCondition = true; }
             else { koalaCondition = false; }
-            tempEPA = Player.getEPA() - (int)(Player.getAttackSpeed() * Perks[2]);
+            tempEPA = Player.getEPA() - (int)(Player.AttackSpeed * Perks[2]);
             if(tempEPA <= 3 && Player.getToolID() != 13) { tempEPA = 3; }
             else if(Player.getToolID() == 13) { tempEPA = 2; }
             if(oncePet32) { Pinata.buyPet3Perk(); oncePet32 = false; }
@@ -1490,7 +1459,7 @@ public class Shopping : MonoBehaviour
                 numbers[i] = UnityEngine.Random.Range(0,101);
                 if(numbers[i] == 27) { jackpot = true; break; }
             }
-            temporaryAttackDamage = Player.getAttackDamage() + (Player.getAttackDamage() * Perks[0] / 100);
+            temporaryAttackDamage = (Player.AttackDamage) + (Player.AttackDamage * Perks[0] / 100);
 
 
         }

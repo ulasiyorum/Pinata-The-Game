@@ -160,9 +160,8 @@ public class ActualPlayerData
         this.levels = a.getShop().getLevels();
         this.hasTool = a.getShop().hasTool;
         this.exitTime = a.getExitTime();
-        this.playerDamage = a.getPlayerDamage();
         this.respawntimer = a.getRespawnTimer();
-        this.attackRange = a.getAttackRange();
+        this.attackRange = a.PlayerTool.AttackRange;
         this.inventoryPinata = a.getInventoryPinata();
         this.inventoryPet = a.getInventoryPet();
         this.health = Pinata.getHealth();
@@ -183,15 +182,14 @@ public class ActualPlayerData
             this.lootrange1 = a.getPinata().GetComponent<Pinata>().getLootRange1();
         }
         this.balance = a.getBalance();
-        this.looting = a.getLooting();
-        this.attackDamage = a.getAttackDamage();
-        this.attackSpeed = a.getAttackSpeed();
-        this.toolDurability = a.getToolDurability();
+        this.looting = a.PlayerTool.Looting;
+        this.attackDamage = a.AttackDamage;
+        this.attackSpeed = a.AttackSpeed;
+        this.toolDurability = a.PlayerTool.Durability;
         this.energy = a.getEnergy();
         this.maxEnergy = a.getMaxEnergy();
         this.EPA = a.getEPA();
-        this.toolEPA = a.getToolEPA();
-        this.attacking = a.getAttacking();
+        this.toolEPA = a.PlayerTool.EPA;
         this.locationx = a.transform.position.x;
         this.locationy = a.transform.position.y;
         this.locationz = a.transform.position.z;

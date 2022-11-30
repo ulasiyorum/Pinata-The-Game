@@ -8,10 +8,65 @@ using MatchThreeEngine;
 using CodeMonkey;
 using System.Threading.Tasks;
 using System.Globalization;
+using UnityEngine.LowLevel;
 
 [Serializable]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour // extraLooting Currently Does Not Work
 {
+    private const int playerDamage = 1;
+    private const double attackSpeed = 1f;
+    private const float attackRange = 1.2f;
+    public int inventoryIndex = 0;
+    private List<Tool> playerToolInventory;
+    public bool HasTool { get => playerToolInventory.Count > 0; }
+
+
+    public Tool PlayerTool
+    {
+        get
+        {
+            if (playerToolInventory.Count > 0)
+                return playerToolInventory[inventoryIndex];
+
+            return new Tool();
+        }
+    }
+    public int EPA 
+    {
+        get
+        {
+            return epa + PlayerTool.EPA;
+        }
+        set
+        {
+            epa = value;
+        }
+    
+    }
+
+
+    public double AttackDamage
+    {
+        get
+        {
+            return playerDamage + PlayerTool.AttackDamage;
+        }
+    }
+    public double AttackSpeed
+    {
+        get
+        {
+            return PlayerTool.AttackSpeed;
+        }
+    }
+    public float AttackRange
+    {
+        get
+        {
+            return PlayerTool.AttackRange;
+        }
+    }
+
     [SerializeField] Text errorText;
     float errorTimer;
     private Player player;
@@ -23,23 +78,20 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] private Transform attackPoint;
     [SerializeField] Transform parent;
-    [SerializeField] private float attackRange;
+
     [SerializeField] private double enemyHealth;
     [SerializeField] private double balance;
     private double coins;
-    [SerializeField] private int looting;
+    
     Vector2 respawnPosition;
     [SerializeField] private GameObject _pinata;
     [SerializeField] private GameObject _Player;
-    [SerializeField] private double playerDamage = 1;
-    [SerializeField] private double attackDamage;
-    [SerializeField] private double attackSpeed = 1;
-    [SerializeField] public int toolDurability;
+    
     [SerializeField] private int energy;
     private static int initialMaxEnergy = 100;
     [SerializeField] private int maxEnergy = 100;
-    [SerializeField] private int EPA = 5;
-    [SerializeField] private int toolEPA = 0;
+    [SerializeField] private int epa = 5;
+
     [SerializeField] private GameObject respawnPoint;
     [SerializeField] private Vector2 pinataPoint;
     public bool openShop = false;
@@ -51,10 +103,6 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject attackButton;
     [SerializeField] int exitTime;
     [SerializeField] GameObject anim;
-    [SerializeField] Animator pinataDied;
-    [SerializeField] Animator playerHit;
-    [SerializeField] Animator st;
-    [SerializeField] Animator pinataShake;
     
     
         private int energyAttribute;
@@ -143,19 +191,14 @@ public class Player : MonoBehaviour
         toolID = -1;
         enemyHealth = Pinata.getHealth();
         timerforattack = 0;
-        attackSpeed = 1;
-        toolDurability = 0;
         for (int i = 0; i < inventoryPinata.Length; i++) { inventoryPinata[i] = false; inventoryPet[i] = false; }
-        pinataDied = anim.GetComponent<Animator>();
 
         attacking = false;
         balance = 0;
-        attackDamage += playerDamage;
         respawnPosition = respawnPoint.transform.position;
         pinataPoint = _pinata.transform.position;
         newPinata = (GameObject)Instantiate(_pinata, parent, true);
         newPinata.transform.position = respawnPoint.transform.position;
-        EPA += toolEPA;
         energy = maxEnergy;
         if (PlayFab.PlayFabClientAPI.IsClientLoggedIn()) {
             game = true;
@@ -174,23 +217,23 @@ public class Player : MonoBehaviour
         { 
             skillTimer2 += CustomTime.deltaTime; skillTimer = 0; 
             attacking = true;
-            attackDamage = 50;
-            attackRange = 5;
-            looting = 15;
-            attackSpeed = 3;
+            PlayerTool.AttackDamage = 50;
+            PlayerTool.AttackRange = 5;
+            PlayerTool.Looting = 15;
+            PlayerTool.AttackSpeed = 3;
         }
         else if(skillTimer2 > 12) { 
             skill2Active = false; skillTimer2 = 0;
-            attackDamage = double.Parse(temporarySkills[0].Replace(',','.'),CultureInfo.InvariantCulture);
-            attackSpeed = float.Parse(temporarySkills[1].Replace(',', '.'), CultureInfo.InvariantCulture);
-            attackRange = float.Parse(temporarySkills[2].Replace(',', '.'), CultureInfo.InvariantCulture);
-            looting = int.Parse(temporarySkills[3]);
-            toolDurability = int.Parse(temporarySkills[4]);
+            PlayerTool.AttackDamage = (int)double.Parse(temporarySkills[0].Replace(',','.'),CultureInfo.InvariantCulture);
+            PlayerTool.AttackSpeed = float.Parse(temporarySkills[1].Replace(',', '.'), CultureInfo.InvariantCulture);
+            PlayerTool.AttackRange = float.Parse(temporarySkills[2].Replace(',', '.'), CultureInfo.InvariantCulture);
+            PlayerTool.Looting = int.Parse(temporarySkills[3]);
+            PlayerTool.Durability = int.Parse(temporarySkills[4]);
             main.GetComponent<PlayfabManager>().Save();
         }
         if(rheagod && popTimer <= 6) { popTimer += CustomTime.deltaTime; }
-        else if(rheagod && popTimer > 6) { popTimer = 0; looting -= popped; popped = 0; }
-        if(looting > lootingCap) { looting = lootingCap; }
+        else if(rheagod && popTimer > 6) { popTimer = 0; PlayerTool.Looting -= popped; popped = 0; }
+        if(PlayerTool.Looting > lootingCap) { PlayerTool.Looting = lootingCap; }
         
         if(openShop) { attackButton.SetActive(false); refillButton.SetActive(false); }
         else { attackButton.SetActive(true); refillButton.SetActive(true);  }
@@ -239,30 +282,18 @@ public class Player : MonoBehaviour
     {
         balance += amount;
     }
-    public void updateTools()
+    public void PurchaseTool(Tool tool)
     {
-        toolID = shop.getID();
-        EPA = shop.getEPA();
-        toolDurability = shop.getDurability();
-        attackSpeed = shop.getSpeed() + extraAttackSpeed;
-        attackDamage = shop.getDamage() + playerDamage;
-        looting = shop.getLooting() + extraLooting;
-        attackRange = shop.getRange();
+        playerToolInventory.Add(tool);
+        inventoryIndex = playerToolInventory.Count - 1;
     }
-    public void toolBroken()
+    public bool IsInventoryFull()
     {
-        toolID = -1;
-        attackDamage = 1;
-        attackSpeed = 1 + extraAttackSpeed;
-        attackRange = 1.2f;
-        looting = 0 + extraLooting;
-        EPA = 5;
-        toolDurability = 0;
-        shop.hasTool = false;
+        return playerToolInventory.Count >= 10;
     }
-    public Player getPlayer()
+    public void ToolBroken()
     {
-        return player;
+        playerToolInventory.Remove(playerToolInventory[inventoryIndex]);
     }
     public int getEnergy()
     {
@@ -388,22 +419,20 @@ public class Player : MonoBehaviour
             timerRefilled = 0;
         }
         Debug.Log("Timer refilled: " + timerRefilled);
-        this.attackSpeed = _player.getAttackSpeed();
-        this.attackRange = _player.getAttackRange();
-        this.attacking = _player.getAttacking();
-        this.attackDamage = _player.getAttackDamage();
+        this.PlayerTool.AttackSpeed = _player.getAttackSpeed();
+        this.PlayerTool.AttackRange = _player.getAttackRange();
+        this.PlayerTool.AttackDamage = (int)_player.getAttackDamage();
         this.balance = _player.getBalance();
         balance += addB;
         this.energy = _player.getEnergy() + energyRefilled;
         this.maxEnergy = _player.getMaxEnergy();
         if (energy > maxEnergy) { energy = maxEnergy; }
-        this.EPA = _player.getEPA();
-        this.looting = _player.getLooting();
-        this.playerDamage = _player.getPlayerDamage();
+        this.EPA = player.getEPA();
+        this.PlayerTool.EPA = _player.getToolEPA();
+        this.PlayerTool.Looting = _player.getLooting();
         this.respawntimer = _player.getRespawnTimer() + timerRefilled;
         this.timer = _player.getTimer();
-        this.toolDurability = _player.getToolDurability();
-        this.toolEPA = _player.getToolEPA();
+        this.PlayerTool.Durability = _player.getToolDurability();
         this.shop.hasTool = _player.getHasTool();
         this.inventoryPinata = _player.getInventoryPinata();
         this.inventoryPet = _player.getInventoryPet();
@@ -512,10 +541,6 @@ public class Player : MonoBehaviour
         return timer;
     }
     public double getEnemyHealth() { return enemyHealth; }
-    public double getPlayerDamage()
-    {
-        return this.playerDamage;
-    }
     public Transform getAttackPoint()
     {
         return this.attackPoint;
@@ -532,14 +557,6 @@ public class Player : MonoBehaviour
     {
         return this.parent;
     }
-    public float getAttackRange()
-    {
-        return this.attackRange;
-    }
-    public int getLooting()
-    {
-        return this.looting;
-    }
     public Vector2 getRespawnPosition()
     {
         return this.respawnPosition;
@@ -548,33 +565,14 @@ public class Player : MonoBehaviour
     {
         return this._Player;
     }
-    public double getAttackDamage()
-    {
-        return this.attackDamage;
-    }
-    public double getAttackSpeed()
-    {
-        return this.attackSpeed;
-    }
-    public int getToolDurability()
-    {
-        return this.toolDurability;
-    }
+
     public int getEPA()
     {
         return this.EPA;
     }
-    public int getToolEPA() 
-    { 
-        return this.toolEPA; 
-    }
     public GameObject getRespawnPoint()
     {
         return this.respawnPoint;
-    }
-    public Vector2 getPinataPoint()
-    {
-        return this.pinataPoint;
     }
     public Shopping getShop()
     {
@@ -651,10 +649,7 @@ public class Player : MonoBehaviour
 
         return initialMaxEnergy;
     }
-    public void setAD(double ad)
-    {
-        this.attackDamage = ad;
-    }
+    
     public void Loan(int loan) {
         if (loan == 1) { balance += 250; }
         else if(loan == 2) { balance += 500; }
@@ -739,13 +734,13 @@ public class Player : MonoBehaviour
         }
         else if (skill.ToLower() == "efficiency")
         {
-            if(level == 4) { looting++; extraLooting = 1; }
+            if(level == 4) { extraLooting = 1; }
             lootEfficiency += 0.1;
         }
         else if(skill.ToLower() == "attackspeed")
         {
             level++;
-            extraAttackSpeed += level * (looting/105);
+            extraAttackSpeed += level * (PlayerTool.Looting / 105);
 
         }
         else if(skill.ToLower() == "rheagod")
@@ -811,11 +806,11 @@ public class Player : MonoBehaviour
         else if ((skills[1] && skillTimer >= 700) || (skills[1] && treeBonus[1] && skillTimer >= 560))
         {
             skill2Active = true;
-            temporarySkills[0] = "" + attackDamage;
-            temporarySkills[1] = "" + attackSpeed;
-            temporarySkills[2] = "" + attackRange;
-            temporarySkills[3] = "" + looting;
-            temporarySkills[4] = "" + toolDurability;
+            temporarySkills[0] = "" + AttackDamage;
+            temporarySkills[1] = "" + AttackSpeed;
+            temporarySkills[2] = "" + AttackRange;
+            temporarySkills[3] = "" + PlayerTool.Looting;
+            temporarySkills[4] = "" + PlayerTool.Durability;
             skillTimer = 0;
         }
         else if((skills[2] && skillTimer >= 300) || (skills[2] && treeBonus[1] && skillTimer >= 240))
@@ -953,19 +948,19 @@ public class Player : MonoBehaviour
         int add;
         if (Instance.Shop.equipped[1])
         {
-            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency);
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency);
         }
         else if (Instance.Shop.equipped[3])
         {
-            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) / 2;
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) / 2;
         }
-        else if (Instance.Shop.equipped[4] && attackDamage >= Pinata.getHealth())
+        else if (Instance.Shop.equipped[4] && AttackDamage >= Pinata.getHealth())
         {
-            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) * ((Instance.Shop.getPerks()[1] / 100) + 1);
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) * ((Instance.Shop.getPerks()[1] / 100) + 1);
         }
         else
         {
-            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * looting / 10)) * lootEfficiency);
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10)) * lootEfficiency);
         }
         return add;
     }
@@ -977,23 +972,23 @@ public class Player : MonoBehaviour
         else if (Instance.Shop.equipped[3])
         {
             int i = Pinata.getLootPerClick() + 1;
-            add = (int)((i + (i * looting / 5)) * lootEfficiency);
+            add = (int)((i + (i * PlayerTool.Looting / 5)) * lootEfficiency);
         }
         else if (Instance.Shop.equipped[4])
         {
             if (CreateRandomChance.Gamble(Instance.Shop.getLevels()[4] * 10, 100))
             {
-                toolDurability++;
+                PlayerTool.Durability++;
                 balance -= Instance.Shop.getPerks()[4];
                 //Popup Message
             }
-            add = (int)((Pinata.getLootPerClick() + (Pinata.getLootPerClick() * looting / 5)) * lootEfficiency);
+            add = (int)((Pinata.getLootPerClick() + (Pinata.getLootPerClick() * PlayerTool.Looting / 5)) * lootEfficiency);
         }
         else
         {
-            add = (int)((Pinata.getLootPerClick() + (Pinata.getLootPerClick() * looting / 5)) * lootEfficiency);
+            add = (int)((Pinata.getLootPerClick() + (Pinata.getLootPerClick() * PlayerTool.Looting / 5)) * lootEfficiency);
         }
-        toolDurability--;
+        PlayerTool.Durability--;
         return add;
     }
     private int DetermineEnergyConsume()
@@ -1023,7 +1018,7 @@ public class Player : MonoBehaviour
             PopUpMessage.StartPopUpMessageCandy((makeitworth * EPA / 20), Instance.GetCanvas);
         }
 
-        int i = looting == 10 ? 1 : 0;
+        int i = PlayerTool.Looting == 10 ? 1 : 0;
         if (shop.equipped[2] && CreateRandomChance.Gamble(shop.getLevels()[2] + i, 100))
         {
             balance += 100 + (4 * Math.Log(0.00000000217 * Math.Pow(treasureCount, 15))); 

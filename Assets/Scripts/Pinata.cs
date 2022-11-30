@@ -263,7 +263,7 @@ public class Pinata : MonoBehaviour
 
     public void TakeDamage()
     {
-        double damage = Instance.Player.getAttackDamage();
+        double damage = Instance.Player.AttackDamage;
         if (damage >= health)
         {
             images[Current].SetActive(false);
