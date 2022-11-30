@@ -433,7 +433,6 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         this.respawntimer = _player.getRespawnTimer() + timerRefilled;
         this.timer = _player.getTimer();
         this.PlayerTool.Durability = _player.getToolDurability();
-        this.shop.hasTool = _player.getHasTool();
         this.inventoryPinata = _player.getInventoryPinata();
         this.inventoryPet = _player.getInventoryPet();
         this.coinChance = _player.getCoinChance();

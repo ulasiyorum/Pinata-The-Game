@@ -11,13 +11,6 @@ public class Shopping : MonoBehaviour
     public float timer0 = 0;
     public float timer1 = 0;
     public float timer2 = 0;
-    [SerializeField] private int toolEPA;
-    [SerializeField] private int toolDurability;
-    [SerializeField] private double attackDamage;
-    [SerializeField] private double attackSpeed;
-    [SerializeField] private int looting;
-    [SerializeField] private float attackRange;
-    [SerializeField] Player Player;
     [SerializeField] GameObject currentLevel;
     [SerializeField] private int tempEPA;
     private int tempLooting;
@@ -29,7 +22,6 @@ public class Shopping : MonoBehaviour
     private double temporaryAttackDamage;
     private bool jackpot = false;
     [SerializeField] GameObject[] youHaves = new GameObject[25];
-    public bool hasTool;
     public bool[] equipped = new bool[25];
     private bool[] inventoryScenes = new bool[25]; // locationx replaced by inventoryScenes on db
     int[] levels = new int[25];
@@ -40,6 +32,11 @@ public class Shopping : MonoBehaviour
     public bool oncePet3;
     private bool oncePet32;
     private double healthPet3;
+
+    private Player Player
+    {
+        get { return Instance.Player; }
+    }
     private void Start()
     {
         
@@ -47,7 +44,6 @@ public class Shopping : MonoBehaviour
         currentLevelText.text = "";
         currentLevel.SetActive(false);
         foreach (var p in petSkins) { p.SetActive(false); }
-        hasTool = false;
         for(int i = 0; i < equipped.Length; i++) { equipped[i] = false; levels[i] = 0; inventoryScenes[i] = false; }
         GameAssets.Instance.CandyError.SetActive(false);
         inventoryScenes[0] = true;
@@ -1121,30 +1117,6 @@ public class Shopping : MonoBehaviour
 
         }
     }
-    public int getEPA()
-    {
-        return toolEPA;
-    }
-    public int getDurability()
-    {
-        return toolDurability;
-    }
-    public double getDamage()
-    {
-        return attackDamage;
-    }
-    public double getSpeed()
-    {
-        return attackSpeed;
-    }
-    public int getLooting()
-    {
-        return looting;
-    }
-    public float getRange()
-    {
-        return attackRange;
-    }
     public int[] getPerks() { return Perks; }
 
     void UpdateForPets()
@@ -1334,7 +1306,7 @@ public class Shopping : MonoBehaviour
                 Perks[1] = 200;
                 Perks[2] = 5;
             }
-            if (hasTool) { tempEPA = (int)((double)Player.getEPA() / Perks[0]); }
+            if (Player.HasTool) { tempEPA = (int)((double)Player.getEPA() / Perks[0]); }
             else { tempEPA = Player.getEPA(); }
             int a = 0;
             if(tempLooting == 10) { a = 1; }
@@ -1483,7 +1455,6 @@ public class Shopping : MonoBehaviour
     }
     public bool getJackpot() { return jackpot; }
     public int getTempEPA() { return tempEPA; }
-    public int getToolDurability() { return toolDurability; }
     public double getTemporaryAttackDamage() { return temporaryAttackDamage; }
     public void setTemporaryAttackDamage(double temporaryAttackDamage) { this.temporaryAttackDamage = temporaryAttackDamage; }
     public int getID() { return id; }

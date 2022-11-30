@@ -33,7 +33,7 @@ public class Info : MonoBehaviour
         else { if (isPressed) { button.SetActive(true);  }  }
         UpdateStats();
 
-        if (Instance.Player.PlayerTool.Durability < 25 && !isActive && Instance.Player.getShop().hasTool) { 
+        if (Instance.Player.PlayerTool.Durability < 25 && !isActive && Instance.Player.HasTool) { 
             if (!Instance.Player.openShop) { lowDurability.SetActive(true); } }
         else { lowDurability.SetActive(false); }
     }
@@ -125,7 +125,7 @@ public class Info : MonoBehaviour
         }
         else
         {
-            WholeText.text += Instance.Shop.getEPA();
+            WholeText.text += Instance.Player.EPA;
         }
     }
 

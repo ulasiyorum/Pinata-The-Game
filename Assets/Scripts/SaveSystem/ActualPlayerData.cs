@@ -158,7 +158,6 @@ public class ActualPlayerData
         levels = new int[a.getShop().getLevels().Length];
         this.isDead = a.getIsDead();
         this.levels = a.getShop().getLevels();
-        this.hasTool = a.getShop().hasTool;
         this.exitTime = a.getExitTime();
         this.respawntimer = a.getRespawnTimer();
         this.attackRange = a.PlayerTool.AttackRange;
