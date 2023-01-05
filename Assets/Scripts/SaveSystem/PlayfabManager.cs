@@ -243,7 +243,8 @@ public class PlayfabManager : MonoBehaviour
                 {"levels1", "" + playerData.getLevels1String() },
                 {"levels2", "" + playerData.getLevels2String() },
                 {"levels3", "" + playerData.getLevels3String() },
-                {"popped", "" + playerData.getPopped() }
+                {"popped", "" + playerData.getPopped() },
+                {"toolInventory", "" + playerData.GetToolInventoryString() }
            
             }
         };

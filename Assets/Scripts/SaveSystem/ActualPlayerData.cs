@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using PlayFab;
 using PlayFab.ClientModels;
 using System.Globalization;
+using UnityEditor.SceneManagement;
 
 [Serializable]
 public class ActualPlayerData
@@ -45,6 +46,7 @@ public class ActualPlayerData
     private float respawnTime;
     private float tempRespawnTime;
     ////////////////////////
+    private string[] toolInventory;
     private bool hasTool;
     private int toolID;
     private double tempAD;
@@ -111,6 +113,14 @@ public class ActualPlayerData
         this.levels2 = a.getMain().GetComponent<SkillTree>().getLevels2();
         this.levels3 = a.getMain().GetComponent<SkillTree>().getLevels3();
 
+        toolInventory = new string[a.PlayerToolInventory.Count];
+        int i = 0;
+        foreach(Tool tool in a.PlayerToolInventory)
+        {
+            toolInventory[i] = tool.ToString();
+            i++;
+        }
+
         this.energyAttribute = a.getEnergyAttribute();
         this.energyTimer = a.getEnergyTimer();
         this.makeitworth = a.getMakeItWorth();
@@ -119,7 +129,7 @@ public class ActualPlayerData
         this.skills = a.getSkills();
         this.skillTimer = a.getSkillTimer();
         this.lootingCap = a.getLootingCap();
-        this.lootEfficiency = a.getLootEfficiency(); 
+        this.lootEfficiency = a.getLootEfficiency();
         this.extraLooting = a.getExtraLooting();
         this.extraAttackSpeed = a.getExtraAs();
         this.rheagod = a.getRheaGod();
@@ -142,7 +152,7 @@ public class ActualPlayerData
         this.playForFree = MiniGameManager.getPlayForFree();
         this.freeTimer = MiniGameManager.getFreeTimer();
         this.bonusCounter = BonusCoin.getBonusCounter();
-        this.bonusTimer = BonusCoin.getBonusTimer();    
+        this.bonusTimer = BonusCoin.getBonusTimer();
         this.networth = a.getNetworth();
         this.inventoryScenes = a.getShop().getInventoryScenes();
         this.equipped = a.getShop().equipped;
@@ -166,16 +176,16 @@ public class ActualPlayerData
         this.health = Pinata.getHealth();
         this._this = Pinata._this;
         this.respawnTime = Pinata.getRespawnTime();
-        if (isDead) 
+        if (isDead)
         {
             this.enemyHealth = 0;
-            this.loot = a.getNewPinata().GetComponent<Pinata>().getLoot2();
-            this.lootrange0 = a.getNewPinata().GetComponent<Pinata>().getLootRange0();
-            this.lootrange1 = a.getNewPinata().GetComponent<Pinata>().getLootRange1();
+            this.loot = Instance.i.PinataObject.getLoot2();
+            this.lootrange0 = Instance.i.PinataObject.getLootRange0();
+            this.lootrange1 = Instance.i.PinataObject.getLootRange1();
         }
         else
         {
-            this.enemyHealth = a.getEnemyHealth();
+            this.enemyHealth = Instance.i.PinataObject.Health;
             this.loot = a.getPinata().GetComponent<Pinata>().getLoot2();
             this.lootrange0 = a.getPinata().GetComponent<Pinata>().getLootRange0();
             this.lootrange1 = a.getPinata().GetComponent<Pinata>().getLootRange1();
@@ -239,12 +249,23 @@ public class ActualPlayerData
     {
         return this.health;
     }
+
+    public string GetToolInventoryString()
+    {
+        string returned = "";
+        foreach(string tool in toolInventory)
+        {
+            returned += tool + "-";
+        }
+
+        return returned;
+    }
     public float getFreeTimer() { return this.freeTimer; }
     public int getPlayForFree() { return this.playForFree; }
     public int getAdCount() { return this.adCount; }
     public void equippedFalse()
     {
-        for (int i=0; i<equipped.Length; i++) { equipped[i] = false; }
+        for (int i = 0; i < equipped.Length; i++) { equipped[i] = false; }
     }
     public bool getOncePet3() { return oncePet3; }
     public double getCoins() { return coins; }
@@ -313,6 +334,9 @@ public class ActualPlayerData
         return this.playfabID;
     }
     public bool getHasTool() { return this.hasTool; }
+
+
+
     public string getInventoryScenesString()
     {
         string s = "";
@@ -325,7 +349,7 @@ public class ActualPlayerData
     public string getInventoryPinataString()
     {
         string s = "";
-        foreach(var b in inventoryPinata)
+        foreach (var b in inventoryPinata)
         {
             s += b + ",";
         }
@@ -407,7 +431,7 @@ public class ActualPlayerData
         data += "," + getBalance();
         data += "," + getCoins();
         data += "," + getLooting();
-        data += "," + + getPlayerDamage();
+        data += "," + +getPlayerDamage();
         data += "," + getAttackDamage();
         data += "," + getAttackSpeed();
         data += "," + getToolDurability();
@@ -501,7 +525,7 @@ public class ActualPlayerData
         System.DateTime nowTime = System.DateTime.Now;
         if (result.Data.ContainsKey("exitTime"))
         {
-            
+
             if (System.DateTime.TryParse(result.Data["exitTime"].Value, out nowTime))
             {
                 exitTime = (nowTime.Year
@@ -580,7 +604,7 @@ public class ActualPlayerData
             }
             inventoryScenes[0] = true;
         } else { inventoryScenes = new bool[25];
-            for(int i=0; i<inventoryScenes.Length; i++) { inventoryScenes[i] = false; }
+            for (int i = 0; i < inventoryScenes.Length; i++) { inventoryScenes[i] = false; }
             inventoryScenes[0] = true; }
         if (result.Data.ContainsKey("isDead"))
         {
@@ -617,7 +641,7 @@ public class ActualPlayerData
         if (result.Data.ContainsKey("lootrange0"))
         {
             lootrange0 = int.Parse(result.Data["lootrange0"].Value);
-        }else { lootrange0 = 0; }
+        } else { lootrange0 = 0; }
         if (result.Data.ContainsKey("lootrange1"))
         {
             lootrange1 = int.Parse(result.Data["lootrange1"].Value);
@@ -657,7 +681,7 @@ public class ActualPlayerData
         if (result.Data.ContainsKey("timer"))
         {
             timer = float.Parse(result.Data["timer"].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
-        }else { timer = 0; }
+        } else { timer = 0; }
         if (result.Data.ContainsKey("toolDurability"))
         {
             toolDurability = int.Parse(result.Data["toolDurability"].Value);
@@ -684,11 +708,11 @@ public class ActualPlayerData
         }
         else
         {
-            playForFree= 0;
+            playForFree = 0;
         }
         if (result.Data.ContainsKey("freeTimer"))
         {
-            freeTimer = float.Parse(result.Data["freeTimer"].Value.Replace(',','.'),CultureInfo.InvariantCulture);
+            freeTimer = float.Parse(result.Data["freeTimer"].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
         }
         if (result.Data.ContainsKey("playfabID"))
         {
@@ -700,14 +724,14 @@ public class ActualPlayerData
         else { objTimer = 0; }
         if (result.Data.ContainsKey("miniGameMultiplier")) { miniGameMultiplier = int.Parse(result.Data["miniGameMultiplier"].Value); }
         else {
-            miniGameMultiplier = 0;   
+            miniGameMultiplier = 0;
         }
-        if (result.Data.ContainsKey("miniGameMultiplier2")) { miniGameMultiplier2 = double.Parse(result.Data["miniGameMultiplier2"].Value.Replace(',','.'),CultureInfo.InvariantCulture); }
+        if (result.Data.ContainsKey("miniGameMultiplier2")) { miniGameMultiplier2 = double.Parse(result.Data["miniGameMultiplier2"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
         else
         {
             miniGameMultiplier2 = 0;
         }
-        if (result.Data.ContainsKey("miniGameMultiplier3")) { miniGameMultiplier3 = double.Parse(result.Data["miniGameMultiplier3"].Value.Replace(',','.'),CultureInfo.InvariantCulture); }
+        if (result.Data.ContainsKey("miniGameMultiplier3")) { miniGameMultiplier3 = double.Parse(result.Data["miniGameMultiplier3"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
         else
         {
             miniGameMultiplier3 = 0;
@@ -716,7 +740,7 @@ public class ActualPlayerData
         else { energyAttribute = 1; }
         if (result.Data.ContainsKey("energyTimer")) { energyTimer = float.Parse(result.Data["energyTimer"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
         else { energyTimer = 10; }
-        if(result.Data.ContainsKey("makeitworth")) { makeitworth = int.Parse(result.Data["makeitworth"].Value); }
+        if (result.Data.ContainsKey("makeitworth")) { makeitworth = int.Parse(result.Data["makeitworth"].Value); }
         else { makeitworth = 0; }
         if (result.Data.ContainsKey("wrapgod"))
         {
@@ -729,10 +753,10 @@ public class ActualPlayerData
         else { wrapgod = false; }
         if (result.Data.ContainsKey("skills"))
         {
-            
+
             string[] skillsString = result.Data["skills"].Value.Split(',');
             skills = new bool[skillsString.Length];
-            for (int i=0; i<skillsString.Length; i++)
+            for (int i = 0; i < skillsString.Length; i++)
             {
                 if (skillsString[i].ToLower() == "true") { skills[i] = true; }
                 else { skills[i] = false; }
@@ -741,9 +765,9 @@ public class ActualPlayerData
         else
         {
             skills = new bool[5];
-            for(int i=0; i<skills.Length; i++) { skills[i] = false; }
+            for (int i = 0; i < skills.Length; i++) { skills[i] = false; }
         }
-        if (result.Data.ContainsKey("skillTimer")) { skillTimer = float.Parse(result.Data["skillTimer"].Value.Replace(',','.'),CultureInfo.InvariantCulture); }
+        if (result.Data.ContainsKey("skillTimer")) { skillTimer = float.Parse(result.Data["skillTimer"].Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
         else { skillTimer = 0; }
         if (result.Data.ContainsKey("lootingCap")) { lootingCap = int.Parse(result.Data["lootingCap"].Value); }
         else { lootingCap = 10; }
@@ -764,7 +788,7 @@ public class ActualPlayerData
         {
             treeBonus = new bool[3];
             string[] treeBonusString = result.Data["treeBonus"].Value.Split(',');
-            for(int i=0; i<treeBonusString.Length; i++)
+            for (int i = 0; i < treeBonusString.Length; i++)
             {
                 if (treeBonusString[i].ToLower() == "true")
                 {
@@ -837,7 +861,7 @@ public class ActualPlayerData
         {
             levels1 = new int[6];
             string[] levels1String = result.Data["levels1"].Value.Split(',');
-            for(int i=0; i<levels1String.Length-1; i++)
+            for (int i = 0; i < levels1String.Length - 1; i++)
             {
                 levels1[i] = int.Parse(levels1String[i]);
             }
@@ -848,7 +872,7 @@ public class ActualPlayerData
         {
             levels2 = new int[6];
             string[] levels2String = result.Data["levels2"].Value.Split(',');
-            for (int i = 0; i < levels2String.Length-1; i++)
+            for (int i = 0; i < levels2String.Length - 1; i++)
             {
                 levels2[i] = int.Parse(levels2String[i]);
             }
@@ -862,7 +886,7 @@ public class ActualPlayerData
         {
             levels3 = new int[6];
             string[] levels3String = result.Data["levels3"].Value.Split(',');
-            for (int i = 0; i < levels3String.Length-1; i++)
+            for (int i = 0; i < levels3String.Length - 1; i++)
             {
                 levels3[i] = int.Parse(levels3String[i]);
             }
@@ -880,10 +904,16 @@ public class ActualPlayerData
         {
             popped = 0;
         }
-        if(result.Data.ContainsKey("coinChance"))
+        if (result.Data.ContainsKey("coinChance"))
         {
             coinChance = int.Parse(result.Data["coinChance"].Value);
         }
+        if (result.Data.ContainsKey("toolInventory"))
+        {
+            toolInventory = result.Data["toolInventory"].Value.Split('-');
+        }
         _null = false;
     }
+
+    public string[] ToolObjs { get => toolInventory; }
 }
