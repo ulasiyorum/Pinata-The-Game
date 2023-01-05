@@ -17,47 +17,47 @@ public class BalanceDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        coinsText.text = " " + Instance.Player.getCoins();
-        coinsShop.text = " " + Instance.Player.getCoins();
-        balanceText.text = " " + Instance.Player.getBalance();
-        balanceShop.text = " " + Instance.Player.getBalance();
-        energyText.text = " " + Instance.Player.getEnergy();
-        nextEnergyIn.text = " " + Instance.Player.getTimer();
+        coinsText.text = " " + Instance.i.Player.getCoins();
+        coinsShop.text = " " + Instance.i.Player.getCoins();
+        balanceText.text = " " + Instance.i.Player.getBalance();
+        balanceShop.text = " " + Instance.i.Player.getBalance();
+        energyText.text = " " + Instance.i.Player.getEnergy();
+        nextEnergyIn.text = " " + Instance.i.Player.getTimer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float nextTimer = Pinata.getRespawnTime() - Instance.Player.getRespawnTimer();
-        int timeLeft = Instance.Player.getMaxEnergy() - Instance.Player.getEnergy();
+        float nextTimer = Pinata.getRespawnTime() - Instance.i.Player.getRespawnTimer();
+        int timeLeft = Instance.i.Player.getMaxEnergy() - Instance.i.Player.getEnergy();
         if(timeLeft == 0)
         {
             nextEnergyIn.text = " Full!";
         }
         else
         {
-            if(Instance.Shop.equipped[0])
+            if(Instance.i.Shop.equipped[0])
             {
-                if ((int)(Instance.Player.getShop().getPerks()[1]
-                        - Instance.Player.getShop().timer1)
-                        <= (11 - Instance.Player.getTimer()))
+                if ((int)(Instance.i.Player.getShop().getPerks()[1]
+                        - Instance.i.Player.getShop().timer1)
+                        <= (11 - Instance.i.Player.getTimer()))
                 {
-                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Instance.Shop.getPerks()[1]
-                            - Instance.Player.getShop().timer1);
+                    nextEnergyIn.text = "Next Energy: " + (int)(1 + Instance.i.Shop.getPerks()[1]
+                            - Instance.i.Player.getShop().timer1);
                 }
                 else
                 {
-                    nextEnergyIn.text = "Next Energy: " + (int)(11 - Instance.Player.getTimer());
+                    nextEnergyIn.text = "Next Energy: " + (int)(11 - Instance.i.Player.getTimer());
                 }
                 
             }
             else
             {
-                nextEnergyIn.text = "Next Energy: " + (int)(11 - Instance.Player.getTimer());
+                nextEnergyIn.text = "Next Energy: " + (int)(11 - Instance.i.Player.getTimer());
             }
             
         }
-        if (Instance.Player.getRespawnTimer() > 0 && Instance.Player.getIsDead())
+        if (Instance.i.Player.getRespawnTimer() > 0 && Instance.i.Player.getIsDead())
         {
             nextPinata.fontSize = 40;
             nextPinata.text = "" + string.Format("{0:0.00}",nextTimer);
@@ -70,10 +70,10 @@ public class BalanceDisplay : MonoBehaviour
             nextPinata.text = "Hit Pinata For Candies!";
             inShopNextPinata.text = "Pinata Respawned!";
         }
-        coinsText.text = " " + Instance.Player.getCoins();
-        coinsShop.text = " " + Instance.Player.getCoins();
-        energyText.text = "" + Instance.Player.getEnergy(); 
-        balanceText.text = "" + Instance.Player.getBalance();
-        balanceShop.text = " " + Instance.Player.getBalance();
+        coinsText.text = " " + Instance.i.Player.getCoins();
+        coinsShop.text = " " + Instance.i.Player.getCoins();
+        energyText.text = "" + Instance.i.Player.getEnergy(); 
+        balanceText.text = "" + Instance.i.Player.getBalance();
+        balanceShop.text = " " + Instance.i.Player.getBalance();
     }
 }
