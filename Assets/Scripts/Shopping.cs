@@ -35,7 +35,7 @@ public class Shopping : MonoBehaviour
 
     private Player Player
     {
-        get { return Instance.Player; }
+        get { return Instance.i.Player; }
     }
     private void Start()
     {
@@ -171,7 +171,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID0()
     {
-        if(Instance.Player.IsInventoryFull())
+        if(Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -179,7 +179,7 @@ public class Shopping : MonoBehaviour
         if (Player.getBalance() < 90) { StartCoroutine(CandyError()); }
         else
         {
-            Instance.Player.withdraw(90);
+            Instance.i.Player.withdraw(90);
             AudioManager.PlaySound("bought");
             Tool toolToBuy = new Tool(0,1,75,1,1);
             Player.PurchaseTool(toolToBuy);
@@ -187,7 +187,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID1()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -197,13 +197,13 @@ public class Shopping : MonoBehaviour
         {
             AudioManager.PlaySound("bought");
             Tool toolToBuy = new Tool(1, 2, 175, 3, 0);
-            Instance.Player.withdraw(110);
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.withdraw(110);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID2()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -211,16 +211,16 @@ public class Shopping : MonoBehaviour
         if (Player.getBalance() < 275) { StartCoroutine(CandyError()); }
         else
         {
-            Instance.Player.withdraw(275);
+            Instance.i.Player.withdraw(275);
             AudioManager.PlaySound("bought");
             Tool toolToBuy = new Tool(2, 0, 80, -2, 3, 2);
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
 
     public void buytoolID3()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -228,15 +228,15 @@ public class Shopping : MonoBehaviour
         if (Player.getBalance() < 450) { StartCoroutine(CandyError()); }
         else
         {
-            Instance.Player.withdraw(450);
+            Instance.i.Player.withdraw(450);
             AudioManager.PlaySound("bought");
             Tool toolToBuy = new Tool(3, 4, 250, 3, 2, .8);
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID4()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -247,12 +247,12 @@ public class Shopping : MonoBehaviour
             Tool toolToBuy = new Tool(4, 1, 300, 2, 4, .7);
             Player.withdraw(525);
             AudioManager.PlaySound("bought");
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID5()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -263,13 +263,13 @@ public class Shopping : MonoBehaviour
             id = 5;
             AudioManager.PlaySound("bought");
             Tool toolToBuy = new Tool(5, 9, 240, 0, 4, 1.5);
-            Instance.Player.withdraw(1000);
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.withdraw(1000);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID6()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -280,12 +280,12 @@ public class Shopping : MonoBehaviour
             Tool toolToBuy = new Tool(6, 19, 100, 2, 5, .8);
             AudioManager.PlaySound("bought");
             Player.withdraw(1100);
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID7()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -296,12 +296,12 @@ public class Shopping : MonoBehaviour
             Tool toolToBuy = new Tool(7, 14, 125, 0, 5);
             Player.withdraw(1200);
             AudioManager.PlaySound("bought");
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID8()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -317,7 +317,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID9()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -333,7 +333,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID10()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -349,7 +349,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID11()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -365,7 +365,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID12()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -381,7 +381,7 @@ public class Shopping : MonoBehaviour
     }
     public void buytoolID13()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -392,12 +392,12 @@ public class Shopping : MonoBehaviour
             Tool toolToBuy = new Tool(13, 0, 424, -3, 5, 1.5, 1f);
             Player.withdraw(3000);
             AudioManager.PlaySound("bought");
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID14()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -408,12 +408,12 @@ public class Shopping : MonoBehaviour
             Tool toolToBuy = new Tool(14, 4, 240, -2, 10, 2, 1);
             Player.withdraw(3200);
             AudioManager.PlaySound("bought");
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buytoolID15()
     {
-        if (Instance.Player.IsInventoryFull())
+        if (Instance.i.Player.IsInventoryFull())
         {
             // Inventory Full Alert
             return;
@@ -424,7 +424,7 @@ public class Shopping : MonoBehaviour
             Tool toolToBuy = new Tool(15,29,200,0,6);
             Player.withdraw(3500);
             AudioManager.PlaySound("bought");
-            Instance.Player.PurchaseTool(toolToBuy);
+            Instance.i.Player.PurchaseTool(toolToBuy);
         }
     }
     public void buyPinataDefault()
@@ -1311,7 +1311,6 @@ public class Shopping : MonoBehaviour
             int a = 0;
             if(tempLooting == 10) { a = 1; }
             int[] numbers = new int[Perks[2]+a];
-            Debug.Log(numbers.Length);
                 jackpot = false;
                 for (int i = 0; i < numbers.Length; i++) { numbers[i] = UnityEngine.Random.Range(0, 101); }
                 foreach(int i in numbers) { if(i == 27) { jackpot = true; break; } }
