@@ -9,6 +9,7 @@ using CodeMonkey;
 using System.Threading.Tasks;
 using System.Globalization;
 using UnityEngine.LowLevel;
+using System.Collections.ObjectModel;
 
 [Serializable]
 public class Player : MonoBehaviour // extraLooting Currently Does Not Work
@@ -17,7 +18,10 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
     private const double attackSpeed = 1f;
     private const float attackRange = 1.2f;
     public int inventoryIndex = 0;
-    private List<Tool> playerToolInventory;
+    private List<Tool> playerToolInventory = new List<Tool>();
+
+    public IList<Tool> PlayerToolInventory { get => playerToolInventory.AsReadOnly(); }
+
     public bool HasTool { get => playerToolInventory.Count > 0; }
 
 
@@ -91,13 +95,9 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
     private static int initialMaxEnergy = 100;
     [SerializeField] private int maxEnergy = 100;
     [SerializeField] private int epa = 5;
-
-    [SerializeField] private GameObject respawnPoint;
-    [SerializeField] private Vector2 pinataPoint;
     public bool openShop = false;
     [SerializeField] private bool isDead;
     [SerializeField] Shopping shop;
-    [SerializeField] GameObject newPinata;
     [SerializeField] GameObject main;
     [SerializeField] bool attacking;
     [SerializeField] GameObject attackButton;
@@ -163,6 +163,10 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
     private static ActualPlayerData _player;
     private void Start()
     {
+        energy = 100;
+        timerforattack = 0;
+        playerToolInventory = new List<Tool>();
+        playerToolInventory.Add(new Tool());
         treeBonus = new bool[3];
         miniGameMultiplier3 = 0;
         miniGameMultiplier2 = 0;
@@ -189,17 +193,12 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         coins = 0;
         respawntimer = 15;
         toolID = -1;
-        enemyHealth = Pinata.getHealth();
+        Instance.i.PinataObject.Health = Pinata.getHealth();
         timerforattack = 0;
         for (int i = 0; i < inventoryPinata.Length; i++) { inventoryPinata[i] = false; inventoryPet[i] = false; }
 
         attacking = false;
         balance = 0;
-        respawnPosition = respawnPoint.transform.position;
-        pinataPoint = _pinata.transform.position;
-        newPinata = (GameObject)Instantiate(_pinata, parent, true);
-        newPinata.transform.position = respawnPoint.transform.position;
-        energy = maxEnergy;
         if (PlayFab.PlayFabClientAPI.IsClientLoggedIn()) {
             game = true;
             main.GetComponent<PlayfabManager>().Load();
@@ -211,6 +210,7 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
     }
     void FixedUpdate()
     {
+        timerforattack += Time.deltaTime;
         errorTimer += Time.deltaTime;
         if(errorTimer >= 2f) { errorText.text = ""; }
         if(skill2Active && skillTimer2 <= 12) 
@@ -354,8 +354,8 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         this.isDead = _player.getIsDead();
         if (isDead)
         {
-            Destroy(_pinata);
-            this.enemyHealth = _player.getEnemyHealth();
+            Instance.i.PinataObject.gameObject.SetActive(false);
+            Instance.i.PinataObject.Health = _player.getEnemyHealth();
             isDead = true;
         }
         int diff = (startTime.Year * 365 * 24 * 60 * 60 + startTime.Month * 30 * 24 * 60 * 60
@@ -456,37 +456,44 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         loans.setMoneyToPay(_player.getMoneyToPay());
         Pinata.setLootRange1(_player.getLootRange1());
         Pinata.setTempRespawnTime(_player.getTempRespawnTime());
-        this.enemyHealth = _player.getEnemyHealth();
+        Instance.i.PinataObject.Health = _player.getEnemyHealth();
         shop.oncePet3 = _player.getOncePet3();
         this.toolID = _player.getToolID();
         coins = _player.getCoins();
         networth = _player.getNetworth();
         popped = _player.getPopped();
+
+        foreach(string tool in _player.ToolObjs)
+        {
+            Tool toolToAdd = Tool.Parse(tool);
+            bool toolExists = false;
+            foreach(Tool t in PlayerToolInventory)
+            {
+                if (t.IsSame(toolToAdd))
+                {
+                    toolExists = true;
+                    break;
+                }
+            }
+
+            if (!toolExists)
+                playerToolInventory.Add(toolToAdd);
+        }
+
+
         if (skills[0] || skills[1] || skills[2])
         {
             skillTimer += diff;
         }
         if (respawntimer > Pinata.getRespawnTime() && isDead)
         {
-            newPinata.transform.position = new Vector2(pinataPoint.x, pinataPoint.y);
-            _pinata = newPinata;
-            newPinata = (GameObject)Instantiate(_pinata, parent, true);
-            newPinata.transform.position = respawnPoint.transform.position;
-            _pinata.GetComponent<Pinata>().getImages()[Pinata._this].SetActive(true);
-            enemyHealth = _pinata.GetComponent<Pinata>().getHealth2();
-            isDead = false;
+            Instance.i.PinataObject.gameObject.SetActive(true);
         }
         else if (!isDead && _pinata == null)
         {
-            newPinata.transform.position = pinataPoint * Instance.GetCanvas.scaleFactor;
-            _pinata = newPinata;
-            newPinata = (GameObject)Instantiate(_pinata, parent, true);
-            newPinata.transform.position = respawnPoint.transform.position;
-            _pinata.GetComponent<Pinata>().getImages()[Pinata._this].SetActive(true);
-            _pinata.SetActive(true);
-            enemyHealth = _player.getEnemyHealth();
-            isDead = false;
+            Instance.i.PinataObject.Health = _player.getEnemyHealth();
         }
+
         shop.setLevels(_player.getLevels());
         shop.setInventoryScenes(_player.getInventoryScenes());
         for (int i = 0; i < shop.getInventoryScenes().Length; i++)
@@ -569,17 +576,9 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
     {
         return this.EPA;
     }
-    public GameObject getRespawnPoint()
-    {
-        return this.respawnPoint;
-    }
     public Shopping getShop()
     {
         return this.shop;
-    }
-    public GameObject getNewPinata()
-    {
-        return this.newPinata;
     }
     public GameObject getMain()
     {
@@ -906,22 +905,28 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         if (energyConsume > energy)
             return;
 
-        GameAssets.Instance.PlayerHit.Play("playerHit");
+        GameAssets.Instance.PlayerHit.Play("playerAttack");
+        AudioManager.PlaySound("woosh");
+        timerforattack = 0;
 
-        await Task.Delay((int)GameAssets.Instance.PlayerHit.GetCurrentAnimatorStateInfo(0).length * 999);
+        await Task.Delay((int)GameAssets.Instance.PlayerHit.GetCurrentAnimatorStateInfo(0).length * 240);
+
+        if (isDead)
+            return;
 
         if (!IsInRage())
             return;
 
-        Instance.PinataObject.TakeDamage();
-        timerforattack = 0;
+        GameAssets.Instance.PinataShake.Play("pinataShake");
+        Instance.i.PinataObject.TakeDamage();
+        AudioManager.PlaySound("hit");
 
         energy -= energyConsume;
 
         int add = DetermineLootPerHit();
         balance += add;
         networth += add;
-        PopUpMessage.StartPopUpMessageCandy(add, Instance.GetCanvas);
+        PopUpMessage.StartPopUpMessageCandy(add, Instance.i.GetCanvas);
 
 
         UsingSkillsOnHit();
@@ -932,30 +937,30 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         int add = DetermineLoot();
         balance += add;
         networth += add;
-        PopUpMessage.StartPopUpMessageCandy(add, Instance.GetCanvas);
-        yield return new WaitForSeconds(Instance.PinataObject.RespawnTime);
-        Instance.PinataObject.Respawn();
+        PopUpMessage.StartPopUpMessageCandy(add, Instance.i.GetCanvas);
+        yield return new WaitForSeconds(Instance.i.PinataObject.RespawnTime);
+        Instance.i.PinataObject.Respawn();
         isDead = false;
     }
     private bool IsInRage()
     {
-        return Vector2.Distance(Instance.PinataObject.transform.position, attackPoint.position) < attackRange + 1.6f;
+        return Vector2.Distance(Instance.i.PinataObject.transform.position, attackPoint.position) < attackRange + 1.6f;
     }
 
     private int DetermineLoot()
     {
         int add;
-        if (Instance.Shop.equipped[1])
+        if (Instance.i.Shop.equipped[1])
         {
             add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency);
         }
-        else if (Instance.Shop.equipped[3])
+        else if (Instance.i.Shop.equipped[3])
         {
             add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) / 2;
         }
-        else if (Instance.Shop.equipped[4] && AttackDamage >= Pinata.getHealth())
+        else if (Instance.i.Shop.equipped[4] && AttackDamage >= Pinata.getHealth())
         {
-            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) * ((Instance.Shop.getPerks()[1] / 100) + 1);
+            add = (int)((Pinata.getLoot() + (Pinata.getLoot() * PlayerTool.Looting / 10) + Pinata.getLootFromPerk()) * lootEfficiency) * ((Instance.i.Shop.getPerks()[1] / 100) + 1);
         }
         else
         {
@@ -966,19 +971,19 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
     private int DetermineLootPerHit()
     {
         int add = 0;
-        if (Instance.Shop.equipped[1])
+        if (Instance.i.Shop.equipped[1])
             return add;
-        else if (Instance.Shop.equipped[3])
+        else if (Instance.i.Shop.equipped[3])
         {
             int i = Pinata.getLootPerClick() + 1;
             add = (int)((i + (i * PlayerTool.Looting / 5)) * lootEfficiency);
         }
-        else if (Instance.Shop.equipped[4])
+        else if (Instance.i.Shop.equipped[4])
         {
-            if (CreateRandomChance.Gamble(Instance.Shop.getLevels()[4] * 10, 100))
+            if (CreateRandomChance.Gamble(Instance.i.Shop.getLevels()[4] * 10, 100))
             {
                 PlayerTool.Durability++;
-                balance -= Instance.Shop.getPerks()[4];
+                balance -= Instance.i.Shop.getPerks()[4];
                 //Popup Message
             }
             add = (int)((Pinata.getLootPerClick() + (Pinata.getLootPerClick() * PlayerTool.Looting / 5)) * lootEfficiency);
@@ -993,9 +998,9 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
     private int DetermineEnergyConsume()
     {
         int energyConsume;
-        if (Instance.Shop.equipped[2])
+        if (Instance.i.Shop.equipped[2])
             energyConsume = EPA / 2;
-        else if (Instance.Shop.equipped[3])
+        else if (Instance.i.Shop.equipped[3])
         {
             energyConsume = EPA - (int)(shop.getPerks()[2] * (extraAttackSpeed + attackSpeed));
             energyConsume = energyConsume < 3 ? 3 : energyConsume;
@@ -1014,7 +1019,7 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         {
             balance += (makeitworth * EPA) / 20;
             networth += (makeitworth * EPA) / 20;
-            PopUpMessage.StartPopUpMessageCandy((makeitworth * EPA / 20), Instance.GetCanvas);
+            PopUpMessage.StartPopUpMessageCandy((makeitworth * EPA / 20), Instance.i.GetCanvas);
         }
 
         int i = PlayerTool.Looting == 10 ? 1 : 0;
@@ -1023,7 +1028,7 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
             balance += 100 + (4 * Math.Log(0.00000000217 * Math.Pow(treasureCount, 15))); 
             if (godOfBugs)
                 treasureCount++;
-            PopUpMessage.StartPopUpMessageCandy(100, Instance.GetCanvas);
+            PopUpMessage.StartPopUpMessageCandy(100, Instance.i.GetCanvas);
             GameAssets.Instance.SecretTreasure.Play("secretTreasure");
         }
 
@@ -1035,7 +1040,7 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
             networth += added;
             totCount++;
             trickOrTreat = 40 + (int)(4 * Math.Log(0.00000000217 * Math.Pow(totCount, 15)));
-            PopUpMessage.StartPopUpMessageCandy(added, Instance.GetCanvas);
+            PopUpMessage.StartPopUpMessageCandy(added, Instance.i.GetCanvas);
             AudioManager.PlaySound("pop");
         }
 
