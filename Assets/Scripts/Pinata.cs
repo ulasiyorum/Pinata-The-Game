@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using System;
-
+using PlayFab.ClientModels;
 
 [Serializable]
 public class Pinata : MonoBehaviour
@@ -19,12 +19,35 @@ public class Pinata : MonoBehaviour
     private static int _lootRange0 = 0;
     private static int _lootRange1 = 3;
     private static float _respawnTime = 15;
-    private static GameObject[] images;
-    public static GameObject[] Images
+    private static Sprite[] images;
+    private static Sprite empty;
+    public static Sprite[] Images
     {
         get => images;
         set => images = value;
     } // this is not initialized
+
+    public static GameObject Body
+    {
+        get
+        {
+            return Instance.i.PinataObject.gameObject;
+        }
+    }
+
+    public static Sprite BodySprite
+    {
+        get
+        {
+            return Body.GetComponent<SpriteRenderer>().sprite;
+        }
+        set
+        {
+            Body.GetComponent<SpriteRenderer>().sprite = value;
+        }
+    }
+
+
     private static Player player;
     public static int _this = 0;
     public static int Current { get => _this; set => _this = value; }
@@ -33,27 +56,34 @@ public class Pinata : MonoBehaviour
     private double health;
     private float respawnTime;
     public float RespawnTime { get => respawnTime; set => respawnTime = value; }
-    public double Health { get => Health; set => health = value; }
+    public double Health { get => health; set => health = value; }
 
 
     void Start()
     {
-        Debug.Log(_this);
+        respawnTime = _respawnTime;
+        player = FindObjectOfType<Player>();
+        empty = GameAssets.Instance.empty;
+        images = new Sprite[GameAssets.Instance.PinataImages.Length];
+        for (int i = 0; i < GameAssets.Instance.PinataImages.Length; i++)
+        {
+            images[i] = GameAssets.Instance.PinataImages[i];
+        }
+        Respawn();
     }
     private void OnEnable()
     {
-        player = FindObjectOfType<Player>();
-        foreach(var image in images) { } // Initialize Here
+
     }
     void FixedUpdate()
     {
         if(_this == 0) { _tempRespawnTime = 15; }
 
-        if (CreateRandomChance.Gamble(Instance.Player.getCloverChance(), 6))
+        if (CreateRandomChance.Gamble(Instance.i.Player.getCloverChance(), 6))
             _lootPerClick = _lootRange1;
         else
             _lootPerClick = UnityEngine.Random.Range(_lootRange0, _lootRange1);
-        PinataImage();
+        
     }
 
     public static double getHealth()
@@ -90,10 +120,6 @@ public class Pinata : MonoBehaviour
     {
         return _lootPerClick;
     }
-    public GameObject[] getImages()
-    {
-        return images;
-    }
     public static float getRespawnTime()
     {
 
@@ -105,9 +131,8 @@ public class Pinata : MonoBehaviour
     public static void setRespawnTime(float respawn) { _respawnTime = respawn; }
     public static void buyDefault()
     {
-        images[_this].SetActive(false);
         _this = 0;
-        images[_this].SetActive(true);
+        BodySprite = images[_this];
         _health = 10;
         _loot = 5;
         _lootRange0 = 0;
@@ -131,9 +156,8 @@ public class Pinata : MonoBehaviour
     public static void buyID0()
     {
         player.getInventoryPinata()[0] = true;
-        images[_this].SetActive(false);
         _this = 1;
-        images[_this].SetActive(true);
+        BodySprite = images[_this];
         _health = 5;
         _loot = 5;
         _respawnTime = 4;
@@ -144,9 +168,8 @@ public class Pinata : MonoBehaviour
     public static void buyID1()
     {
         player.getInventoryPinata()[1] = true;
-        images[_this].SetActive(false);
         _this = 2;
-        images[_this].SetActive(true);
+        BodySprite = images[_this];
         _health = 24;
         _loot = 24;
         _respawnTime = 39;
@@ -157,9 +180,8 @@ public class Pinata : MonoBehaviour
     public static void buyID2()
     {
         player.getInventoryPinata()[2] = true;
-        images[_this].SetActive(false);
         _this = 3;
-        images[_this].SetActive(true);
+        BodySprite = images[_this];
         _health = 164;
         _loot = 61;
         _respawnTime = 100;
@@ -170,9 +192,8 @@ public class Pinata : MonoBehaviour
     public static void buyID3() 
     {
         player.getInventoryPinata()[3] = true;
-        images[_this].SetActive(false);
         _this = 4;
-        images[_this].SetActive(true);
+        BodySprite = images[_this];
         _health = 200;
         _loot = 25;
         _respawnTime = 92;
@@ -183,9 +204,8 @@ public class Pinata : MonoBehaviour
     public static void buyID4()
     {
         player.getInventoryPinata()[4] = true;
-        images[_this].SetActive(false);
         _this = 5;
-        images[_this].SetActive(true);
+        BodySprite = images[_this];
         _health = 120;
         _loot = 0;
         _respawnTime = 102;
@@ -196,19 +216,14 @@ public class Pinata : MonoBehaviour
     public static void buyID5()
     {
         player.getInventoryPinata()[5] = true;
-        images[_this].SetActive(false);
         _this = 6;
-        images[_this].SetActive(true);
+        BodySprite = images[_this];
         _health = 60;
         _loot = 20;
         _respawnTime = 2.5f;
         _tempRespawnTime = 2.5f;
         _lootRange0 = 0;
         _lootRange1 = 1;
-    }
-    public void setImages(GameObject[] a)
-    {
-        images = a;
     }
 
     public static int getThis()
@@ -234,20 +249,7 @@ public class Pinata : MonoBehaviour
     }
     void PinataImage()
     {
-        if (player.getPinata() != null && _this != 0)
-        {
-            foreach(var p in images) { p.SetActive(false); }
-            getImages()[_this].SetActive(true);
-        }
-        else if (player.getPinata() != null && _this == 0) { foreach (var p in images) { p.SetActive(false); } getImages()[_this].SetActive(true); }
-        else if (player.getPinata() == null && _this != 0)
-        {
-            foreach (var p in images) { p.SetActive(false); }
-        }
-        else if (player.getPinata() == null && _this == 0)
-        {
-            foreach (var p in images) { p.SetActive(false); }
-        }
+        BodySprite = images[_this];
     }
     public static int GetLootRange(int range)
     {
@@ -263,29 +265,28 @@ public class Pinata : MonoBehaviour
 
     public void TakeDamage()
     {
-        double damage = Instance.Player.AttackDamage;
+        double damage = Instance.i.Player.AttackDamage;
         if (damage >= health)
         {
-            images[Current].SetActive(false);
+            BodySprite = empty;
+            Body.SetActive(false);
             health = 0;
             GameAssets.Instance.PinataDied.Play("CandyDrop");
-            Instance.PinataObject.Die();
+            Instance.i.PinataObject.Die();
+            AudioManager.PlaySound("pop");
             return;
         }
         health -= damage;
-        AudioManager.PlaySound("pop");
-        GameAssets.Instance.PinataShake.Play("pinataShake");
     }
     private void Die()
     {
-        Instance.PinataObject.gameObject.SetActive(false);
-        StartCoroutine(Instance.Player.PinataPopp());
-
+        Body.SetActive(false);
     }
 
     public void Respawn()
     {
-        Instance.PinataObject.gameObject.SetActive(true);
+        Body.SetActive(true);
+        BodySprite = images[Current];
         health = _health;
     }
 
