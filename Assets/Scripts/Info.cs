@@ -29,12 +29,12 @@ public class Info : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Instance.Player.openShop) { button.SetActive(false); image.SetActive(false); lowDurability.SetActive(false); }
+        if(Instance.i.Player.openShop) { button.SetActive(false); image.SetActive(false); lowDurability.SetActive(false); }
         else { if (isPressed) { button.SetActive(true);  }  }
         UpdateStats();
 
-        if (Instance.Player.PlayerTool.Durability < 25 && !isActive && Instance.Player.HasTool) { 
-            if (!Instance.Player.openShop) { lowDurability.SetActive(true); } }
+        if (Instance.i.Player.PlayerTool.Durability < 25 && !isActive && Instance.i.Player.HasTool) { 
+            if (!Instance.i.Player.openShop) { lowDurability.SetActive(true); } }
         else { lowDurability.SetActive(false); }
     }
 
@@ -83,76 +83,76 @@ public class Info : MonoBehaviour
     private void UpdateAttackDamage()
     {
         WholeText.text += "\n" + "Attack Damage: ";
-        if (Instance.Player.getShop().equipped[4])
+        if (Instance.i.Player.getShop().equipped[4])
         {
-            WholeText.text += Instance.Shop.getTemporaryAttackDamage();
+            WholeText.text += Instance.i.Shop.getTemporaryAttackDamage();
         }
         else
         {
-            WholeText.text += Instance.Player.AttackDamage;
+            WholeText.text += Instance.i.Player.AttackDamage;
         }
     }
 
     private void UpdateAttackSpeed()
     {
-        WholeText.text += "\n" + "Attack Speed: " + (Instance.Player.AttackSpeed + Instance.Player.getExtraAs());
+        WholeText.text += "\n" + "Attack Speed: " + (Instance.i.Player.AttackSpeed + Instance.i.Player.getExtraAs());
     }
 
     private void UpdateLooting()
     {
         WholeText.text += "\n" + "Looting: ";
 
-        if (Instance.Player.getShop().equipped[2])
+        if (Instance.i.Player.getShop().equipped[2])
         {
-            WholeText.text += Instance.Shop.getTempLooting();
+            WholeText.text += Instance.i.Shop.getTempLooting();
         }
         else
         {
-            WholeText.text += Instance.Player.PlayerTool.Looting;
+            WholeText.text += Instance.i.Player.PlayerTool.Looting;
         }
     }
     private void UpdateMaxEnergy()
     {
-        WholeText.text += "\n" + "Max Energy: " + Instance.Player.getMaxEnergy();
+        WholeText.text += "\n" + "Max Energy: " + Instance.i.Player.getMaxEnergy();
     }
 
     private void UpdateEPA()
     {
         WholeText.text += "\n" + "Energy Consume per Hit: ";
-        if(Instance.Shop.equipped[3] || Instance.Shop.equipped[2])
+        if(Instance.i.Shop.equipped[3] || Instance.i.Shop.equipped[2])
         {
-            WholeText.text += Instance.Shop.getTempEPA();
+            WholeText.text += Instance.i.Shop.getTempEPA();
         }
         else
         {
-            WholeText.text += Instance.Player.EPA;
+            WholeText.text += Instance.i.Player.EPA;
         }
     }
 
     private void UpdateToolDurability()
     {
         WholeText.text += "\n" + "Tool Durability: ";
-        if (Instance.Player.PlayerTool.Durability != 0)
-            WholeText.text += Instance.Player.PlayerTool.Durability;
+        if (Instance.i.Player.PlayerTool.Durability != 0)
+            WholeText.text += Instance.i.Player.PlayerTool.Durability;
         else
             WholeText.text += "None";
     }
 
     private void UpdatePinataHealth()
     {
-        WholeText.text += "\n" + "Pinata's Health: " + Instance.Player.getEnemyHealth();
+        WholeText.text += "\n" + "Pinata's Health: " + Instance.i.Player.getEnemyHealth();
     }
 
     private void UpdateLoots()
     {
         double input;
-        if (Instance.Shop.equipped[2])
+        if (Instance.i.Shop.equipped[2])
         {
-            input = Instance.Shop.getTempLooting() / 10 * Instance.Player.getLootEfficiency();
+            input = Instance.i.Shop.getTempLooting() / 10 * Instance.i.Player.getLootEfficiency();
         }
         else
         {
-            input = Instance.Player.PlayerTool.Looting / 10 * Instance.Player.getLootEfficiency();
+            input = Instance.i.Player.PlayerTool.Looting / 10 * Instance.i.Player.getLootEfficiency();
         }
 
 
@@ -163,13 +163,13 @@ public class Info : MonoBehaviour
     private void UpdateLootPerHit(double input)
     {
         WholeText.text += "\n" + "Candies per Hit: ";
-        if (Instance.Shop.equipped[3] && Instance.Shop.koalaCondition)
+        if (Instance.i.Shop.equipped[3] && Instance.i.Shop.koalaCondition)
         {
             WholeText.text += (int)((Pinata.GetLootRange(0) + 1) + ((Pinata.GetLootRange(0) + 1) * input)) 
                 + "-" + 
                 (int)(Pinata.GetLootRange(1) + (Pinata.GetLootRange(1) * input));
         }
-        else if (Instance.Shop.equipped[1])
+        else if (Instance.i.Shop.equipped[1])
         {
             WholeText.text += 0;
         }
@@ -183,21 +183,21 @@ public class Info : MonoBehaviour
     private void UpdateFinalLoot(double input)
     {
         WholeText.text += "\n" + "Candies per Pinata: ";
-        if(Instance.Shop.equipped[4] && Instance.Player.AttackDamage >= Pinata.getHealth())
+        if(Instance.i.Shop.equipped[4] && Instance.i.Player.AttackDamage >= Pinata.getHealth())
         {
             int i = (int)(Pinata.getLoot() + (Pinata.getLoot() * input));
             WholeText.text += (i * 2) + "(" + i + ")";
         }
-        else if (Instance.Shop.equipped[4])
+        else if (Instance.i.Shop.equipped[4])
         {
             int i = (int)(Pinata.getLoot() + (Pinata.getLoot() * input));
             WholeText.text += i + "(" + (i*2) + ")";
         }
-        else if (Instance.Shop.equipped[1])
+        else if (Instance.i.Shop.equipped[1])
         {
             WholeText.text += (int)(Pinata.getLoot() + (Pinata.getLoot() * input) + (int)Pinata.getLootFromPerk());
         }
-        else if (Instance.Shop.equipped[3]) 
+        else if (Instance.i.Shop.equipped[3]) 
         {
             WholeText.text += (int)(Pinata.getLoot() + (Pinata.getLoot() * input)) / 2;
         }
