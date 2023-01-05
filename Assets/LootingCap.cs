@@ -13,6 +13,6 @@ public class LootingCap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Text>().text = "" + Instance.Player.getLootingCap();
+        GetComponent<Text>().text = "" + Instance.i.Player.getLootingCap();
     }
 }
