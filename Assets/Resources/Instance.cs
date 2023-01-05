@@ -5,8 +5,21 @@ using UnityEngine;
 
 public class Instance : MonoBehaviour
 {
-    private static Canvas canvas;
-    public static Canvas GetCanvas
+    private static Instance instance;
+
+    public static Instance i
+    {
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<Instance>();
+
+            return instance;
+        }
+    }
+
+    [SerializeField] Canvas canvas;
+    public Canvas GetCanvas
     {
         get
         {
@@ -27,19 +40,17 @@ public class Instance : MonoBehaviour
     }
 
     // There'll always be one pinata
-    private static Pinata pinataObject;
-    public static Pinata PinataObject
+    [SerializeField] Pinata pinataObject;
+    public Pinata PinataObject
     {
         get
         {
-            if (pinataObject == null && FindObjectOfType<Pinata>() != null)
+            if (pinataObject == null)
             {
                 pinataObject = FindObjectOfType<Pinata>(true);
             }
-            if (pinataObject != null)
-                return pinataObject;
 
-            return null;
+            return pinataObject;
         }
         private set
         {
@@ -47,8 +58,8 @@ public class Instance : MonoBehaviour
         }
     }
 
-    private static Player playerInstance;
-    public static Player Player
+    [SerializeField] Player playerInstance;
+    public Player Player
     {
         get
         {
@@ -59,7 +70,7 @@ public class Instance : MonoBehaviour
             return playerInstance;
         }
     }
-    public static Shopping Shop
+    public Shopping Shop
     {
         get
         {
