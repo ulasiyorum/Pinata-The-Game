@@ -433,6 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f3ba0ecb9eccd4c9ff67b60be3c47b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  empty: {fileID: 21300000, guid: ab111d7908ccc0c4492c46be7c3b605f, type: 3}
   pinataImages:
   - {fileID: 21300000, guid: 71b3f32d403b4dc47bb35e409b3be956, type: 3}
   - {fileID: 21300000, guid: d247a040ba78e964892efc9ab9823e93, type: 3}
@@ -441,8 +442,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 48f7312d3ef95d2428c1ac4f8397f3ae, type: 3}
   - {fileID: 21300000, guid: 1965eab40c9e4d942bbbc5ed15dde910, type: 3}
   - {fileID: 21300000, guid: 9eb99958600116b4290a962f8300a386, type: 3}
-  pinataDied: {fileID: 0}
-  pinataShake: {fileID: 0}
+  pinataDied: {fileID: 1173509001}
+  pinataShake: {fileID: 84729302}
+  playerHit: {fileID: 2097311897}
+  secretTreasure: {fileID: 114749721}
+  candyError: {fileID: 1802458916}
 --- !u!4 &8376813
 Transform:
   m_ObjectHideFlags: 0
@@ -1369,6 +1373,7 @@ GameObject:
   - component: {fileID: 84729298}
   - component: {fileID: 84729300}
   - component: {fileID: 84729301}
+  - component: {fileID: 84729302}
   m_Layer: 7
   m_Name: Pinata
   m_TagString: Untagged
@@ -1413,8 +1418,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 167520645
+  m_SortingLayer: -1
   m_SortingOrder: -3
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1479,6 +1484,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.183311, y: 3.491807}
   m_EdgeRadius: 0
+--- !u!95 &84729302
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84729297}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9ea83ef9307f9a044a1912328737b1d3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &90804104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2029,6 +2053,10 @@ PrefabInstance:
     - target: {fileID: 1915549800461870767, guid: 670185da8676384428e01c404a7f0195, type: 3}
       propertyPath: m_Name
       value: StartMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915549800461870767, guid: 670185da8676384428e01c404a7f0195, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 670185da8676384428e01c404a7f0195, type: 3}
@@ -5335,7 +5363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &311023138
 Transform:
   m_ObjectHideFlags: 0
@@ -6524,7 +6552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &380350559
 Transform:
   m_ObjectHideFlags: 0
@@ -9598,6 +9626,7 @@ GameObject:
   - component: {fileID: 550976828}
   - component: {fileID: 550976829}
   - component: {fileID: 550976830}
+  - component: {fileID: 550976832}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -9701,7 +9730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af6b4e63b056b04387c21e7e60ac275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1150034818}
   refillButton: {fileID: 0}
   moveButtons:
   - {fileID: 433121206}
@@ -9825,6 +9853,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9198ec104fa9a3d43b8f526f6b5d32bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &550976832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550976819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619e9bea6c7ecc04eafa32ee8f700e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 1243318648}
+  pinataObject: {fileID: 84729300}
+  playerInstance: {fileID: 1150034818}
 --- !u!1 &552069859
 GameObject:
   m_ObjectHideFlags: 0
@@ -15020,7 +15063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &853721283
 Transform:
   m_ObjectHideFlags: 0
@@ -20369,42 +20412,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13c571b57332ab4287ed806cb8d9993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryIndex: 0
   errorText: {fileID: 380074112}
-  canvas: {fileID: 1243318648}
   loans: {fileID: 550976825}
-  timerforattack: 0
   startMenu: {fileID: 1785641587}
   attackPoint: {fileID: 315306547}
   parent: {fileID: 1243318649}
-  attackRange: 1.2
   enemyHealth: 0
   balance: 0
-  looting: 0
   _pinata: {fileID: 84729297}
   _Player: {fileID: 0}
-  playerDamage: 1
-  attackDamage: 0
-  attackSpeed: 1
-  toolDurability: 0
   energy: 0
   maxEnergy: 100
-  EPA: 5
-  toolEPA: 0
-  respawnPoint: {fileID: 1448086624}
-  pinataPoint: {x: 0, y: 0}
+  epa: 5
   openShop: 0
   isDead: 0
   shop: {fileID: 0}
-  newPinata: {fileID: 0}
   main: {fileID: 550976819}
   attacking: 0
   attackButton: {fileID: 1613125482}
   exitTime: 0
   anim: {fileID: 1173508998}
-  pinataDied: {fileID: 0}
-  playerHit: {fileID: 2097311897}
-  st: {fileID: 114749721}
-  pinataShake: {fileID: 946803272}
   wrapShot: 0
   chest: {fileID: 0}
   totAnimation: {fileID: 1265103251}
@@ -20426,14 +20454,6 @@ MonoBehaviour:
   timer0: 0
   timer1: 0
   timer2: 0
-  toolEPA: 0
-  toolDurability: 0
-  attackDamage: 0
-  attackSpeed: 1
-  looting: 0
-  attackRange: 0
-  Player: {fileID: 1150034818}
-  _candyError: {fileID: 1802458916}
   currentLevel: {fileID: 2058405954}
   tempEPA: 0
   currentLevelText: {fileID: 179530513}
@@ -20567,7 +20587,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  hasTool: 1
   equipped: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   koalaCondition: 0
   oncePet3: 0
@@ -21396,7 +21415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1211186195
 Transform:
   m_ObjectHideFlags: 0
@@ -21557,7 +21576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1219154849
 Transform:
   m_ObjectHideFlags: 0
@@ -29551,7 +29570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1639923397
 Transform:
   m_ObjectHideFlags: 0
@@ -31706,6 +31725,44 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1915549800461870766, guid: 670185da8676384428e01c404a7f0195, type: 3}
   m_PrefabInstance: {fileID: 116919288}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1785641589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785641587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1785641590
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785641587}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: -746827943
+  m_SortingOrder: 1000
+  m_TargetDisplay: 0
 --- !u!1 &1788682176
 GameObject:
   m_ObjectHideFlags: 0
@@ -36929,7 +36986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2016386420
 Transform:
   m_ObjectHideFlags: 0
