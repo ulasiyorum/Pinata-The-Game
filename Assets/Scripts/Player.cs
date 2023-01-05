@@ -909,7 +909,7 @@ public class Player : MonoBehaviour // extraLooting Currently Does Not Work
         AudioManager.PlaySound("woosh");
         timerforattack = 0;
 
-        await Task.Delay((int)GameAssets.Instance.PlayerHit.GetCurrentAnimatorStateInfo(0).length * 240);
+        await Task.Delay((int)GameAssets.Instance.PlayerHit.GetCurrentAnimatorStateInfo(0).length * 250);
 
         if (isDead)
             return;
