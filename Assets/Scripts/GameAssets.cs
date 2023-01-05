@@ -16,7 +16,7 @@ public class GameAssets : MonoBehaviour
         }
     }
 
-
+    public Sprite empty;
     [SerializeField] Sprite[] pinataImages;
     [SerializeField] Animator pinataDied;
     [SerializeField] Animator pinataShake;
@@ -26,7 +26,7 @@ public class GameAssets : MonoBehaviour
 
     public Animator PinataDied { get => pinataDied; private set => pinataDied = value; }
     public Animator PinataShake { get => pinataShake; private set => pinataShake = value; }
-    public Sprite[] PinataImages { get; private set; } 
+    public Sprite[] PinataImages { get => pinataImages; private set => pinataImages = value; } 
     public Animator PlayerHit { get => playerHit; private set => playerHit = value; }
     public Animator SecretTreasure { get => secretTreasure; private set => secretTreasure = value; }
     public GameObject CandyError { get => candyError; }
