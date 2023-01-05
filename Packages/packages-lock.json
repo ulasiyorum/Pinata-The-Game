@@ -73,7 +73,7 @@
       "dependencies": {}
     },
     "com.unity.ads": {
-      "version": "4.3.0",
+      "version": "4.0.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
